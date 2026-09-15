@@ -1,0 +1,2 @@
+<script setup>defineProps({links:Object})</script>
+<template><div class="social-links"><a v-if="links?.github" :href="links.github" target="_blank">GitHub ↗</a><a v-if="links?.notion" :href="links.notion" target="_blank">Notion ↗</a><a v-if="links?.instagram" :href="links.instagram" target="_blank">Instagram ↗</a><span v-if="!links?.github&&!links?.notion&&!links?.instagram" class="muted">등록된 링크 없음</span></div></template>

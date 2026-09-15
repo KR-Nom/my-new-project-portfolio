@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>게시글 상세</title>
+<style>body{max-width:760px;margin:40px auto;font-family:Arial,sans-serif;padding:0 16px;color:#222}nav{display:flex;gap:14px;margin-bottom:20px}.box{border:1px solid #ddd;padding:20px}.meta{color:#666}.actions{margin-top:20px}button,input,textarea,select{padding:9px;font:inherit}button{margin-right:6px}form{display:grid;gap:10px;background:#f4f4f4;padding:16px;margin-top:20px}form[hidden]{display:none!important}textarea{min-height:120px}.error{color:#b00020}</style></head>
+<body><nav><a href="/">← 방법 1 목록</a><a href="/server-board">방법 3 화면</a></nav><p><b>방법 2</b> — 목록과 분리된 정적 상세 파일이 REST API를 호출합니다.</p><main id="detail">불러오는 중...</main>
+<script>
+const id = new URLSearchParams(location.search).get('id');
+const detail = document.querySelector('#detail');
+async function load() {
+  if (!id) { detail.innerHTML = '<p>게시글 번호가 없습니다.</p>'; return; }
+  const response = await fetch(`/api/posts/${id}`);
+  if (!response.ok) { detail.innerHTML = '<p>게시글을 찾을 수 없습니다.</p>'; return; }
+  const post = await response.json();
+  detail.innerHTML = `<article class="box"><p>${safe(post.category)}</p><h1>${safe(post.title)}</h1><p class="meta">작성자: ${safe(post.author)} · 조회수: ${post.views} · ${formatDate(post.created_at)}</p><hr><p>${safe(post.content).replaceAll('\n','<br>')}</p><div class="actions"><button id="edit-button">수정</button><button id="delete-button">삭제</button></div></article><form id="edit-form" hidden><h2>게시글 수정</h2><select id="edit-category"><option>자유</option><option>질문</option><option>후기</option></select><input id="edit-author" maxlength="50" required><input id="edit-title" maxlength="200" required><textarea id="edit-content" required></textarea><button>수정 저장</button><button type="button" id="cancel-button">취소</button><p id="edit-error" class="error"></p></form>`;
+  document.querySelector('#edit-button').onclick = () => openEditForm(post);
+  document.querySelector('#delete-button').onclick = deletePost;
+}
+function safe(value) { return String(value).replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char])); }
+function formatDate(value) { return new Intl.DateTimeFormat('ko-KR', {dateStyle:'long',timeStyle:'short'}).format(new Date(value)); }
+function openEditForm(post) {
+  const editForm = document.querySelector('#edit-form');
+  editForm.hidden = false;
+  document.querySelector('#edit-category').value = post.category;
+  document.querySelector('#edit-author').value = post.author;
+  document.querySelector('#edit-title').value = post.title;
+  document.querySelector('#edit-content').value = post.content;
+  document.querySelector('#cancel-button').onclick = () => { editForm.hidden = true; };
+  editForm.onsubmit = updatePost;
+}
+async function updatePost(event) {
+  event.preventDefault();
+  const body = {category:document.querySelector('#edit-category').value,author:document.querySelector('#edit-author').value.trim(),title:document.querySelector('#edit-title').value.trim(),content:document.querySelector('#edit-content').value.trim()};
+  const response = await fetch(`/api/posts/${id}`, {method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const result = await response.json();
+  if (!response.ok) { document.querySelector('#edit-error').textContent = result.error || '수정에 실패했습니다.'; return; }
+  await load();
+}
+async function deletePost() {
+  if (!confirm('이 게시글을 삭제할까요?')) return;
+  const response = await fetch(`/api/posts/${id}`, {method:'DELETE'});
+  if (!response.ok) { alert('삭제에 실패했습니다.'); return; }
+  location.href = '/';
+}
+load();
+</script></body></html>

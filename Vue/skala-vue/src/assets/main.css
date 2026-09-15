@@ -1,0 +1,43 @@
+@import './base.css';
+
+#app {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  padding: clamp(12px, 3vw, 40px);
+  font-weight: normal;
+}
+
+/* body {
+  background:
+    radial-gradient(ellipse at 12% 13%, rgba(255, 255, 255, 0.9) 0 5%, transparent 13%),
+    radial-gradient(ellipse at 82% 24%, rgba(255, 255, 255, 0.72) 0 7%, transparent 17%),
+    radial-gradient(ellipse at 35% 74%, rgba(255, 255, 255, 0.58) 0 8%, transparent 20%),
+    linear-gradient(180deg, #8fd4f4 0%, #d9f1fb 48%, #eef8fc 100%);
+  background-attachment: fixed;
+} */
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: block;
+  }
+
+  #app {
+    display: block;
+    padding: clamp(20px, 3vw, 40px);
+  }
+}

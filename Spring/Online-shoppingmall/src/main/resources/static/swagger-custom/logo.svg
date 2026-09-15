@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">AI Shopping Mall API</title>
+  <defs>
+    <linearGradient id="g" x1="8" y1="8" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#39d9c5"/>
+      <stop offset="1" stop-color="#4c7dff"/>
+    </linearGradient>
+  </defs>
+  <path fill="#111a2e" stroke="url(#g)" stroke-width="4" d="M12 21h40l-3 34H15l-3-34Z"/>
+  <path fill="none" stroke="#e9f2ff" stroke-linecap="round" stroke-width="4" d="M23 24v-6a9 9 0 0 1 18 0v6"/>
+  <path fill="#66f0d4" d="m35 28 2.2 5.8L43 36l-5.8 2.2L35 44l-2.2-5.8L27 36l5.8-2.2L35 28Z"/>
+  <circle cx="21" cy="35" r="2" fill="#4c7dff"/>
+  <circle cx="46" cy="46" r="2" fill="#39d9c5"/>
+</svg>

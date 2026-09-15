@@ -1,0 +1,13 @@
+services:
+  shopping-mall:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: skala-shopping-mall:latest
+    container_name: skala-shopping-mall
+    ports:
+      - "${HOST_PORT:-8080}:8080"
+    environment:
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET before starting the container}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-3600000}
+    restart: unless-stopped

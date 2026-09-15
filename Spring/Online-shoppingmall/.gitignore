@@ -1,0 +1,6 @@
+.gradle/
+build/
+out/
+*.class
+cookies.txt
+.DS_Store

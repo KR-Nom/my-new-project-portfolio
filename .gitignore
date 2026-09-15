@@ -1,0 +1,57 @@
+# Local environment files (API keys and other secrets)
+.env
+.env.*
+GIT_WORKFLOW.md
+!.env.example
+
+# Private course and presentation materials
+*.pdf
+*.ppt
+*.pptx
+
+# Python virtual environments and notebook artifacts
+.venv/
+LLM/code/prompt/
+LLM/code/llm/
+LLM/code2/prompt/
+LLM/code2/llm/
+__pycache__/
+.ipynb_checkpoints/
+
+# Local editor, OS, and runtime artifacts
+.DS_Store
+.vscode/
+.crewai_storage/
+.matplotlib/
+
+# Dependency and generated outputs
+node_modules/
+dist/
+build/
+bin/
+.gradle/
+coverage/
+*.class
+*.pyc
+*.log
+*.db
+*.sqlite*
+.vercel/
+cookies.txt
+
+# Nested repositories are maintained independently
+LOL/
+spring-ai/
+/skala-vue/
+Python/Day1/
+Python/Day2/
+Python/Day3/
+Python/Day4~5/
+Python/종합실습2/
+Python/판교_1반_장현진_day1종합실습/
+
+# Course originals and submission archives
+교육_PDF/
+*.zip
+*.docx
+*.xlsx

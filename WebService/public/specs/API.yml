@@ -1,0 +1,572 @@
+# '''
+# 작성: HowToDo 프로젝트 / 문서 갱신일: 2026-09-09
+# 변경: openapi.yaml → API.yml, 최신 Vue UI·MSW 구현 기준 설명 및 응답 보완
+# 설명: 실제 Backend 없이 브라우저의 /api/... HTTP 요청을 MSW가 처리하는 명세
+# 참고: 기존자료/SKALA교육플랫폼-API.yml의 도메인 구분·상세 설명 방식
+# 확인: npm run dev → /api-docs → Authorize에 Mock 사용자 ID 1 입력
+# 파일: 서비스 제공용 public/specs/API.yml, 제출용 산출물/1반_장현진_HowToDo-API.yml은 동일 내용
+# 주의: .yml과 .yaml은 같은 YAML 형식이다. OpenAPI 버전은 3.0.3을 유지한다.
+# '''
+#
+# 구현 기준: src/mocks/handlers.js, src/mocks/mockStore.js, src/views/*.vue
+# 계약상 입력 형식/권한과 현재 Mock에서 실제 검사하는 범위를 구분해 기록한다.
+# 실제 자격증명이나 개인정보를 넣지 않는다. Mock User 응답은 password도 포함한다.
+openapi: 3.0.3
+info:
+  title: HowToDo Mock API
+  version: 1.1.0
+  description: |
+    HowToDo는 여러 팀에서 재사용하는 **공통 협업 프로필**과 이번 팀의 **희망 역할·목표**를 분리한 협업 사용설명서입니다.
+    이 문서는 실제 Vue 화면이 사용하는 20개 HTTP operation, 7개 태그, 15개 공통 스키마를 설명합니다.
+
+    ## 실행 구조와 데이터 보관
+    - Vue Service Layer가 실제 `fetch('/api/...')` 요청을 보내고 MSW가 Mock Response를 반환합니다. 별도의 Backend Server는 없습니다.
+    - DevTools Network에서 GET/POST/PATCH/DELETE와 JSON 응답을 확인할 수 있습니다.
+    - Mock 데이터는 메모리에서 처리한 뒤 `manual_users`, `manual_profiles`, `manual_teams`, `manual_members` localStorage 키에 저장합니다.
+    - 같은 브라우저·같은 origin에서는 새로고침 후에도 저장 내용을 복원합니다. 해당 저장소가 없으면 초기 샘플을 사용합니다.
+    - 다른 브라우저, 시크릿 창, 기기는 서로 다른 저장소를 사용하므로 새로 생성한 사용자·팀이 서로 동기화되지 않습니다.
+
+    ## Mock 인증과 현재 보안 한계
+    - Swagger의 Authorize에 샘플 사용자 ID `1`을 입력하면 `x-user-id: 1`이 전달됩니다. JWT·OAuth·세션 토큰은 발급하지 않습니다.
+    - 전역 security는 클라이언트가 따라야 할 계약입니다. MSW에는 모든 요청을 일괄 검사하는 401 인증 미들웨어가 없습니다.
+    - 팀 수정·삭제는 ownerId를 비교하지만, 팀 상세·팀원 조회의 소속 검사 및 TEAM_ONLY/PRIVATE별 팀 경로 접근 통제는 미구현입니다.
+    - 공개 프로필 API는 `visibility === PUBLIC`을 실제 검사하며 나머지 공개 범위는 404로 차단합니다.
+    - **현재 User 원본에는 평문 password가 있고 로그인·공개 프로필·팀원 응답에도 포함됩니다. 이 명세는 이를 숨기지 않고 기록하며 운영 서비스에 사용할 수 없습니다.**
+
+    ## 요청·응답 공통 규칙
+    - JSON 요청/응답이며 성공 응답은 객체 또는 배열 자체입니다. 공통 data 래퍼와 페이지네이션은 없습니다. DELETE 성공은 본문 없는 204입니다.
+    - 명시적으로 처리한 오류는 `{ "message": "..." }` 형식입니다. 구현되지 않은 400/401/500 응답 계약을 임의로 추가하지 않았습니다.
+    - required·maxLength·maxItems·URL 형식은 UI/클라이언트가 따르는 입력 기준입니다. MSW에는 별도의 스키마 검증기가 없습니다.
+    - PATCH는 기존 객체와 요청 객체의 **최상위 필드를 병합**합니다. 보내지 않은 필드는 유지되지만 중첩 객체·배열은 통째로 교체됩니다.
+    - 수정 허용 필드 목록 검사가 없으므로 읽기 전용 ID·토큰도 직접 요청하면 바뀔 수 있습니다. 스키마의 readOnly는 문서상 용도이며 강제 보호가 아닙니다.
+
+    ## URL·QR 공유
+    - 개인 공유 주소는 `현재 origin + /p/{shareToken}`이며 비로그인 공개 화면에서 `/api/public/profiles/{shareToken}`을 조회합니다.
+    - 팀 초대 주소는 `현재 origin + /join/{inviteCode}`입니다. 초대 조회 API 자체는 공개지만 현재 Vue 참여 화면은 로그인이 필요합니다.
+    - URL 복사와 QR 생성은 프론트엔드에서 같은 주소를 사용합니다. 별도 QR 발급 API·QR 저장 테이블은 없습니다.
+    - localhost/127.0.0.1 주소는 외부 기기에 공유할 수 있는 배포 주소가 아닙니다. 배포하더라도 현재 Mock의 브라우저 간 데이터 동기화는 별도 구현이 필요합니다.
+servers:
+  - url: /api
+    description: 현재 Vite 앱의 MSW Mock API
+tags:
+  # Swagger UI에서 도메인별로 API를 묶어 보여 주기 위한 분류다.
+  - name: Auth
+    description: Mock 로그인과 회원가입
+  - name: Profile
+    description: 여러 팀에서 공통으로 사용하는 나의 협업 사용설명서
+  - name: Options
+    description: 프로필과 희망 역할 작성에 사용하는 공통 선택지
+  - name: Team
+    description: 팀 생성·조회·수정·삭제와 소유자 관리
+  - name: Team Member
+    description: 특정 팀에서 사용하는 희망 역할·목표·관련 링크
+  - name: Invitation
+    description: 초대 코드 확인과 팀 참여
+  - name: Public
+    description: PUBLIC으로 설정한 프로필의 비로그인 조회
+paths:
+  # ==========================================
+  # [Auth] 로그인·회원가입 — 공개 API, 토큰 발급 없음
+  # ==========================================
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: 로그인
+      description: |
+        **사용 화면:** `/login`의 로그인 폼.
+        이메일과 비밀번호를 Mock 사용자 목록과 정확히 비교하고 일치하는 User 객체를 반환합니다.
+        클라이언트는 반환 사용자를 로그인 상태로 보관하고 후속 요청에 사용자 ID 헤더를 붙입니다. 인증 토큰은 없습니다.
+        불일치하면 401과 `이메일 또는 비밀번호를 확인해 주세요.`를 반환합니다.
+        주의: 현재 성공 응답에 평문 password가 포함되는 Mock 한계가 있습니다.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/LoginRequest'}
+            example: {email: hyeonjin@example.com, password: '1234'}
+      responses:
+        '200': {$ref: '#/components/responses/UserResponse'}
+        '401': {$ref: '#/components/responses/ErrorResponse'}
+  /auth/signup:
+    post:
+      tags: [Auth]
+      summary: 회원가입
+      description: |
+        **사용 화면:** `/signup`의 회원가입 폼.
+        사용자 ID를 Date.now() 기반 숫자로 생성하고 사용자와 빈 공통 프로필을 함께 저장합니다.
+        최초 프로필은 PUBLIC이며 shareToken은 사용자 ID를 문자열로 바꾼 값, avatar는 이름의 첫 글자입니다.
+        이메일 문자열이 기존 값과 정확히 같으면 409와 `이미 가입된 이메일입니다.`를 반환합니다.
+        이름·이메일·비밀번호의 필수 입력 및 이름 30자·비밀번호 4자 이상 제한은 UI에서 검사합니다.
+        MSW는 별도 유효성 검사·비밀번호 해시·입력 필드 허용 목록을 구현하지 않습니다.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/SignupRequest'}
+      responses:
+        '201': {$ref: '#/components/responses/UserResponse'}
+        '409': {$ref: '#/components/responses/ErrorResponse'}
+  # ==========================================
+  # [Profile] 공통 사용설명서 — 팀 변경과 무관하게 재사용
+  # ==========================================
+  /profiles/me:
+    # 같은 사용자의 팀이 바뀌어도 유지되는 공통 프로필이다.
+    get:
+      tags: [Profile]
+      summary: 내 프로필 조회
+      description: |
+        **사용 화면:** 홈 요약, `/profile/edit`, `/profile/preview`.
+        x-user-id가 가리키는 사용자의 공통 협업 프로필을 반환합니다.
+        정상 사용자는 회원가입 시 프로필이 함께 생성됩니다.
+        현재 조회 핸들러는 프로필이 없을 때 명시적인 404 처리가 없어 내부 복사 과정에서 예외가 날 수 있습니다.
+        따라서 구현되어 있지 않은 Error 형식의 404 응답을 이 operation에 보장하지 않습니다.
+      responses:
+        '200':
+          description: 성공
+          content: {application/json: {schema: {$ref: '#/components/schemas/Profile'}}}
+    patch:
+      tags: [Profile]
+      summary: 내 프로필 수정
+      description: |
+        **사용 화면:** 3단계 프로필 편집의 마지막 `저장` 동작.
+        자기소개·관심사·협업/피드백/회의 방식·대화 질문·SNS 링크·공개 범위를 저장합니다.
+        기존 프로필에 요청한 최상위 필드만 병합합니다. 예를 들어 links를 보내면 기존 links 전체가 교체됩니다.
+        UI는 현재 폼 전체를 보내지만 HTTP 계약상 부분 PATCH도 가능합니다.
+        프로필이 없으면 404와 `프로필을 찾을 수 없습니다.`를 반환합니다.
+        readOnly 필드 및 알 수 없는 필드의 쓰기를 막는 검증은 아직 없습니다.
+      requestBody:
+        required: true
+        content: {application/json: {schema: {$ref: '#/components/schemas/ProfileUpdate'}}}
+      responses:
+        '200':
+          description: 성공
+          content: {application/json: {schema: {$ref: '#/components/schemas/Profile'}}}
+        '404': {$ref: '#/components/responses/ErrorResponse'}
+  # ==========================================
+  # [Options] 태그 선택지 — 공개 API, 사용자 직접 입력과 함께 사용
+  # ==========================================
+  /interests:
+    get:
+      tags: [Options]
+      summary: 관심사 선택지 조회
+      description: |
+        프로필 편집 1단계의 관심사 태그 선택지입니다. 선택·직접 입력 값은 Profile.interests에 저장됩니다.
+        목록은 고정 샘플이며 직접 입력한 태그를 이 공통 선택지에 추가하는 별도 API는 없습니다.
+      security: []
+      responses: {'200': {$ref: '#/components/responses/StringArrayResponse'}}
+  /style-options:
+    get:
+      tags: [Options]
+      summary: 협업 스타일 선택지 조회
+      description: |
+        프로필 편집 2단계에서 협업·피드백·회의 방식 선택지를 각각 배열로 반환합니다.
+        그룹 키는 Profile의 collaboration, feedback, meeting과 같습니다. UI는 목록 외 직접 입력도 지원합니다.
+      security: []
+      responses:
+        '200':
+          description: 성공
+          content: {application/json: {schema: {$ref: '#/components/schemas/StyleOptions'}}}
+  /conversation-questions:
+    get:
+      tags: [Options]
+      summary: 대화 시작 질문 조회
+      description: |
+        프로필 편집 2단계의 대화 시작 질문 목록입니다. 선택 결과는 Profile.questions에 저장합니다.
+        질문은 직접 입력할 수도 있으며 최대 3개 제한은 현재 UI가 처리합니다. MSW 저장 시 별도 검사하지 않습니다.
+      security: []
+      responses: {'200': {$ref: '#/components/responses/StringArrayResponse'}}
+  /roles:
+    get:
+      tags: [Options]
+      summary: 희망 역할 선택지 조회
+      description: |
+        `/teams/{teamId}/me/edit`에서 선택할 수 있는 희망 역할 문자열 목록입니다.
+        최대 3개 선택·위아래 순위 이동은 UI 기능이며 배열 순서가 1·2·3순위가 됩니다.
+        실제 담당 역할 배정이나 소유자(OWNER) 권한과는 다른 자기소개 정보입니다.
+      security: []
+      responses: {'200': {$ref: '#/components/responses/StringArrayResponse'}}
+  # ==========================================
+  # [Public] 개인 URL·QR 수신자 — PUBLIC만 비로그인 열람
+  # ==========================================
+  /public/profiles/{shareToken}:
+    # PUBLIC이 아닌 프로필은 token이 존재해도 공개 조회되지 않는다.
+    get:
+      tags: [Public]
+      summary: 공개 프로필 조회
+      description: |
+        **사용 화면:** 개인 URL 또는 QR로 여는 `/p/{shareToken}` 공개 프로필.
+        토큰이 정확히 일치하고 visibility가 PUBLIC인 프로필만 User 객체와 함께 반환합니다.
+        토큰이 없거나 TEAM_ONLY/PRIVATE이면 모두 404와 `공개된 프로필을 찾을 수 없습니다.`를 반환합니다.
+        팀별 역할·프로젝트 목표·팀 링크는 응답에 포함하지 않습니다. QR은 이 API가 아닌 프론트엔드에서 생성합니다.
+        주의: 합성되는 User 원본에 이메일과 평문 password까지 포함되는 현재 Mock 한계가 있습니다.
+      security: []
+      parameters:
+        - {$ref: '#/components/parameters/ShareToken'}
+      responses:
+        '200':
+          description: 성공
+          content: {application/json: {schema: {$ref: '#/components/schemas/PublicProfile'}}}
+        '404': {$ref: '#/components/responses/ErrorResponse'}
+  # ==========================================
+  # [Team] 팀 관리 — OWNER는 Team.ownerId로 판별
+  # ==========================================
+  /teams:
+    get:
+      tags: [Team]
+      summary: 내 팀 목록 조회
+      description: |
+        **사용 화면:** 홈과 `/teams`의 내 팀 목록.
+        x-user-id와 연결된 membership의 teamId를 찾아 참여 중인 팀만 반환합니다.
+        각 항목의 memberCount는 현재 Mock membership 개수로 계산합니다.
+        참여 팀이 없거나 식별자에 대응하는 membership이 없으면 200과 빈 배열을 반환합니다.
+      responses:
+        '200':
+          description: 성공
+          content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Team'}}}}
+    post:
+      tags: [Team]
+      summary: 팀 생성
+      description: |
+        **사용 화면:** `/teams/create`.
+        새 팀을 만들고 x-user-id를 ownerId로 기록하며 최초 팀원 레코드도 함께 생성합니다.
+        ID는 Date.now() 기반 숫자이고 초대 코드는 대문자로 바꾼 임의 문자열입니다. 코드 충돌 검사는 없습니다.
+        성공 응답은 생성한 Team 원본이므로 이 operation에는 memberCount가 포함되지 않습니다.
+        팀 이름 40자·설명 160자 및 필수 입력은 UI 기준이며 MSW는 별도로 검사하지 않습니다.
+      requestBody:
+        required: true
+        content: {application/json: {schema: {$ref: '#/components/schemas/TeamRequest'}}}
+      responses:
+        '201':
+          description: 생성 완료
+          content: {application/json: {schema: {$ref: '#/components/schemas/Team'}}}
+  /teams/{teamId}:
+    # 경로 수준 parameter는 이 경로 아래 GET/PATCH/DELETE가 공통 사용한다.
+    parameters:
+      - {$ref: '#/components/parameters/TeamId'}
+    get:
+      tags: [Team]
+      summary: 팀 상세 조회
+      description: |
+        **사용 화면:** `/teams/{teamId}` 팀 보드 헤더와 초대 공유 모달.
+        숫자 teamId에 해당하는 팀 정보와 계산된 memberCount를 반환합니다.
+        없으면 404와 `팀을 찾을 수 없습니다.`를 반환합니다. 현재 요청자의 팀 소속 검사는 없습니다.
+      responses:
+        '200':
+          description: 성공
+          content: {application/json: {schema: {$ref: '#/components/schemas/Team'}}}
+        '404': {$ref: '#/components/responses/ErrorResponse'}
+    patch:
+      tags: [Team]
+      summary: 팀 정보 수정
+      description: |
+        **사용 화면:** 팀 보드의 OWNER 전용 팀 정보 수정.
+        Team.ownerId와 x-user-id를 비교하며 다르면 403과 `OWNER만 수정할 수 있습니다.`를 반환합니다.
+        팀이 없으면 소유자 검사에 앞서 404와 `팀을 찾을 수 없습니다.`를 반환합니다.
+        UI는 이름·설명을 보내고 MSW는 기존 객체에 최상위 병합합니다. 둘 중 하나만 보낸 부분 수정도 가능합니다.
+        수정 필드 허용 목록은 미구현이므로 계약에 없는 id·ownerId·inviteCode를 보내지 않아야 합니다.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 변경할 필드만 전달합니다. 미전송 필드는 유지합니다.
+              properties:
+                name:
+                  type: string
+                  maxLength: 40
+                  description: 변경할 팀 이름. 최대 길이는 UI 기준이며 Mock 검증은 없습니다.
+                  example: SKALA 협업 사용설명서 팀
+                description:
+                  type: string
+                  maxLength: 160
+                  description: 변경할 팀 소개. 최대 길이는 UI 기준이며 Mock 검증은 없습니다.
+                  example: 서로의 강점을 연결해 프로젝트를 완성합니다.
+      responses:
+        '200':
+          description: 성공
+          content: {application/json: {schema: {$ref: '#/components/schemas/Team'}}}
+        '403': {$ref: '#/components/responses/ErrorResponse'}
+        '404': {$ref: '#/components/responses/ErrorResponse'}
+    delete:
+      tags: [Team]
+      summary: 팀 삭제
+      description: |
+        **사용 화면:** 팀 보드의 OWNER 전용 팀 삭제 확인.
+        ownerId와 x-user-id가 같을 때 팀과 그 팀의 membership(역할·목표·팀 링크)을 함께 삭제합니다.
+        사용자 계정과 공통 Profile은 삭제하지 않으므로 다른 팀에서 재사용할 수 있습니다.
+        팀이 없으면 404와 `팀을 찾을 수 없습니다.`, 소유자가 아니면 403과 `OWNER만 삭제할 수 있습니다.`를 반환합니다.
+        성공은 본문 없는 204입니다. 팀 삭제 후 기존 초대 코드 조회는 404가 됩니다.
+      responses:
+        '204': {description: 삭제 완료}
+        '403': {$ref: '#/components/responses/ErrorResponse'}
+        '404': {$ref: '#/components/responses/ErrorResponse'}
+  # ==========================================
+  # [Team Member] 팀별 역할·목표 + 공통 프로필을 합성한 팀 보드
+  # ==========================================
+  /teams/{teamId}/members:
+    get:
+      tags: [Team Member]
+      summary: 팀원 목록 조회
+      description: |
+        **사용 화면:** 팀 보드의 팀원 카드 목록. 화면 내 이름·희망 역할 검색은 응답 수신 후 클라이언트에서 처리합니다.
+        teamId에 속한 각 membership에 User와 Profile을 합성한 MemberDetail 배열을 반환합니다.
+        팀이 존재하는지 별도로 검사하지 않으므로 일치하는 membership이 없으면 200과 빈 배열입니다.
+        요청자 소속·Profile의 TEAM_ONLY/PRIVATE별 접근 제어는 현재 검사하지 않습니다.
+        User에 평문 password가 포함되는 Mock 응답이므로 운영용으로 사용할 수 없습니다.
+      parameters:
+        - {$ref: '#/components/parameters/TeamId'}
+      responses:
+        '200':
+          description: 성공
+          content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/MemberDetail'}}}}
+  /teams/{teamId}/members/me:
+    parameters:
+      - {$ref: '#/components/parameters/TeamId'}
+    get:
+      tags: [Team Member]
+      summary: 내 팀별 프로필 조회
+      description: |
+        **사용 화면:** `/teams/{teamId}/me/edit` 최초 로딩.
+        teamId와 x-user-id가 모두 일치하는 membership의 역할·목표·프로젝트 링크를 반환합니다.
+        가입 직후에는 roles와 projectLinks가 빈 배열이고 goal은 빈 문자열입니다.
+        참여 정보가 없으면 404와 `팀 참여 정보를 찾을 수 없습니다.`를 반환합니다.
+      responses:
+        '200':
+          description: 성공
+          content: {application/json: {schema: {$ref: '#/components/schemas/TeamMember'}}}
+        '404': {$ref: '#/components/responses/ErrorResponse'}
+    patch:
+      tags: [Team Member]
+      summary: 내 팀별 프로필 수정
+      description: |
+        **사용 화면:** 팀별 프로필 편집의 저장. 공통 Profile은 변경하지 않습니다.
+        teamId와 x-user-id에 맞는 membership에 요청 객체를 최상위 병합합니다. 배열은 전송한 값으로 통째로 교체합니다.
+        UI는 역할 최대 3개, 공백이 아닌 목표, 입력한 프로젝트 링크의 이름·http(s) 주소를 검사합니다. MSW 검증은 없습니다.
+        참여 정보가 없으면 404와 `팀 참여 정보를 찾을 수 없습니다.`를 반환합니다.
+        현재 id·teamId·userId 보호 및 수정 허용 필드 검사는 없으므로 계약에 정의한 편집 필드만 변경해야 합니다.
+      requestBody:
+        required: true
+        content: {application/json: {schema: {$ref: '#/components/schemas/TeamMemberUpdate'}}}
+      responses:
+        '200':
+          description: 성공
+          content: {application/json: {schema: {$ref: '#/components/schemas/TeamMember'}}}
+        '404': {$ref: '#/components/responses/ErrorResponse'}
+  /teams/{teamId}/members/{memberId}:
+    get:
+      tags: [Team Member]
+      summary: 팀원 상세 조회
+      description: |
+        **사용 화면:** 팀 보드에서 팀원 카드를 눌러 여는 `/teams/{teamId}/members/{memberId}`.
+        memberId는 사용자 ID가 아니라 해당 팀 참여 레코드의 ID입니다. teamId와 memberId가 모두 일치해야 합니다.
+        팀별 역할·목표와 User·공통 Profile을 합쳐 반환하며 없으면 404와 `팀원을 찾을 수 없습니다.`를 반환합니다.
+        현재 요청자의 팀 소속·Profile 공개 범위 검사는 없고 User 원본의 password도 응답에 포함됩니다.
+      parameters:
+        - {$ref: '#/components/parameters/TeamId'}
+        - {$ref: '#/components/parameters/MemberId'}
+      responses:
+        '200':
+          description: 성공
+          content: {application/json: {schema: {$ref: '#/components/schemas/MemberDetail'}}}
+        '404': {$ref: '#/components/responses/ErrorResponse'}
+  # ==========================================
+  # [Invitation] 팀 URL·QR 수신자 — 코드 확인 후 참여
+  # ==========================================
+  /team-invitations/{inviteCode}:
+    get:
+      tags: [Invitation]
+      summary: 팀 초대 정보 조회
+      description: |
+        **사용 화면:** 팀 초대 URL/QR로 여는 `/join/{inviteCode}` 또는 코드 직접 입력 후 미리보기.
+        API 자체는 공개라 x-user-id 없이 팀 이름·소개·인원수를 확인할 수 있습니다.
+        다만 현재 Vue `/join` 화면에는 로그인 가드가 있으므로 API 공개 여부와 화면 진입 조건은 다릅니다.
+        코드는 대소문자를 구분하지 않으며 없으면 404와 `유효하지 않은 초대 코드입니다.`를 반환합니다.
+        QR 전용 API, 초대 만료일·사용 횟수·코드 재발급 기능은 없습니다.
+      parameters:
+        - {$ref: '#/components/parameters/InviteCode'}
+      security: []
+      responses:
+        '200':
+          description: 성공
+          content: {application/json: {schema: {$ref: '#/components/schemas/Team'}}}
+        '404': {$ref: '#/components/responses/ErrorResponse'}
+  /team-memberships:
+    post:
+      tags: [Invitation]
+      summary: 초대 코드로 팀 참여
+      description: |
+        **사용 화면:** 초대 미리보기에서 `팀 참여` 선택.
+        대소문자를 구분하지 않는 초대 코드로 팀을 찾고 x-user-id에 해당하는 membership을 추가합니다.
+        roles·projectLinks는 빈 배열, goal은 빈 문자열로 시작하며 일반 참여자는 팀 소유자가 아닙니다.
+        이미 참여한 경우 중복 레코드를 만들지 않지만 신규 참여와 동일하게 201 및 현재 Team을 반환합니다.
+        코드가 없으면 404와 `유효하지 않은 초대 코드입니다.`를 반환합니다.
+        현재 x-user-id에 대응하는 실제 사용자 존재 여부와 초대 만료·정원 검사는 없습니다.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [inviteCode]
+              properties:
+                inviteCode:
+                  type: string
+                  description: 팀 초대 URL의 마지막 경로 또는 직접 입력한 코드. 대소문자는 구분하지 않습니다.
+                  example: SKALA3
+      responses:
+        '201':
+          description: 참여 완료
+          content: {application/json: {schema: {$ref: '#/components/schemas/Team'}}}
+        '404': {$ref: '#/components/responses/ErrorResponse'}
+components:
+  # 여러 operation에서 반복 사용하는 인증·경로 변수·응답·데이터 모델이다.
+  securitySchemes:
+    MockUserId:
+      type: apiKey
+      in: header
+      name: x-user-id
+      description: Mock 사용자 식별자. 체험 ID는 1이며 실제 인증 토큰이 아닙니다.
+  parameters:
+    # Date.now() 기반 ID를 담을 수 있도록 32비트 int32가 아닌 int64로 문서화한다.
+    # DBML에서는 users/teams/team_members의 대응 PK·FK를 bigint로 설계한다.
+    TeamId: {name: teamId, in: path, required: true, description: 조회·수정할 팀의 숫자 식별자, schema: {type: integer, format: int64, example: 1}}
+    MemberId: {name: memberId, in: path, required: true, description: team_members 레코드의 숫자 식별자, schema: {type: integer, format: int64, example: 1}}
+    InviteCode: {name: inviteCode, in: path, required: true, description: 팀 참여 화면을 여는 고유 초대 코드, schema: {type: string, example: SKALA3}}
+    ShareToken: {name: shareToken, in: path, required: true, description: PUBLIC 프로필 URL에 사용하는 고유 문자열, schema: {type: string, example: hyeonjin}}
+  responses:
+    UserResponse:
+      description: 성공
+      content: {application/json: {schema: {$ref: '#/components/schemas/User'}}}
+    StringArrayResponse:
+      description: 성공
+      content: {application/json: {schema: {type: array, items: {type: string}}}}
+    ErrorResponse:
+      description: 요청 처리 실패
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+  schemas:
+    # Request는 클라이언트가 보내는 입력, Response model은 MSW가 반환하는 형태다.
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: {type: string, format: email, description: 가입한 이메일, example: hyeonjin@example.com}
+        password: {type: string, format: password, description: 시연용 비밀번호. 실제 자격증명 입력 금지, example: '1234'}
+    SignupRequest:
+      allOf:
+        - {$ref: '#/components/schemas/LoginRequest'}
+        - type: object
+          required: [name]
+          properties:
+            name: {type: string, minLength: 1, maxLength: 30, description: 팀원에게 표시할 이름. UI에서 앞뒤 공백 제거, example: 장현진}
+            password: {type: string, format: password, minLength: 4, description: 가입 UI의 최소 4자 조건. 운영 보안 정책은 아님}
+    User:
+      type: object
+      description: 현재 Mock이 반환하는 사용자 원본. 운영용 응답 DTO가 아닙니다.
+      properties:
+        id: {type: integer, format: int64, readOnly: true, description: 사용자 ID. DBML users.user_id, example: 1}
+        name: {type: string, description: 프로필과 팀 보드에 표시할 이름, example: 장현진}
+        email: {type: string, format: email, description: 현재 Mock 응답에 포함되는 로그인 이메일}
+        # 실제 응답에 포함되므로 writeOnly로 숨기지 않는다. 백엔드 구현 시 제거해야 한다.
+        # DBML users.user_password_hash는 향후 DB 전용 필드이지 현재 API 응답 필드가 아니다.
+        password: {type: string, format: password, description: '보안 한계: 현재 Mock의 평문 비밀번호가 응답에 포함됨. 운영 시 반드시 응답에서 제외'}
+    SocialLinks:
+      type: object
+      description: 개인 프로필 링크. 미입력은 null이 아니라 빈 문자열이며 입력 시 UI가 http/https 주소를 검사합니다.
+      properties:
+        github:
+          description: GitHub URL 또는 빈 문자열
+          oneOf: [{type: string, format: uri}, {type: string, enum: ['']}]
+        notion:
+          description: Notion URL 또는 빈 문자열
+          oneOf: [{type: string, format: uri}, {type: string, enum: ['']}]
+        instagram:
+          description: Instagram URL 또는 빈 문자열
+          oneOf: [{type: string, format: uri}, {type: string, enum: ['']}]
+    Profile:
+      # 공통 프로필: 팀과 무관하게 사용자 1명에게 하나만 존재한다.
+      type: object
+      properties:
+        userId: {type: integer, format: int64, readOnly: true, description: 프로필 주인. DBML profiles.user_id, example: 1}
+        shareToken: {type: string, readOnly: true, description: 공개 프로필 경로의 토큰. 비밀 인증 토큰이 아님, example: hyeonjin}
+        tagline: {type: string, maxLength: 60, description: 한 줄 소개. 선택 입력, example: 함께 답을 찾아가는 개발자입니다.}
+        avatar: {type: string, maxLength: 2, description: 사진이 아닌 이니셜 문자열, example: 현}
+        interests: {type: array, uniqueItems: true, description: 관심사 태그. 직접 입력 포함, items: {type: string, maxLength: 40}}
+        collaboration: {type: array, uniqueItems: true, description: 함께 일할 때의 방식, items: {type: string, maxLength: 80}}
+        feedback: {type: array, uniqueItems: true, description: 피드백 선호 방식, items: {type: string, maxLength: 80}}
+        meeting: {type: array, uniqueItems: true, description: 회의 선호 방식, items: {type: string, maxLength: 80}}
+        questions: {type: array, uniqueItems: true, maxItems: 3, description: 대화 시작 질문. 최대 개수는 현재 UI 제한, items: {type: string, maxLength: 120}}
+        links: {$ref: '#/components/schemas/SocialLinks'}
+        visibility:
+          type: string
+          enum: [PUBLIC, TEAM_ONLY, PRIVATE]
+          default: PUBLIC
+          description: |
+            PUBLIC은 공개 URL·QR 열람 가능. TEAM_ONLY·PRIVATE는 외부 공개 조회를 404로 차단합니다.
+            TEAM_ONLY의 팀 소속 제한과 PRIVATE의 본인 전용 접근은 현재 팀원 조회 API에서 강제되지 않습니다.
+            DBML ProfileVisibility Enum과 대응합니다.
+    # ID·공유 토큰은 readOnly 계약이며 UI가 편집하지 않는다.
+    # 현재 UI 폼에는 기존 ID가 포함되기도 하며 MSW는 이를 무시/차단하지 않는다.
+    # 부분 PATCH 시 미전송 필드는 유지되고 links 등 중첩 값은 전체 교체된다.
+    ProfileUpdate: {$ref: '#/components/schemas/Profile'}
+    PublicProfile:
+      allOf:
+        - {$ref: '#/components/schemas/Profile'}
+        - type: object
+          properties: {user: {$ref: '#/components/schemas/User'}}
+    StyleOptions:
+      type: object
+      properties:
+        collaboration: {type: array, items: {type: string}}
+        feedback: {type: array, items: {type: string}}
+        meeting: {type: array, items: {type: string}}
+    TeamRequest:
+      type: object
+      required: [name, description]
+      properties:
+        name: {type: string, minLength: 1, maxLength: 40, description: 팀 이름. UI 앞뒤 공백 제거, example: SKALA AI 웹서비스 3조}
+        description: {type: string, minLength: 1, maxLength: 160, description: 팀 보드와 초대 화면에 표시되는 소개, example: 서로를 이해하며 함께 만드는 팀}
+    Team:
+      allOf:
+        - {$ref: '#/components/schemas/TeamRequest'}
+        - type: object
+          properties:
+            id: {type: integer, format: int64, readOnly: true, description: 팀 식별자. DBML teams.team_id, example: 1}
+            inviteCode: {type: string, readOnly: true, description: 초대 URL과 QR에 사용하는 코드. 비교 시 대소문자 비구분, example: SKALA3}
+            ownerId: {type: integer, format: int64, readOnly: true, description: 팀 생성자 사용자 ID. 전역 권한이 아닌 소유 관계, example: 1}
+            memberCount: {type: integer, minimum: 0, readOnly: true, description: membership 개수로 계산. 팀 생성 응답에는 생략되며 DB 컬럼이 아님, example: 5}
+    ProjectLink:
+      type: object
+      required: [label, url]
+      properties:
+        label: {type: string, minLength: 1, description: 링크 표시 이름, example: 프로젝트 저장소}
+        url: {type: string, format: uri, description: UI는 http/https만 허용. 완전히 빈 행은 저장 대상에서 제외, example: 'https://github.com/'}
+    TeamMemberUpdate:
+      # 팀별 프로필: 같은 사용자라도 teamId가 달라지면 별도로 작성한다.
+      type: object
+      properties:
+        roles: {type: array, description: 배열 순서가 1·2·3순위이며 최대 3개. 선택지는 GET /roles, maxItems: 3, uniqueItems: true, items: {type: string}}
+        goal: {type: string, maxLength: 120, description: 이번 프로젝트의 목표. 생성·참여 직후 빈 문자열이며 편집 UI 저장 시 필수, example: REST API 설계를 맡아보고 싶어요.}
+        projectLinks: {type: array, description: 팀별 작업물·참고 링크. 미작성은 빈 배열, items: {$ref: '#/components/schemas/ProjectLink'}}
+    TeamMember:
+      allOf:
+        - {$ref: '#/components/schemas/TeamMemberUpdate'}
+        - type: object
+          properties:
+            id: {type: integer, format: int64, readOnly: true, description: 팀 참여 레코드 ID. 사용자 ID와 구분}
+            teamId: {type: integer, format: int64, readOnly: true, description: 소속 팀 ID}
+            userId: {type: integer, format: int64, readOnly: true, description: 참여 사용자 ID}
+    MemberDetail:
+      allOf:
+        - {$ref: '#/components/schemas/TeamMember'}
+        - type: object
+          properties: {user: {$ref: '#/components/schemas/User'}, profile: {$ref: '#/components/schemas/Profile'}}
+    Error:
+      type: object
+      required: [message]
+      properties: {message: {type: string, description: 화면에 표시할 실패 이유, example: 팀을 찾을 수 없습니다.}}
+security:
+  # operation에 security: []가 없으면 기본적으로 MockUserId 헤더가 필요하다.
+  - MockUserId: []

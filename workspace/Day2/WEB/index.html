@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Day2 게시판</title>
+<style>
+body{max-width:1000px;margin:32px auto;font-family:Arial,sans-serif;padding:0 16px;color:#222}
+header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #222}
+nav{display:flex;gap:14px}
+form{background:#f4f4f4;padding:16px;margin:20px 0}
+input,textarea,select,button{padding:9px;margin:4px}#title,#content{width:100%;box-sizing:border-box}textarea{height:80px}
+table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid #ddd;padding:10px;text-align:left}.notice{background:#fff9d8}.pager{text-align:center;margin:20px}.muted{color:#777}.status{min-height:24px;margin:10px 4px;font-weight:bold}.error{color:#b00020}@media(max-width:700px){header{align-items:flex-start;flex-direction:column}table th:nth-child(5),table td:nth-child(5){display:none}}
+</style>
+</head>
+<body>
+<header><h1>Day2 종합 실습 게시판</h1><nav><a href="/">방법 1</a><a href="detail.html">방법 2</a><a href="/server-board">방법 3</a></nav></header>
+<p class="muted"><b>방법 1</b> — 하나의 정적 화면이 REST API를 비동기로 호출하고 받은 JSON으로 화면을 구성합니다.</p>
+<form id="post-form">
+  <select id="category"><option>자유</option><option>질문</option><option>후기</option></select>
+  <input id="author" placeholder="작성자" required>
+  <input id="title" placeholder="제목" required>
+  <textarea id="content" placeholder="내용" required></textarea>
+  <button>게시글 등록</button>
+</form>
+<div><select id="filter"><option>전체</option><option>공지</option><option>자유</option><option>질문</option><option>후기</option></select><input id="keyword" placeholder="제목·내용·작성자 검색"><button id="search">검색</button></div>
+<p id="status" class="status" aria-live="polite"></p>
+<table><thead><tr><th>분류</th><th>제목</th><th>작성자</th><th>조회수</th><th>작성일</th></tr></thead><tbody id="post-list"></tbody></table>
+<div class="pager"><button id="prev">이전</button><span id="page">1</span><button id="next">다음</button></div>
+<script>
+let currentPage = 1;
+const size = 5;
+const postList = document.querySelector('#post-list');
+const form = document.querySelector('#post-form');
+const statusMessage = document.querySelector('#status');
+
+async function loadPosts() {
+  statusMessage.className = 'status';
+  statusMessage.textContent = '게시글을 불러오는 중입니다.';
+  try {
+    const category = document.querySelector('#filter').value;
+    const keyword = document.querySelector('#keyword').value;
+    const response = await fetch(`/api/posts?page=${currentPage}&size=${size}&category=${encodeURIComponent(category)}&keyword=${encodeURIComponent(keyword)}`);
+    if (!response.ok) throw new Error('목록을 불러오지 못했습니다.');
+    const data = await response.json();
+    postList.innerHTML = data.items.length ? data.items.map(post => `
+      <tr class="${post.is_notice ? 'notice' : ''}">
+        <td>${escapeHtml(post.category)}</td>
+        <td><a href="detail.html?id=${post.id}">${post.is_notice ? '📌 ' : ''}${escapeHtml(post.title)}</a></td>
+        <td>${escapeHtml(post.author)}</td><td>${post.views}</td><td>${formatDate(post.created_at)}</td>
+      </tr>`).join('') : '<tr><td colspan="5">조건에 맞는 게시글이 없습니다.</td></tr>';
+    const totalPages = Math.max(1, Math.ceil(data.total / data.size));
+    statusMessage.textContent = `검색 결과 ${data.total}건`;
+    document.querySelector('#page').textContent = `${data.page} / ${totalPages}`;
+    document.querySelector('#prev').disabled = currentPage === 1;
+    document.querySelector('#next').disabled = currentPage >= totalPages;
+  } catch (error) {
+    statusMessage.className = 'status error';
+    statusMessage.textContent = error.message;
+    postList.innerHTML = '<tr><td colspan="5">잠시 후 다시 시도해주세요.</td></tr>';
+  }
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+}
+
+function formatDate(value) {
+  return new Intl.DateTimeFormat('ko-KR', {dateStyle:'medium'}).format(new Date(value));
+}
+
+form.addEventListener('submit', async event => {
+  event.preventDefault();
+  const submitButton = form.querySelector('button');
+  submitButton.disabled = true;
+  const body = {
+    category: document.querySelector('#category').value,
+    title: document.querySelector('#title').value.trim(),
+    content: document.querySelector('#content').value.trim(),
+    author: document.querySelector('#author').value.trim()
+  };
+  try {
+    const response = await fetch('/api/posts', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || '등록에 실패했습니다.');
+    form.reset(); currentPage = 1; await loadPosts();
+    statusMessage.textContent = '게시글을 등록했습니다.';
+  } catch (error) {
+    statusMessage.className = 'status error';
+    statusMessage.textContent = error.message;
+  } finally {
+    submitButton.disabled = false;
+  }
+});
+document.querySelector('#search').onclick = () => { currentPage = 1; loadPosts(); };
+document.querySelector('#prev').onclick = () => { currentPage--; loadPosts(); };
+document.querySelector('#next').onclick = () => { currentPage++; loadPosts(); };
+loadPosts();
+</script>
+</body>
+</html>

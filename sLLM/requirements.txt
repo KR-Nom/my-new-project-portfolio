@@ -1,0 +1,10 @@
+# 설치: python3 -m pip install -r requirements.txt
+
+# PyTorch 텐서 연산 및 GPU 실행
+torch
+
+# Qwen 및 SQL 언어 모델·토크나이저 로드와 텍스트 생성
+transformers
+
+# device_map="auto"를 이용한 CPU/GPU 자동 배치
+accelerate

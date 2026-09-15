@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>미니 게시판</title>
+  <style>
+    body { max-width: 760px; margin: 40px auto; font-family: sans-serif; }
+    input, textarea { box-sizing: border-box; width: 100%; margin: 6px 0; padding: 8px; }
+    textarea { min-height: 100px; }
+    article { border-top: 1px solid #ddd; padding: 16px 0; }
+    button { cursor: pointer; margin-right: 6px; }
+  </style>
+</head>
+<body>
+  <h1>미니 게시판</h1>
+
+  <form id="post-form">
+    <input id="title" placeholder="제목" required>
+    <input id="author" placeholder="작성자" required>
+    <textarea id="content" placeholder="내용" required></textarea>
+    <button type="submit">등록</button>
+  </form>
+
+  <h2>게시글 목록</h2>
+  <section id="post-list">불러오는 중...</section>
+
+  <script>
+    const postList = document.querySelector('#post-list');
+    const form = document.querySelector('#post-form');
+
+    async function loadPosts() {
+      const response = await fetch('/api/posts');
+      const posts = await response.json();
+      postList.innerHTML = posts.length ? posts.map(post => `
+        <article>
+          <h3>${post.title}</h3>
+          <p>${post.content}</p>
+          <small>${post.author}</small>
+          <br>
+          <button onclick='putPost(${post.id}, ${JSON.stringify(post.title)}, ${JSON.stringify(post.content)}, ${JSON.stringify(post.author)})'>수정</button>
+          <button onclick="deletePost(${post.id})">삭제</button>
+        </article>
+      `).join('') : '<p>게시글이 없습니다.</p>';
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      await fetch('/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: document.querySelector('#title').value,
+          author: document.querySelector('#author').value,
+          content: document.querySelector('#content').value
+        })
+      });
+      form.reset();
+      loadPosts();
+    });
+
+    async function deletePost(id) {
+      await fetch(`/api/posts/${id}`, { method: 'DELETE' });
+      loadPosts();
+    }
+
+    async function putPost(id, oldTitle, oldContent, oldAuthor) {
+      const title = prompt('제목을 입력하세요.', oldTitle);
+      const content = prompt('내용을 입력하세요.', oldContent);
+      const author = prompt('작성자를 입력하세요.', oldAuthor);
+
+      if (!title || !content || !author) {
+        alert('모든 항목을 입력해야 합니다.');
+        return;
+      }
+
+      const response = await fetch(`/api/posts/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, content, author })
+      });
+
+      if (!response.ok) {
+        alert('게시글 수정에 실패했습니다.');
+        return;
+      }
+
+      loadPosts();
+    }
+
+    loadPosts();
+  </script>
+</body>
+</html>

@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>HowToDo</title>
+<style>
+@page{size:15in 8.4375in;margin:0}
+:root{--sk-orange:#f47725;--sk-red:#ea002c;--green:#b54b00;--ink:#292929;--muted:#6b6661;--line:#dedad6;--soft:#fbf5ef;--lime:#fbe1cf;--zoom:1}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#dce2de;color:var(--ink);font-family:Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.toolbar{position:sticky;top:0;z-index:99;display:flex;align-items:center;justify-content:center;gap:16px;height:58px;background:#123c2d;color:white;font-size:14px}
+.toolbar button{border:1px solid #739383;background:transparent;color:white;padding:8px 14px;border-radius:4px;cursor:pointer;font:inherit}
+.toolbar input{vertical-align:middle}.toolbar label{white-space:nowrap}
+main{width:1440px;margin:26px auto;zoom:var(--zoom)}
+.slide{position:relative;width:1440px;height:810px;padding:54px 64px;background:white;overflow:hidden;margin:0 0 28px;break-after:page;page-break-after:always;box-shadow:0 3px 12px #153e2912}
+.slide:last-child{break-after:auto;page-break-after:auto}
+.dark{background:var(--green);color:white}
+.eyebrow{margin:0 0 14px;font-size:16px;font-weight:700;letter-spacing:.09em;color:#47725b}
+.dark .eyebrow{color:#c7dba3}
+h1,h2,h3,p,figure{margin:0}
+h1,h2{font-size:52px;line-height:1.2;letter-spacing:-.055em;font-weight:800}
+h3{font-size:30px;line-height:1.3;letter-spacing:-.035em}
+p,li{font-size:22px;line-height:1.5}
+ul{margin:20px 0 0;padding:0;list-style:none}
+li{margin:10px 0}
+strong{font-weight:800}
+.muted{color:var(--muted)}
+.lead{margin-top:18px;color:var(--muted);font-size:24px}
+.dark .lead{color:#d0ded6}
+.message{font-size:30px;line-height:1.45;font-weight:750;letter-spacing:-.025em}
+.accent{color:#aecd89}.rule{height:1px;background:var(--line);margin:24px 0}
+.caption{font-size:16px;color:var(--muted);line-height:1.4}
+.endpoint{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:18px;line-height:1.4;color:#41604e;white-space:nowrap}
+.slide-head{height:111px}
+.slide-head h2{font-size:44px}
+.slide-head .eyebrow{margin-bottom:8px}
+.ui-message{margin:2px 0 12px;font-size:22px;color:var(--muted)}
+img{display:block;max-width:100%;object-fit:contain}
+figure{position:relative}
+.capture{width:100%;height:auto}
+.editable-image.selected{outline:2px solid #79a68b;outline-offset:4px}
+.cover{padding:70px 76px}
+.wordmark{font-size:30px;font-weight:800;letter-spacing:-.05em}
+.cover .project-label{font-size:19px;color:var(--muted);margin-left:14px;letter-spacing:0}
+.cover-layout{display:grid;grid-template-columns:540px minmax(0,1fr);gap:24px;align-items:center;height:610px;margin-top:36px}
+.cover-copy{transform:translateY(-28px)}
+.cover h1{font-size:70px;line-height:1.24;margin:0;letter-spacing:-.06em}
+.cover h1 span{color:#b54b00}
+.cover .message{margin-top:28px;font-size:26px;line-height:1.65;font-weight:500;color:var(--muted)}
+.cover .author{position:absolute;left:76px;bottom:70px;font-size:18px}
+.cover-graphic{width:100%}
+.cover-graphic img{width:100%;height:auto}
+.context h2{font-size:56px;margin-top:42px}
+.context-flow{display:grid;grid-template-columns:1fr 60px 1fr 60px 1fr;align-items:center;margin-top:78px;padding:32px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.context-flow strong{display:block;font-size:35px;margin-bottom:10px}.context-flow p{color:var(--muted)}
+.arrow{font-size:32px;color:#7a9885;text-align:center}
+.context .message{margin-top:34px}
+.pain-list{display:grid;gap:0;margin-top:40px}
+.pain-row{display:grid;grid-template-columns:72px 440px 1fr;align-items:center;border-bottom:1px solid var(--line);padding:24px 0}
+.pain-row .num{font-size:30px;color:#6c8a77}.pain-row h3{font-size:29px}.pain-row p{color:var(--muted)}
+.pain-quote{margin-top:36px;font-size:31px;font-weight:750;line-height:1.4}
+.compare{display:grid;grid-template-columns:1fr 64px 1.4fr;margin-top:36px;align-items:stretch}
+.compare-side{padding:26px 32px;border-top:2px solid var(--line)}
+.compare-side.focus{background:var(--soft);border-top-color:var(--green)}
+.compare-side p{margin:20px 0;color:var(--muted);font-size:23px;line-height:1.8}
+.compare-side .question{font-size:32px;color:var(--green);font-weight:800;margin-top:26px}
+.solution .message{margin-top:39px}
+.actor-line{display:grid;grid-template-columns:1fr 90px 1fr 90px 1fr;align-items:start;margin-top:72px}
+.actor{border-top:2px solid #98b5a1;padding-top:22px}
+.actor .english{font-size:18px;font-weight:750;color:#5f806b;margin-bottom:13px}
+.actor h3{font-size:36px}
+.actor-link{font-size:16px;text-align:center;color:var(--muted);padding-top:6px;line-height:1.7}
+.actor-link b{display:block;font-size:30px;color:#799882}
+.actors-note{margin-top:50px;padding-top:25px;border-top:1px solid var(--line);font-size:24px}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;margin-top:64px}
+.flow-step{position:relative}
+.flow-step:not(:last-child)::after{content:"→";position:absolute;right:-22px;top:10px;font-size:25px;color:#7d9786}
+.flow-step .number{font-size:20px;color:#547962;display:block;margin-bottom:15px}
+.flow-step h3{font-size:26px}
+.flow-step figure{height:230px;margin-top:25px;background:var(--soft);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.flow-step img{width:100%;height:100%;object-fit:contain}
+.flow .caption{margin-top:15px}
+.flow-note{margin-top:37px;font-size:23px;color:var(--muted)}
+.profile-shot{width:1160px;margin:24px auto 0}.profile-shot img{width:100%}
+.ui-api{position:absolute;bottom:36px;left:64px}
+.join-layout{display:grid;grid-template-columns:275px 1fr;gap:45px;align-items:center;margin-top:18px}
+.join-layout .message{font-size:32px;line-height:1.55}
+.join-layout figure{width:932px}
+.board-slide{padding-top:38px}
+.board-slide .slide-head{height:103px}
+.board-slide .board-shot{width:1060px;margin:9px auto 0}
+.board-slide .board-shot img{width:100%}
+.board-meta{display:flex;gap:24px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.board-meta .caption{color:#536b5c}
+.board-slide .ui-api{bottom:22px}
+.detail-layout{display:grid;grid-template-columns:274px 1fr;gap:32px;margin-top:16px}
+.detail-label{padding:20px 0 0;border-top:2px solid #92ad99}
+.detail-label h3{font-size:30px}.detail-label p{margin-top:10px;color:var(--muted)}
+.detail-screen{padding:14px 18px;background:var(--soft)}
+.detail-screen img{width:100%}
+.detail-bottom{margin-top:20px}
+.detail-label .caption{margin-top:22px}
+.detail-question{background:#f2f6db;margin-top:10px;padding:10px 16px}
+.detail-question img{width:100%}
+.slide[data-title="팀원 상세"] .ui-api{top:147px;bottom:auto}
+.model-image{width:1240px;margin:20px auto 0}
+.normalization{display:flex;justify-content:space-between;color:var(--muted);font-size:18px;margin:6px 0 21px}
+.model .message{padding-top:20px;border-top:1px solid var(--line);font-size:30px}
+.api-flow{display:grid;grid-template-columns:1.1fr 36px 1fr 36px 1.3fr 36px 1fr 36px 1.35fr;align-items:center;margin-top:46px}
+.api-node{padding:20px 0;border-top:2px solid #9ab9a5}
+.api-node h3{font-size:26px}
+.api-node p{font-size:18px;color:var(--muted);margin-top:10px}
+.api-node.emphasis{border-color:var(--green)}
+.return-line{margin:20px 0 30px;text-align:right;color:#50745d;font-size:20px}
+.api-examples{display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:center;border-top:1px solid var(--line);padding-top:24px}
+.api-examples p{font-size:21px}
+.api-examples code{font-size:21px}
+.api .message{margin-top:35px;font-size:31px}
+.closing .wordmark{margin-bottom:88px}
+.closing h1{font-size:68px;line-height:1.25;max-width:1050px}
+.closing .lead{font-size:30px;margin-top:43px}
+.appendix .eyebrow{color:#698071}
+.swagger-layout{display:grid;grid-template-columns:1000px 1fr;gap:40px;margin-top:25px}
+.swagger-layout figure img{width:100%}
+.swagger-response{margin-top:22px}
+.swagger-meta{padding-top:15px}
+.swagger-meta p{margin-bottom:32px;color:var(--muted)}
+.swagger-meta strong{display:block;color:var(--green);font-size:25px;margin-bottom:8px}
+.swagger-meta .caption{font-size:16px}
+.repo-diagram{display:grid;grid-template-columns:1fr 48px 1fr 48px 1fr 48px 1fr;align-items:center;margin-top:68px}
+.repo-block{border-top:2px solid #9bb4a4;padding:25px 0}
+.repo-block h3{font-size:32px}
+.repo-block p{font-size:20px;color:var(--muted);margin-top:20px}
+.oas-link{margin:42px auto 0;width:600px;text-align:center;padding:22px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:24px}
+.oas-link span{font-size:20px;color:var(--muted)}
+.repo .caption{margin-top:40px}
+.validation{display:grid;grid-template-columns:1fr 1fr;gap:70px;margin-top:57px}
+.validation section{border-top:2px solid #a6b9ad;padding-top:24px}
+.validation ul{margin-top:27px}.validation li{margin:16px 0;font-size:23px}
+.validation .future li{color:var(--muted)}
+.validation-note{border-top:1px solid var(--line);margin-top:38px;padding-top:24px;font-size:23px}
+.background-grid{display:grid;grid-template-columns:350px 1fr;gap:65px;margin-top:56px}
+.cycle{border-right:1px solid var(--line);padding-right:40px}.cycle strong{display:block;font-size:100px;letter-spacing:-.07em;line-height:1.15;color:var(--green)}.cycle p{margin-top:18px;font-size:26px}
+.background-reasons{display:grid;gap:28px}.background-reasons h3{font-size:32px}.background-reasons p{margin-top:9px;color:var(--muted);font-size:23px}
+.background-message{margin-top:38px;padding-top:26px;border-top:1px solid var(--line);font-size:30px;font-weight:800}
+.spec-table{width:100%;border-collapse:collapse;margin-top:30px;table-layout:fixed;font-size:21px;line-height:1.45}
+.spec-table th{background:var(--green);color:white;text-align:left;font-weight:700;padding:15px 18px;border:1px solid #456550}
+.spec-table td{vertical-align:top;padding:18px;border:1px solid var(--line);word-break:keep-all;overflow-wrap:anywhere}
+.spec-table tbody tr:nth-child(even){background:#f4f7f5}
+.spec-table code{font:18px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;word-break:normal;overflow-wrap:anywhere}
+.spec-table.compact td{padding:12px 15px;font-size:19px}.spec-table.compact th{padding:12px 15px;font-size:20px}
+.spec-table .sub{display:block;color:var(--muted);font-size:18px;margin-top:7px}
+.spec-note{font-size:20px;color:var(--muted);margin-top:24px;line-height:1.5}
+.detail-slide h2{font-size:44px}
+.part-divider h1{font-size:70px;margin:80px 0 24px}.part-divider .lead{font-size:28px}
+.detail-agenda{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin-top:72px;border-top:1px solid #759083;padding-top:28px}
+.detail-agenda p{font-size:26px}.detail-agenda span{display:block;color:#b7d09d;font-size:18px;margin-bottom:12px}
+/* Actor map: real routes are solid boxes; in-page dialogs have dashed borders. */
+.ui-map-heading{display:flex;align-items:center;justify-content:space-between}
+.ui-map-legend{display:flex;align-items:center;gap:18px;font-size:16px;color:var(--muted)}
+.ui-map-legend span{display:flex;align-items:center;gap:7px}
+.ui-map-legend i{display:inline-block;width:23px;height:16px;border:1.5px solid #98938e;border-radius:3px}
+.ui-map-legend i.dialog{border-style:dashed}.ui-map-legend b{font-size:23px;color:#79716a}
+.actor-flow-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;margin-top:20px}
+.actor-flow-panel{position:relative;height:258px;border:1px solid var(--line);border-top:4px solid var(--sk-orange);border-radius:10px;background:#fff}
+.actor-flow-panel.common{grid-column:1/-1;height:190px;border-top-color:var(--sk-red)}
+.actor-flow-panel.owner{border-top-color:#393633}
+.actor-flow-panel.public{grid-column:1/-1;height:80px;border-top:1px solid var(--line);background:#faf9f8}
+.actor-flow-title{position:absolute;left:20px;top:12px;font-size:22px;line-height:1.3;letter-spacing:-.03em}
+.actor-flow-title small{font-size:16px;font-weight:400;letter-spacing:0;color:var(--muted);margin-left:10px}
+.flow-screen{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;height:66px;padding:6px 9px;border:1px solid #d6d2cf;border-radius:6px;background:#f7f7f6;text-align:center}
+.flow-screen strong{font-size:20px;line-height:1.15;letter-spacing:-.03em;white-space:nowrap}
+.flow-screen code,.flow-screen .screen-note{font:14px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;color:#756e67;white-space:nowrap}
+.flow-screen .screen-note{font-family:inherit;font-size:16px}
+.flow-screen.entry{border-color:#df919b;background:#fff5f5}.flow-screen.entry strong{color:#b22940}
+.flow-screen.dialog{border-style:dashed;background:#fffaf5}
+.flow-screen.hub{background:#fff4e9;border-color:#ebb98d}
+.flow-screen.compact{height:48px;gap:3px}.flow-screen.compact strong{font-size:18px}
+.common .flow-screen:not(.compact){height:58px}
+.flow-wires{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.flow-wires path{fill:none;stroke:#9a918a;stroke-width:1.7;stroke-linejoin:round;stroke-linecap:round}
+.flow-wires marker path{fill:#9a918a;stroke:none}
+.flow-hint{position:absolute;font-size:16px;line-height:1.4;color:#756e67}
+.flow-hint strong{color:#a84207}
+.flow-map-note{font-size:18px;line-height:1.4;color:var(--muted);margin-top:12px}
+.public .actor-flow-title{top:18px;font-size:21px}.public .actor-flow-title small{display:block;margin:4px 0 0}
+.detail-erd{width:1250px;height:480px;margin:18px auto 0;display:flex;justify-content:center;align-items:center}
+.detail-erd img{width:100%;height:480px;object-fit:contain}
+.design-takeaways{display:flex;gap:32px;border-top:1px solid var(--line);padding-top:12px;margin-top:10px}.design-takeaways p{flex:1;font-size:22px}
+.contract-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:33px}
+.contract-grid section{border-top:2px solid #9ab6a4;padding-top:22px}
+.contract-grid h3{font-size:27px}.contract-grid p{font-size:21px;margin-top:16px}
+.contract-grid pre,.json-block{background:#f3f6f4;border:1px solid var(--line);padding:22px;font:20px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin:22px 0 0}
+.status-list{margin-top:25px;display:flex;gap:24px}.status-list span{font-size:19px;padding-top:14px;border-top:1px solid var(--line);flex:1}
+.example-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:26px}
+.example-grid h3{font-size:27px}.example-grid p{font-size:20px;margin-top:14px}
+.example-grid .json-block{font-size:21px;margin-top:15px;min-height:310px}
+.example-endpoint{font:23px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;margin-top:22px;color:var(--green)}
+.schema-map{border-top:1px solid var(--line);margin-top:25px;padding-top:20px;font-size:22px}
+.toolbar a{color:white;text-decoration:none;border-bottom:1px solid #789482;padding:5px}
+/* SKALA reference layout + official SK CI HEX palette. App captures keep their original colors. */
+body{background:#e7e5e2}
+.toolbar{background:#292929}.toolbar button{border-color:#8b827a}.toolbar a{border-color:var(--sk-orange)}
+.slide{box-shadow:0 3px 12px #3524170d}
+.slide::before{content:"";position:absolute;left:64px;top:0;width:90px;height:7px;background:var(--sk-orange)}
+.eyebrow,.dark .eyebrow,.appendix .eyebrow{color:#a84207}
+.dark{background:#fff;color:var(--ink)}
+.dark .lead,.cover .author{color:var(--muted)}
+.wordmark{color:var(--sk-red)}
+.part-divider{background:#fff7f0}
+.part-divider h1{color:#292929}
+.detail-agenda{border-top-color:#efb78f}.detail-agenda span{color:#b54b00}
+.closing{background:linear-gradient(90deg,#fff 0%,#fff 88%,#fbe1cf 88%,#fbe1cf 100%)}
+.closing h1{color:#292929}.closing .wordmark{color:var(--sk-red)}
+.arrow,.context-flow .arrow,.actor-link b,.flow-step:not(:last-child)::after{color:var(--sk-orange)}
+.pain-row .num,.flow-step .number{color:#b54b00}
+.compare-side.focus,.detail-screen{background:#fff5ec}
+.detail-label,.api-node,.actor,.repo-block,.validation section{border-top-color:var(--sk-orange)}
+.actor .english,.flow-step .caption,.board-meta .caption,.return-line,.endpoint{color:#70513c}
+.detail-question{background:#fff5ec}
+.spec-table th{background:#fbe1cf;color:#292929;border-color:#ddbaa1}
+.spec-table tbody tr:nth-child(even){background:#fff9f3}
+.contract-grid section{border-top-color:var(--sk-orange)}
+.contract-grid pre,.json-block{background:#faf7f4}
+.editable-image.selected{outline-color:var(--sk-orange)}
+@media print{
+ html,body{margin:0;background:white;scroll-behavior:auto;width:1440px}
+ .toolbar{display:none!important}
+ main{margin:0;width:1440px;zoom:1!important}
+ .slide{margin:0;box-shadow:none;break-inside:avoid}
+ .editable-image.selected{outline:none}
+ [contenteditable]{outline:none!important}
+}
+
+/* Unified service story + one technical appendix. */
+.service-pain h2{font-size:47px}
+.service-pains{display:grid;grid-template-columns:repeat(3,1fr);gap:38px;margin-top:65px}
+.service-pains>div{border-top:2px solid var(--sk-orange);padding-top:22px}
+.service-pains span{font-size:24px;color:#b54b00;font-weight:700}.service-pains h3{font-size:32px;margin:22px 0}.service-pains p{font-size:23px;color:var(--muted)}
+.service-thesis{font-size:33px;margin-top:48px;line-height:1.45;letter-spacing:-.03em}.service-thesis strong{color:#b54b00}
+.value-rows{margin-top:38px}.value-rows>div{display:grid;grid-template-columns:225px 1fr;gap:10px 25px;padding:22px 0;border-bottom:1px solid var(--line)}
+.value-rows span{grid-row:span 2;color:#b54b00;font-size:24px;font-weight:750;padding-top:4px}.value-rows h3{font-size:29px}.value-rows p{font-size:23px;color:var(--muted)}
+.service-disclaimer{font-size:23px;margin-top:32px}
+.login-story{display:grid;grid-template-columns:1fr 540px;gap:95px;align-items:center;margin:20px 70px 0}
+.login-story figure{height:490px}.login-story img{height:100%;width:100%;object-fit:contain}
+.login-story h3{font-size:34px;margin-top:34px}.login-story p{font-size:26px;color:var(--muted);margin-top:18px}.login-story .caption{font-size:17px;margin-top:30px}
+.reuse-top{padding:30px 36px;background:#fff5ec;border-top:2px solid var(--sk-orange);margin-top:46px}.reuse-top h3{font-size:32px}.reuse-top p{font-size:28px;margin-top:14px}.reuse-top span{display:block;color:var(--muted);font-size:21px;margin-top:12px}
+.reuse-teams{display:grid;grid-template-columns:1fr 50px 1fr;gap:26px;margin-top:35px;align-items:center}.reuse-teams section{padding:0 20px}.reuse-teams span{color:#b54b00;font-size:20px}.reuse-teams h3{margin:10px 0;font-size:28px}.reuse-teams p{font-size:21px;color:var(--muted)}.reuse-teams b{font-size:40px;color:var(--sk-orange)}
+.slide[data-title="서비스가 만드는 변화"] .service-thesis{margin-top:35px;font-size:31px}
+.erd-overview h2,.catalog-slide h2,.technical-media h2{font-size:44px}
+.full-erd{width:1312px;height:570px;margin-top:18px}.full-erd img{width:100%;height:100%}
+.erd-overview>.caption{margin-top:12px}
+.erd-design-note{position:absolute;left:799px;top:349px;width:255px;padding:14px 16px;border-left:3px solid var(--sk-orange);background:#fff8f1;font-size:21px}.erd-design-note p{font-size:20px;line-height:1.5;margin-top:8px}
+.api-catalog{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:24px}
+.catalog-group{margin-bottom:14px}.catalog-group figcaption{font-size:20px;font-weight:750;margin-bottom:7px;display:flex;justify-content:space-between}.catalog-group figcaption span{font-weight:400;font-size:18px;color:var(--muted)}
+.catalog-group img{width:100%}.catalog-caption{position:absolute;bottom:22px;font-size:17px;color:var(--muted)}
+.source-screen{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:30px}
+.source-screen h3{font-size:24px;margin-bottom:18px}
+.source-code{margin:0;padding:20px 24px;background:#f8f6f3;border-left:3px solid var(--sk-orange);font:21px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.source-screen figure img{width:100%}.source-callout{border-top:1px solid #e5c7b0;margin-top:18px;padding-top:14px;color:#9d4206;font-size:23px}
+.explain-stack{display:grid;grid-template-columns:1fr 1fr;gap:17px 25px;margin-top:20px}.explain-stack p{font-size:20px}.explain-stack p:last-child{grid-column:1/-1}.explain-stack strong{font-size:23px}
+.bottom-note{position:absolute;left:64px;right:64px;bottom:30px;font-size:18px;color:var(--muted)}
+.reference-rows{margin-bottom:17px}.reference-rows p{font-size:18px;margin:9px 0;line-height:1.4}.reference-rows strong{display:inline-block;width:120px;font-size:20px;color:#9d4206}
+.schema-code{font-size:18px;line-height:1.55;padding:16px 19px}.schema-shot{border:1px solid var(--line)}.error-shot{margin-top:18px}.schema-caption{font-size:22px;margin-top:24px}
+.improvement-table td{font-size:23px;padding:22px 18px}.improvement-table{margin-top:36px}
+.slide[data-title="Appendix Swagger"] h2,.repo h2,.slide[data-title="追加及改善"] h2{font-size:44px}
+@media print{.toolbar{display:none!important}}
+
+
+/* Image-led service story: supplied context / illustrated pain / real product proof. */
+.background-visual h2,.pain-picture h2,.solution-visual h2,.reuse-picture h2{font-size:46px;word-break:keep-all}
+.background-picture-layout{display:grid;grid-template-columns:858px 1fr;gap:36px;margin-top:28px;align-items:start}
+.background-picture-layout figure img{width:858px;height:572px;object-fit:contain}
+.background-picture-layout figcaption,.pain-picture-layout figcaption{font-size:16px;color:var(--muted);margin-top:9px}
+.background-picture-notes{padding:14px 0 0 14px}.cycle-number{display:block;font-size:89px;line-height:1.12;letter-spacing:-.065em;color:#b54b00}
+.cycle-description{font-size:25px;margin-top:12px}.background-sequence{margin-top:32px;padding-top:23px;border-top:1px solid var(--line)}
+.background-sequence p{font-size:29px;font-weight:700}.background-sequence span{display:block;font-size:26px;color:var(--sk-orange);margin:6px 0 6px 9px}
+.background-conclusion{font-size:26px;line-height:1.5;margin-top:29px}.background-conclusion strong{color:#9d4206}
+.pain-picture-layout{display:grid;grid-template-columns:950px 1fr;gap:26px;margin-top:20px;align-items:start}
+.pain-picture-layout figure img{width:950px;height:586px;object-fit:contain}
+.pain-picture-notes{padding-top:28px}.pain-picture-notes section{padding-left:18px;border-left:3px solid var(--sk-orange);margin-bottom:29px}
+.pain-picture-notes section span{display:block;font-size:20px;font-weight:700;color:#a84207;margin-bottom:11px}
+.pain-picture-notes h3{font-size:29px;line-height:1.4;word-break:keep-all}.pain-picture-notes section p{font-size:22px;line-height:1.5;color:var(--muted);margin-top:11px}
+.pain-picture-answer{font-size:26px;line-height:1.5;border-top:1px solid var(--line);padding-top:21px}.pain-picture-answer strong{color:#a84207}
+.visual-lead{font-size:24px;color:var(--muted);margin-top:17px}
+.solution-screens{display:grid;grid-template-columns:552px 48px 660px;gap:26px;align-items:start;margin-top:34px}
+.solution-screens h3{font-size:27px}.solution-screens h3 span{font-size:20px;color:#b54b00;margin-right:9px}
+.solution-screens figure{height:368px;margin-top:18px;display:flex;align-items:center}.solution-screens figure img{width:100%;max-height:368px;object-fit:contain}
+.solution-screens section>p{font-size:24px;line-height:1.5;margin-top:18px}.solution-arrow{font-size:44px;color:var(--sk-orange);align-self:center;margin-top:-45px}
+.visual-footnote{font-size:18px;color:var(--muted);position:absolute;bottom:31px;left:64px}
+.reuse-picture-layout{display:grid;grid-template-columns:760px 1fr;gap:34px;margin-top:32px}
+.reusable-profile h3{font-size:27px;margin-bottom:21px}.reusable-profile figure img{width:760px}.profile-sharing{margin-top:18px}
+.reusable-profile>.caption{margin-top:13px;font-size:17px}
+.reuse-branches{position:relative;padding-left:61px}.branch-label{font-size:18px;color:var(--muted);margin-bottom:22px}
+.branch-connector{position:absolute;left:0;top:77px;width:60px;height:340px}
+.project-context{border:1px solid #e7c8af;background:#fff8f1;padding:24px 26px;margin-bottom:29px}
+.project-context>span{font-size:20px;color:#b54b00}.project-context h3{font-size:27px;margin:12px 0}.project-context p{font-size:23px;line-height:1.5}
+.reuse-benefit{font-size:26px;margin-top:20px;line-height:1.5}.reuse-benefit strong{color:#a84207}
+
+/* Presentation agenda follows the service story and the unified appendix. */
+.agenda-slide h2{font-size:62px}.agenda-slide>.lead{font-size:26px;margin-top:18px}
+.agenda-list{margin-top:54px;padding:0;list-style:none}
+.agenda-list li{margin:0;border-top:1px solid var(--line)}
+.agenda-list li:last-child{border-bottom:1px solid var(--line)}
+.agenda-item{display:grid;grid-template-columns:96px 420px 1fr;gap:24px;align-items:center;min-height:156px;padding:22px 0;color:inherit;text-decoration:none}
+.agenda-number{font-size:53px;line-height:1;color:#b54b00;font-weight:700;letter-spacing:-.04em}
+.agenda-item h3{font-size:33px;line-height:1.4}.agenda-item p{font-size:24px;line-height:1.65;color:var(--muted)}
+.agenda-item:focus-visible{outline:2px solid var(--sk-orange);outline-offset:4px}
+
+/* Refreshed Vue UI: preserve native screenshot ratios and show one task at a time. */
+.profile-stepper-shot{width:1160px;margin:18px auto 0}
+.profile-stepper-shot img{width:100%}
+.profile-shot{margin-top:22px}
+.profile-takeaways{display:flex;gap:40px;width:1160px;margin:24px auto 0}
+.profile-takeaways p{flex:1;font-size:22px;line-height:1.5;color:var(--muted)}
+.profile-takeaways strong{color:var(--ink)}
+.join-layout{grid-template-columns:320px 810px;gap:58px;justify-content:center}
+.join-layout figure{width:810px}
+.board-slide .board-shot{width:1040px}
+.sharing-slide h2{font-size:44px}
+.sharing-grid{display:grid;grid-template-columns:640px 40px 588px;gap:22px;align-items:start;margin-top:6px}
+.sharing-grid h3{font-size:25px;line-height:1.35;margin-bottom:14px}
+.sharing-grid h3 span{font-size:17px;color:#a84207;margin-right:12px}
+.sharing-arrow{font-size:38px;color:var(--sk-orange);padding-top:160px;text-align:center}
+.sharing-grid figure img{width:100%}
+.sharing-grid .recipient-excerpt{margin-top:14px}
+.share-route{display:block;font:22px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;color:#4f46e5;text-decoration:none;margin-top:18px;padding:10px 0;border-bottom:1px solid var(--line)}
+.share-explanation{font-size:22px;line-height:1.5;margin-top:18px;color:var(--muted)}
+.share-explanation strong{color:var(--ink)}
+.sharing-grid figcaption{font-size:18px;line-height:1.5;color:var(--muted);margin-top:12px}
+.sharing-slide .bottom-note{font-size:17px;line-height:1.45;bottom:24px}
+.api-catalog{margin-top:18px}
+.catalog-group{margin-bottom:8px}
+.slide[data-title="API 공통 전역 정의"] .source-screen figure img{max-width:560px;margin:auto}
+.swagger-comparison{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:28px}
+.swagger-comparison h3{font-size:24px;margin-bottom:16px}
+.swagger-comparison img{width:100%}
+.swagger-facts{display:flex;gap:35px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.swagger-facts p{flex:1;font-size:21px;color:var(--muted)}
+.swagger-facts strong{display:block;color:#a84207;font-size:24px;margin-bottom:6px}
+.slide[data-title="공통 스키마 재사용"] .source-screen{margin-top:22px}
+.schema-shot{max-height:310px;object-fit:contain}
+.error-shot{margin-top:12px}
+.schema-caption{font-size:21px;margin-top:12px}
+
+/* First use, explicit confirmation, and two distinct QR sharing purposes. */
+.onboarding-slide h2,.join-states-slide h2{font-size:46px}
+.onboarding-intro{margin-top:14px;font-size:23px;color:var(--muted)}
+.onboarding-screens{display:grid;grid-template-columns:420px 88px minmax(0,1fr);gap:20px;align-items:start;margin-top:19px}
+.onboarding-screens h3{font-size:25px;margin-bottom:12px}
+.onboarding-screens h3 span,.join-states h3 span{color:var(--muted);font-size:20px;margin-right:12px}
+.onboarding-screens figure{height:350px;display:flex;align-items:flex-start;justify-content:center}
+.onboarding-screens img{width:100%;height:100%;object-fit:contain;object-position:top center}
+.onboarding-screens .signup-figure img{max-width:362px}
+.transition-arrow{align-self:center;text-align:center;color:#555;font-size:42px}
+.transition-arrow small{display:block;font:19px/1.5 Arial,"Apple SD Gothic Neo",sans-serif;margin-bottom:10px;white-space:nowrap;color:var(--muted)}
+.onboarding-ui-flow{margin-top:17px;padding-top:14px;border-top:1px solid var(--line)}
+.journey-map{position:relative;width:1312px;height:134px}
+.journey-connections{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.journey-connections path[data-from]{fill:none;stroke:#74777e;stroke-width:1.5;stroke-linejoin:round;marker-end:url(#journey-arrow)}
+.journey-entry-label{position:absolute;left:0;width:86px;height:50px;display:flex;align-items:center;font-size:17px;font-weight:700}
+.journey-entry-label.first{top:0}.journey-entry-label.returning{top:78px}
+.onboarding-node{position:absolute;display:flex;height:50px;flex-direction:column;justify-content:center;align-items:center;padding:6px 8px;border:1px solid #c8c9cd;border-radius:7px;background:white;line-height:1.3}
+.onboarding-node strong{font-size:18px;font-weight:700;white-space:nowrap}
+.onboarding-node small{margin-top:4px;font-size:14px;color:var(--muted);white-space:nowrap}
+.onboarding-node[data-node="signup"]{left:94px;top:0;width:128px}
+.onboarding-node[data-node="login"]{left:94px;top:78px;width:128px}
+.onboarding-node[data-node="profile"]{left:254px;top:0;width:210px}
+.onboarding-node[data-node="profile"] strong{font-size:17px}
+.onboarding-node[data-node="home"]{left:510px;top:39px;width:138px}
+.onboarding-node[data-node="team"]{left:690px;top:39px;width:176px}
+.onboarding-node[data-node="board"]{left:906px;top:39px;width:162px}
+.onboarding-node[data-node="detail"]{left:1108px;top:39px;width:172px}
+.journey-shortcut-label{position:absolute;left:700px;top:111px;padding:0 10px;background:white;font-size:15px;color:var(--muted);line-height:20px}
+.join-states{display:grid;grid-template-columns:minmax(0,1fr) 120px minmax(0,1fr);gap:20px;align-items:start;margin-top:24px}
+.join-states h3{font-size:26px;margin-bottom:18px}
+.join-states figure img{width:100%;height:auto}
+.join-states .transition-arrow{align-self:start;padding-top:150px}
+.join-states .state-note{font-size:23px;color:var(--muted);line-height:1.6;margin-top:22px}
+.join-states .state-note strong{color:var(--ink);font-weight:650}
+.join-action-result{font-size:23px;margin-top:22px;color:var(--muted)}
+.join-action-result strong{color:var(--ink)}
+.flow-step figure,.detail-screen,.detail-question{background:transparent}
+.detail-screen{padding:0}.detail-question{padding:0;margin-top:16px}
+.device-sharing h2{font-size:44px;letter-spacing:-.045em}
+.device-sharing .slide-head{height:99px}
+.device-sharing .ui-message{font-size:23px;margin-bottom:0}
+.profile-device-layout{display:grid;grid-template-columns:310px 86px 310px minmax(0,1fr);gap:24px;align-items:center;margin-top:20px}
+.device-stage>figcaption{font-size:22px;line-height:1.35;font-weight:650;margin-bottom:14px;text-align:center;color:var(--ink)}
+.phone-frame{position:relative;width:288px;height:488px;border:7px solid #282a30;border-radius:38px;background:#fff;padding:35px 8px 23px;margin:auto}
+.phone-frame::before{content:"";position:absolute;width:72px;height:7px;border-radius:9px;background:#282a30;left:50%;top:13px;transform:translateX(-50%)}
+.phone-frame::after{content:"";position:absolute;width:84px;height:4px;border-radius:8px;background:#282a30;left:50%;bottom:10px;transform:translateX(-50%)}
+.phone-content{height:100%;display:flex;align-items:center;justify-content:center;background:#fff}
+.phone-content img{width:100%;max-height:100%;object-fit:contain}
+.device-arrow{font-size:44px;color:#555;text-align:center}
+.device-copy{padding-left:9px}
+.device-copy .purpose{font-size:18px;font-weight:650;color:var(--muted);margin-bottom:15px}
+.device-copy h3{font-size:34px;line-height:1.35;word-break:keep-all}
+.device-copy p{font-size:22px;color:var(--muted);line-height:1.6;margin-top:19px}
+.device-copy .share-route{font-size:22px;margin-top:26px}
+.device-copy .share-explanation{font-size:19px;margin-top:17px}
+.device-sharing .bottom-note{font-size:16px;line-height:1.5;bottom:22px}
+.team-scan-layout{display:grid;grid-template-columns:262px 56px 292px 56px minmax(0,1fr);gap:16px;align-items:start;margin-top:25px}
+.team-scan-layout>.device-arrow{align-self:center}
+.invite-qr-card{border:1px solid #ddd;border-radius:14px;padding:22px 20px;background:#fff;text-align:center}
+.invite-qr-card .qr-heading{font-size:24px;font-weight:700;margin-bottom:15px}
+.invite-qr-card img{width:214px;height:214px;margin:auto}
+.invite-qr-card strong{display:block;font:700 26px/1.5 ui-monospace,SFMono-Regular,monospace;margin-top:12px;letter-spacing:.04em}
+.invite-qr-card .caption{font-size:18px;margin-top:5px}
+.invite-device-stage>figcaption{font-size:21px}
+.scan-phone{width:274px;height:460px;background:#25272b;padding:48px 12px 58px}
+.scan-phone::before{background:#777}.scan-phone::after{background:#ddd}
+.scan-viewfinder{position:relative;height:100%;display:flex;align-items:center;justify-content:center}
+.scan-target{position:relative;background:white;width:182px;height:182px;padding:9px}
+.scan-target img{width:100%;height:100%}
+.scan-corner{position:absolute;width:32px;height:32px;border-color:#fff;border-style:solid;border-width:0}
+.scan-corner.tl{left:-12px;top:-12px;border-left-width:3px;border-top-width:3px}
+.scan-corner.tr{right:-12px;top:-12px;border-right-width:3px;border-top-width:3px}
+.scan-corner.bl{left:-12px;bottom:-12px;border-left-width:3px;border-bottom-width:3px}
+.scan-corner.br{right:-12px;bottom:-12px;border-right-width:3px;border-bottom-width:3px}
+.camera-shutter{position:absolute;bottom:23px;left:50%;width:32px;height:32px;transform:translateX(-50%);border:3px solid white;border-radius:50%}
+.scan-result>h3{font-size:25px;margin-bottom:20px}
+.scan-result figure img{width:100%;max-height:395px;object-fit:contain;object-position:top}
+.scan-result .join-action-result{font-size:22px;margin-top:15px;line-height:1.5}
+.scan-result .share-route{font-size:20px;margin-top:10px;padding:7px 0}
+
+</style>
+</head>
+<body>
+<div class="toolbar" contenteditable="false">
+ <button type="button" onclick="window.print()">PDF로 저장</button>
+ <a href="#agenda">목차</a><a href="#service-intro">서비스 소개</a><a href="#appendix">Appendix · 설계</a><a href="public/specs/API.yml" target="_blank">API 명세 원본</a>
+ <button type="button" id="previous" aria-label="이전 슬라이드">←</button>
+ <button type="button" id="next" aria-label="다음 슬라이드">→</button>
+ <label><input id="editMode" type="checkbox" checked /> 본문 편집</label>
+ <label>이미지 크기 <input id="imageSize" type="range" min="30" max="100" value="100" /></label>
+ <span>이미지 선택 후 ⌘V로 교체</span>
+</div>
+<main>
+<section class="slide dark cover" id="part-one" contenteditable="true" data-title="Cover">
+ <div class="wordmark">HowToDo <span class="project-label">SKALA Mini-project</span></div>
+ <div class="cover-layout">
+  <div class="cover-copy">
+   <h1>새로운 팀을 위한<br /><span>협업 사용설명서</span></h1>
+   <p class="message">희망 역할과 협업 방식을 나누고,<br />함께 일할 동료를 이해하세요.</p>
+  </div>
+  <figure class="cover-graphic">
+   <img class="editable-image" src="report-assets/redesign/cover-collaboration.png" alt="각자의 소개 카드를 든 네 명의 팀원이 협업 방식을 담은 사용설명서를 함께 살펴보는 장면" />
+  </figure>
+ </div>
+ <p class="author">P023 장현진</p>
+</section>
+
+<section class="slide agenda-slide" id="agenda" contenteditable="true" data-title="발표 목차">
+ <p class="eyebrow">CONTENTS · HowToDo</p>
+ <h2>발표 목차</h2>
+ <p class="lead">팀 협업의 문제에서 시작해, 서비스 경험과 설계로 이어갑니다.</p>
+ <ol class="agenda-list">
+  <li><a class="agenda-item" href="#background"><span class="agenda-number">01</span><h3>기획 배경 · Pain Point</h3><p>반복되는 팀 변경과 역할 분담의 어려움<br />HowToDo가 필요한 이유</p></a></li>
+  <li><a class="agenda-item" href="#service-intro"><span class="agenda-number">02</span><h3>서비스 소개 · UI 흐름</h3><p>회원가입·로그인부터 팀원 이해까지<br />URL·QR로 프로필 공유와 팀 초대</p></a></li>
+  <li><a class="agenda-item" href="#appendix"><span class="agenda-number">03</span><h3>Appendix · 상세 설계</h3><p>시스템 액터 · 전체 ERD · API 명세와 Swagger<br />구현 구조 · 추가 및 개선 사항</p></a></li>
+ </ol>
+</section>
+
+<section class="slide background-visual" id="background" contenteditable="true" data-title="기획 배경">
+ <p class="eyebrow">기획 배경 · SKALA의 반복 협업 환경</p>
+ <h2>새로운 팀과의 협업, 약 4주마다 다시 시작됩니다.</h2>
+ <div class="background-picture-layout">
+  <figure><img class="editable-image" src="report-assets/redesign/image.png" alt="SKALA의 팀 대화와 약 4주 주기의 팀 변경, 짧은 프로젝트에서의 상호 이해 어려움" /><figcaption>팀이 바뀔 때마다 반복되는 첫 협업</figcaption></figure>
+  <div class="background-picture-notes"><strong class="cycle-number">약 4주</strong><p class="cycle-description">팀 구성과 좌석 변경</p>
+   <div class="background-sequence"><p>새로운 구성원</p><span>↓</span><p>다시 알아가는 과정</p><span>↓</span><p>짧은 프로젝트의 시작</p></div>
+   <p class="background-conclusion">팀은 다시 구성되지만,<br /><strong>서로를 이해할 시간은<br />충분하지 않습니다.</strong></p>
+  </div>
+ </div>
+</section>
+
+<section class="slide pain-picture" contenteditable="true" data-title="Pain Point">
+ <p class="eyebrow">PAIN POINT · 역할 분담을 시작하는 순간</p>
+ <h2>말하지 못한 희망 역할은, 역할 분담에서 보이지 않습니다.</h2>
+ <div class="pain-picture-layout">
+  <figure><img class="editable-image" src="report-assets/redesign/image%20(1).png" alt="기획·디자인·개발 희망을 말하는 팀원과 자신의 강점을 아직 말하지 못한 팀원" /><figcaption>먼저 말한 희망과 아직 꺼내지 못한 생각</figcaption></figure>
+  <div class="pain-picture-notes">
+   <section><span>말로 나온 희망</span><h3>“기획 맡을게요!”</h3><p>말한 희망은 팀에 드러납니다.</p></section>
+   <section><span>아직 꺼내지 못한 생각</span><h3>“나도 잘하는 게<br />있는데…”</h3><p>꺼내지 못한 희망은<br />팀에서 알기 어렵습니다.</p></section>
+   <p class="pain-picture-answer">역할을 정하기 전에,<br /><strong>모두의 희망과 목표부터<br />확인해야 합니다.</strong></p>
+  </div>
+ </div>
+</section>
+
+<section class="slide solution-visual" id="service-intro" contenteditable="true" data-title="서비스 소개">
+ <p class="eyebrow">서비스 소개 · HowToDo</p>
+ <h2>말로 다 꺼내지 못한 희망을, 화면에서 먼저 나눕니다.</h2>
+ <p class="visual-lead">공통 협업 방식과 팀별 희망 역할을 기록해, 동료를 이해하는 자료로 활용합니다.</p>
+ <div class="solution-screens">
+  <section><h3><span>01</span> 희망 역할·목표를 작성</h3><figure><img class="editable-image" src="report-assets/redesign/ui-role-goal-editor.png" alt="실제 팀별 프로필 편집 화면에서 Backend, AI, Planning 역할을 선택하고 REST API 설계 목표를 입력한 예시" /></figure><p>말하는 순서와 관계없이<br />해보고 싶은 일을 직접 기록합니다.</p></section>
+  <div class="solution-arrow" aria-hidden="true">→</div>
+  <section><h3><span>02</span> 팀원 카드에서 함께 확인</h3><figure><img class="editable-image" src="report-assets/redesign/ui-board-pair.png" alt="같은 사용자의 역할과 목표가 팀원 카드에 표시되고 다른 팀원과 함께 확인되는 실제 TEAM BOARD 예시" /></figure><p>역할의 우선순위와 목표를 보고,<br />분담할 일과 함께 일하는 방법을 이야기합니다.</p></section>
+ </div>
+ <p class="visual-footnote">희망 역할과 우선순위를 먼저 나누고, 최종 역할은 팀이 함께 정합니다.</p>
+</section>
+
+<section class="slide onboarding-slide" contenteditable="true" data-title="처음 이용과 재방문에서 이어지는 전체 UI 흐름">
+ <p class="eyebrow">서비스 이용 흐름 · 처음 이용과 다시 방문</p><h2>회원가입부터 팀원 이해까지, 한 흐름으로 이어집니다.</h2>
+ <p class="onboarding-intro">한 번 작성한 프로필은 다음 로그인과 새로운 팀에서도 이어서 사용합니다.</p>
+ <div class="onboarding-screens">
+  <section><h3><span>01</span> 회원가입</h3><figure class="signup-figure"><img class="editable-image" src="report-assets/redesign/ui-signup.png" alt="이름·이메일·비밀번호 입력 후 사용설명서 만들기로 시작하는 회원가입" /></figure></section>
+  <div class="transition-arrow"><small>가입 완료</small><span aria-hidden="true">→</span></div>
+  <section><h3><span>02</span> 처음 쓰는 나의 프로필</h3><figure><img class="editable-image" src="report-assets/redesign/ui-profile-onboarding.png" alt="소개·협업 방식·링크와 공유의 세 단계로 구성된 프로필 작성" /></figure></section>
+ </div>
+ <div class="onboarding-ui-flow" role="group" aria-label="처음 이용은 회원가입과 프로필 작성·미리보기 후 홈으로, 다시 방문은 로그인 후 홈으로 합류합니다. 이후 팀 생성·참여와 역할·목표 설정, TEAM BOARD, 팀원 상세로 이어집니다. 이미 참여한 팀은 홈에서 TEAM BOARD로 바로 이동합니다.">
+  <div class="journey-map">
+   <svg class="journey-connections" viewBox="0 0 1312 134" aria-hidden="true">
+    <defs><marker id="journey-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#74777e" /></marker></defs>
+    <path data-from="signup" data-to="profile" d="M222 25H254" />
+    <path data-from="profile" data-to="home" d="M464 25H487V64H510" />
+    <path data-from="login" data-to="home" d="M222 103H487V64H510" />
+    <path data-from="home" data-to="team" d="M648 64H690" />
+    <path data-from="team" data-to="board" d="M866 64H906" />
+    <path data-from="board" data-to="detail" d="M1068 64H1108" />
+    <path data-from="home" data-to="board" data-condition="existing-team" d="M579 89V121H987V89" />
+   </svg>
+   <span class="journey-entry-label first">처음 이용</span>
+   <span class="journey-entry-label returning">다시 방문</span>
+   <div class="onboarding-node" data-node="signup"><strong>회원가입</strong></div>
+   <div class="onboarding-node" data-node="profile"><strong>처음 쓰는 나의 프로필</strong><small>작성 · 미리보기</small></div>
+   <div class="onboarding-node" data-node="login"><strong>로그인</strong></div>
+   <div class="onboarding-node" data-node="home"><strong>홈 · 내 팀</strong><small>팀 선택</small></div>
+   <div class="onboarding-node" data-node="team"><strong>팀 생성·참여</strong><small>팀별 역할 · 목표 설정</small></div>
+   <div class="onboarding-node" data-node="board"><strong>TEAM BOARD</strong><small>팀원 한눈에 보기</small></div>
+   <div class="onboarding-node" data-node="detail"><strong>팀원 상세</strong><small>협업 방식 이해</small></div>
+   <span class="journey-shortcut-label">이미 참여한 팀</span>
+  </div>
+ </div>
+</section>
+
+<section class="slide " contenteditable="true" data-title="로그인 화면">
+ <div class="slide-head"><p class="eyebrow">다시 방문 · 로그인</p><h2>다시 로그인하면, 내 프로필과 참여 팀을 이어서 봅니다.</h2></div>
+ <div class="login-story">
+  <div><h3>개인 계정으로 시작</h3><p>처음이라면 회원가입 후<br />나의 사용설명서를 작성합니다.</p><h3>다시 들어왔을 때도</h3><p>같은 브라우저에서 로그인하면<br />작성한 프로필과 참여한 팀을 이어서 봅니다.</p><p class="caption">프로필과 팀 정보는 현재 브라우저에 저장됩니다.</p></div>
+  <figure><img class="editable-image" src="report-assets/redesign/ui-login.png" alt="이메일·비밀번호 로그인과 회원가입 진입이 보이는 실제 서비스 로그인 폼" /></figure>
+ </div>
+</section>
+
+<section class="slide" contenteditable="true" data-title="개인 협업 사용설명서 작성">
+ <div class="slide-head"><p class="eyebrow">STEP 02 · 내 프로필</p><h2>“저는 이렇게 일해요”를 부담 없이 작성합니다.</h2></div>
+ <p class="ui-message">소개 → 협업 방식 → 링크와 공유, 세 단계로 나누어 작성합니다.</p>
+ <figure class="profile-stepper-shot"><img class="editable-image" src="report-assets/redesign/ui-profile-stepper.png" alt="세 단계 프로필 작성 중 두 번째 협업 방식 단계가 선택된 실제 화면" /></figure>
+ <figure class="profile-shot"><img class="editable-image capture" src="report-assets/redesign/ui-profile-style.png" alt="협업 방식 단계의 함께 일할 때 영역: 선택된 두 가지 스타일과 직접 입력 필드" /></figure>
+ <div class="profile-takeaways"><p><strong>선택만으로 간단하게</strong><br />나에게 맞는 협업 방식을 여러 개 선택</p><p><strong>나만의 표현도 추가</strong><br />목록에 없는 방식은 직접 입력</p></div>
+</section>
+
+<section class="slide join-states-slide" contenteditable="true" data-title="팀 참여">
+ <div class="slide-head"><p class="eyebrow">STEP 03 · 초대 코드로 팀 참여</p><h2>‘팀 확인’을 누르면, 참여할 팀이 나타납니다.</h2></div>
+ <div class="join-states">
+  <section><h3><span>01</span> 초대 코드 입력</h3><figure><img class="editable-image" src="report-assets/redesign/ui-join-before.png" alt="SKALA3를 입력하고 아직 팀 확인을 누르지 않아 팀 카드가 없는 상태" /></figure><p class="state-note">받은 코드를 입력하고<br /><strong>‘팀 확인’</strong>을 선택합니다.</p></section>
+  <div class="transition-arrow"><small>팀 확인 클릭</small><span aria-hidden="true">→</span></div>
+  <section><h3><span>02</span> 팀 정보 확인 후 참여</h3><figure><img class="editable-image" src="report-assets/redesign/ui-join-after.png" alt="팀 확인을 누른 뒤 SKALA AI 웹서비스 3조 정보와 이 팀에 참여하기 버튼이 나타난 상태" /></figure><p class="join-action-result"><strong>이 팀에 참여하기</strong> → 내 역할·목표 작성</p></section>
+ </div>
+</section>
+
+<section class="slide board-slide" contenteditable="true" data-title="TEAM BOARD">
+ <div class="slide-head"><p class="eyebrow">STEP 04 · TEAM BOARD</p><h2>누가 무엇을 해보고 싶은지, 역할 분담 전에 확인합니다.</h2></div>
+ <div class="board-meta"><p class="ui-message">① 희망 역할과 우선순위 &nbsp;&nbsp; ② 해보고 싶은 프로젝트 목표</p><p class="caption">서로의 기대를 나란히 비교</p></div>
+ <figure class="board-shot"><img class="editable-image capture" src="report-assets/redesign/ui-board-pair.png" alt="팀원 두 명의 이니셜 아바타, 이름, 역할 1~3순위, 목표, GitHub·Notion·Instagram 링크" /></figure>
+</section>
+
+<section class="slide" contenteditable="true" data-title="팀원 상세">
+ <div class="slide-head"><p class="eyebrow">STEP 05 · 팀원 상세</p><h2>역할을 넘어, 동료와 어떻게 일할지 알아봅니다.</h2></div>
+ <div class="detail-layout">
+  <div class="detail-label"><h3>이번 팀의 목표</h3><p>함께 맡고 싶은 일</p></div>
+  <figure class="detail-screen"><img class="editable-image" src="report-assets/redesign/ui-member-team-focus.png" alt="김민지의 팀별 희망 역할과 이번 프로젝트 목표" /></figure>
+ </div>
+ <div class="detail-layout detail-bottom">
+  <div class="detail-label"><h3>동료의 사용설명서</h3><p>편하게 일하는 방식</p><p class="caption">관심사 · 협업 스타일<br />피드백 · 회의 스타일<br />대화 시작 질문</p></div>
+  <div><figure><img class="editable-image" src="report-assets/redesign/ui-member-styles.png" alt="김민지의 관심사, 협업·피드백·회의 스타일" /></figure><figure class="detail-question"><img class="editable-image" src="report-assets/redesign/ui-member-question.png" alt="실제 대화 시작 질문: 최근 재밌게 본 영화나 드라마 있어요?" /></figure></div>
+ </div>
+</section>
+
+<section class="slide reuse-picture" contenteditable="true" data-title="서비스가 만드는 변화">
+ <p class="eyebrow">서비스가 만드는 변화 · 반복되는 팀 프로젝트</p>
+ <h2>나의 사용설명서는 유지하고, 팀마다 목표를 새로 씁니다.</h2>
+ <div class="reuse-picture-layout">
+  <section class="reusable-profile"><h3>계속 활용하는 나의 사용설명서</h3><figure><img class="editable-image" src="report-assets/redesign/ui-my-profile-intro.png" alt="장현진의 이름·한 줄 소개·관심사·협업 방식" /></figure><figure class="profile-sharing"><img class="editable-image" src="report-assets/redesign/ui-my-profile-share.png" alt="공개 프로필의 링크 복사와 QR로 공유 버튼" /></figure><p class="caption">전체 공개(PUBLIC)로 설정하면 URL·QR로 전달</p></section>
+  <div class="reuse-branches"><p class="branch-label">공통 정보는 유지 · 팀별 목표는 분리</p>
+   <svg class="branch-connector" viewBox="0 0 60 340" aria-hidden="true"><path d="M0 170H25V62H59M25 170V278H59" fill="none" stroke="#F47725" stroke-width="2.5"/><path d="M51 56L59 62L51 68M51 272L59 278L51 284" fill="none" stroke="#F47725" stroke-width="2.5"/></svg>
+   <section class="project-context"><span>이번 프로젝트</span><h3>이번에 해보고 싶은 역할</h3><p>희망 역할 1–3순위<br />프로젝트 목표</p></section>
+   <section class="project-context"><span>다음 프로젝트</span><h3>새 팀에 맞는 역할·목표</h3><p>공통 정보는 유지<br />이번 팀의 목표는 별도로 작성</p></section>
+   <p class="reuse-benefit">소개를 반복하는 데서,<br /><strong>서로의 기대를 맞추는 대화로.</strong></p>
+  </div>
+ </div>
+</section>
+
+<section class="slide sharing-slide device-sharing" contenteditable="true" data-title="URL·QR로 개인 프로필 공유">
+ <div class="slide-head"><p class="eyebrow">나를 소개 · 개인 프로필 QR</p><h2>내 휴대폰의 QR로, 나를 소개합니다.</h2></div>
+ <p class="ui-message">내가 보여준 QR을 동료가 스캔하면, 나의 협업 사용설명서가 열립니다.</p>
+ <div class="profile-device-layout">
+  <figure class="device-stage"><figcaption>내가 보여주는 프로필 QR</figcaption><div class="phone-frame"><div class="phone-content"><img class="editable-image" src="report-assets/redesign/ui-profile-share-mobile.png" alt="휴대폰에 표시한 내 프로필 공유창과 공개 프로필 QR" /></div></div></figure>
+  <div class="device-arrow" aria-hidden="true">→</div>
+  <figure class="device-stage"><figcaption>동료가 읽는 나의 사용설명서</figcaption><div class="phone-frame"><div class="phone-content"><img class="editable-image" src="report-assets/redesign/ui-public-profile-mobile.png" alt="QR로 연결되는 장현진의 공개 프로필과 협업 방식" /></div></div></figure>
+  <section class="device-copy"><p class="purpose">개인을 소개하는 공유</p><h3>나는 어떤 사람인지,<br />어떻게 일하는지.</h3><p>소개·관심사·협업 방식을<br />로그인 없이 확인합니다.</p>
+   <a class="share-route" href="http://127.0.0.1:5174/p/hyeonjin">/p/hyeonjin</a>
+   <p class="share-explanation">PUBLIC 프로필을 공유합니다.<br />메신저로는 같은 URL을 전달합니다.<br />팀별 역할·목표는 포함하지 않습니다.</p>
+  </section>
+ </div>
+ <p class="bottom-note">현재 QR·URL은 로컬 주소(127.0.0.1)입니다. 기기 간 공유에는 배포 주소와 Backend 연결이 필요합니다.</p>
+</section>
+
+<section class="slide sharing-slide device-sharing" contenteditable="true" data-title="URL·QR로 팀 초대">
+ <div class="slide-head"><p class="eyebrow">팀에 초대 · 팀 참여 QR</p><h2>팀 초대 QR을 찍고, 함께할 팀을 확인합니다.</h2></div>
+ <p class="ui-message">TEAM BOARD에서 초대 QR을 보여주면, 새 팀원이 카메라로 스캔해 팀을 확인합니다.</p>
+ <div class="team-scan-layout">
+  <figure class="device-stage invite-device-stage"><figcaption>팀원이 보여주는 초대 QR</figcaption><div class="invite-qr-card"><p class="qr-heading">우리 팀에 초대해요</p><img class="editable-image" src="report-assets/redesign/ui-team-qr.png" alt="SKALA3 팀 초대 URL을 담은 QR" /><strong>SKALA3</strong><p class="caption">팀 초대 코드</p></div></figure>
+  <div class="device-arrow" aria-hidden="true">→</div>
+  <figure class="device-stage invite-device-stage"><figcaption>새 팀원이 카메라로 스캔</figcaption><div class="phone-frame scan-phone" role="img" aria-label="카메라의 QR 인식 영역으로 팀 초대 QR을 비추는 휴대폰"><div class="scan-viewfinder"><div class="scan-target"><img class="editable-image" src="report-assets/redesign/ui-team-qr.png" alt="카메라로 읽는 팀 초대 QR" /><i class="scan-corner tl" aria-hidden="true"></i><i class="scan-corner tr" aria-hidden="true"></i><i class="scan-corner bl" aria-hidden="true"></i><i class="scan-corner br" aria-hidden="true"></i></div></div><span class="camera-shutter" aria-hidden="true"></span></div></figure>
+  <div class="device-arrow" aria-hidden="true">→</div>
+  <section class="scan-result"><h3>팀을 확인하고 참여 선택</h3><figure><img class="editable-image" src="report-assets/redesign/ui-invitation-card.png" alt="초대 링크를 열어 확인한 팀 정보와 이 팀에 참여하기 버튼" /></figure>
+   <p class="join-action-result"><strong>이 팀에 참여하기</strong><br />→ 내 역할·목표 작성</p>
+   <a class="share-route" href="http://127.0.0.1:5174/join/SKALA3">/join/SKALA3</a>
+  </section>
+ </div>
+ <p class="bottom-note">비로그인 상태라면 로그인 후 초대 링크를 다시 열거나 코드를 입력합니다.<br />현재는 로컬 주소(127.0.0.1)이며, 기기 간 팀 참여에는 배포 주소와 Backend 연결이 필요합니다.</p>
+</section>
+
+<section class="slide part-divider" id="appendix" contenteditable="true" data-title="Appendix 통합 설계">
+ <p class="eyebrow">APPENDIX · 서비스 구조와 상세 설계</p><h1>서비스의 흐름을<br />어떤 설계로 연결했는가.</h1><p class="lead">액터와 화면 → 전체 데이터 모델 → API 계약과 실행 → 구현 구조와 개선</p><div class="detail-agenda"><p><span>01</span>액터 · UI 흐름</p><p><span>02</span>전체 ERD</p><p><span>03</span>API · 공통 스키마</p><p><span>04</span>구현 · 개선 사항</p></div>
+</section>
+
+<section class="slide detail-slide" contenteditable="true" data-title="상세 액터 정의표">
+ <p class="eyebrow">APPENDIX · 시스템 액터 정의</p><h2>액터의 권한은 계정과 팀 소속 관계로 결정됩니다.</h2>
+ <table class="spec-table compact"><colgroup><col style="width:17%"/><col style="width:24%"/><col style="width:40%"/><col style="width:19%"/></colgroup><thead><tr><th>Actor 구분</th><th>역할 및 권한</th><th>상세 제공 기능</th><th>적용 범위</th></tr></thead><tbody>
+ <tr><td><strong>GUEST</strong><span class="sub">비회원 방문자</span></td><td>인증·공개 화면 접근</td><td>회원가입·로그인<br />공개 URL로 PUBLIC 프로필 열람</td><td>공개된 정보</td></tr>
+ <tr><td><strong>USER</strong><span class="sub">로그인 사용자</span></td><td>본인의 공통 프로필 관리<br />팀 생성·참여</td><td>관심사·협업 방식·공개 범위 저장<br />미리보기, 공개 URL·QR 공유<br />내 팀 목록, 초대 코드로 팀 참여</td><td>본인의 정보</td></tr>
+ <tr><td><strong>TEAM MEMBER</strong><span class="sub">특정 팀의 구성원</span></td><td>참여 팀의 정보 조회<br />본인의 팀별 정보 수정</td><td>TEAM BOARD·팀원 상세 열람<br />역할 1–3순위·목표·프로젝트 링크 수정<br />팀 초대 링크 공유</td><td>해당 팀<br />본인의 멤버십</td></tr>
+ <tr><td><strong>OWNER</strong><span class="sub">특정 팀의 생성자</span></td><td>팀원 권한 + 팀 관리</td><td>팀 이름·설명 수정<br />팀 삭제 및 팀별 참여 정보 제거</td><td>생성한 팀<br />ownerId 일치</td></tr>
+ </tbody></table>
+ <p class="spec-note">OWNER는 별도 전역 계정 종류가 아닙니다. USER가 팀을 만들면 해당 팀의 MEMBER이자 OWNER가 됩니다.<br />팀 조회 권한은 설계 기준이며, 현재 Mock의 팀 소속·공개 범위 검증은 보완이 필요합니다.</p>
+</section>
+
+<section class="slide detail-slide ui-map-slide" contenteditable="true" data-title="액터별 전체 UI 흐름도">
+ <p class="eyebrow">APPENDIX · 액터와 화면 연결</p>
+ <div class="ui-map-heading"><h2>전체 UI 흐름도</h2><div class="ui-map-legend" aria-label="흐름도 범례"><span><i></i>화면</span><span><i class="dialog"></i>모달</span><span><b>→</b>이동</span><span><b>↔</b>이동·복귀</span></div></div>
+ <div class="actor-flow-grid">
+  <section class="actor-flow-panel common" aria-label="공통 진입과 로그인 사용자의 프로필 관리 흐름">
+   <h3 class="actor-flow-title">1. 공통 진입 · 로그인 사용자 <small>GUEST → USER · 개인 프로필은 모든 팀에서 재사용</small></h3>
+   <svg class="flow-wires" viewBox="0 0 1312 190" preserveAspectRatio="none" aria-hidden="true"><defs><marker id="common-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 Z"/></marker></defs>
+    <g marker-end="url(#common-arrow)"><path d="M180 83 H218"/><path d="M376 83 H456"/><path d="M662 83 H704"/><path d="M180 152 H456"/><path d="M662 152 H704"/><path d="M910 152 H1008"/></g>
+    <path d="M376 83 H410 V152"/>
+   </svg>
+   <div class="flow-screen entry" style="left:24px;top:54px;width:156px" data-route="/login"><strong>로그인</strong><code>/login</code></div>
+   <div class="flow-screen hub" style="left:220px;top:54px;width:156px" data-route="/"><strong>홈</strong><code>/</code></div>
+   <div class="flow-screen compact" style="left:458px;top:128px;width:204px" data-route="/profile/edit"><strong>내 프로필 작성</strong><code>/profile/edit</code></div>
+   <div class="flow-screen compact" style="left:706px;top:128px;width:204px" data-route="/profile/preview"><strong>내 프로필 미리보기</strong><code>/profile/preview</code></div>
+   <div class="flow-screen dialog compact" style="left:1010px;top:128px;width:278px"><strong>프로필 URL·QR 공유</strong><span class="screen-note">미리보기의 공유 모달</span></div>
+   <div class="flow-screen entry compact" style="left:24px;top:128px;width:156px" data-route="/signup"><strong>회원가입</strong><code>/signup</code></div>
+   <div class="flow-screen" style="left:458px;top:54px;width:204px" data-route="/teams"><strong>내 팀</strong><code>/teams</code></div>
+   <p class="flow-hint" style="left:220px;top:122px">가입 후 최초 작성</p>
+   <p class="flow-hint" style="left:716px;top:70px"><strong>② 팀 참여</strong> 또는 <strong>③ 팀 생성</strong>으로 연결</p>
+   <p class="flow-hint" style="left:1010px;top:97px">공유받은 사람은 <strong>④ 공개 프로필</strong> 열람</p>
+  </section>
+  <section class="actor-flow-panel member" aria-label="팀원의 팀 참여와 협업 화면 흐름">
+   <h3 class="actor-flow-title">2. 팀원 <small>TEAM MEMBER · 참여한 팀에서</small></h3>
+   <svg class="flow-wires" viewBox="0 0 646 258" preserveAspectRatio="none" aria-hidden="true"><defs><marker id="member-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 Z"/></marker></defs>
+    <g marker-end="url(#member-arrow)"><path d="M174 95 H222"/><path d="M174 203 H222"/><path d="M408 111 H429 V203 H446"/></g>
+    <g marker-start="url(#member-arrow)" marker-end="url(#member-arrow)"><path d="M411 95 H445"/><path d="M316 133 V168"/></g>
+   </svg>
+   <div class="flow-screen" style="left:18px;top:62px;width:156px" data-route="/teams"><strong>내 팀 · 팀 선택</strong><code>/teams</code></div>
+   <div class="flow-screen hub" style="left:224px;top:62px;width:184px" data-route="/teams/:id"><strong>TEAM BOARD</strong><code>/teams/:id</code></div>
+   <div class="flow-screen" style="left:448px;top:62px;width:180px" data-route="/teams/:teamId/members/:memberId"><strong>팀원 상세</strong><code>/teams/:teamId<br />/members/:memberId</code></div>
+   <div class="flow-screen entry" style="left:18px;top:170px;width:156px" data-route="/join/:code?"><strong>초대 확인 · 참여</strong><code>/join/:code?</code></div>
+   <div class="flow-screen" style="left:224px;top:170px;width:184px" data-route="/teams/:id/me/edit"><strong>내 역할·목표 작성</strong><code>/teams/:id/me/edit</code></div>
+   <div class="flow-screen dialog" style="left:448px;top:170px;width:180px"><strong>팀 초대 공유</strong><span class="screen-note">URL · QR · 코드</span></div>
+   <span class="flow-hint" style="left:328px;top:139px">저장·복귀</span>
+  </section>
+  <section class="actor-flow-panel owner" aria-label="팀 생성자의 생성 및 관리 분기">
+   <h3 class="actor-flow-title">3. 팀 생성자 <small>OWNER · 팀원 기능 + 팀 관리</small></h3>
+   <svg class="flow-wires" viewBox="0 0 646 258" preserveAspectRatio="none" aria-hidden="true"><defs><marker id="owner-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 Z"/></marker></defs>
+    <g marker-end="url(#owner-arrow)"><path d="M174 95 H222"/><path d="M316 128 V168"/><path d="M408 203 H446"/></g>
+    <path d="M410 95 H446" marker-start="url(#owner-arrow)" marker-end="url(#owner-arrow)"/>
+   </svg>
+   <div class="flow-screen" style="left:18px;top:62px;width:156px" data-route="/teams/create"><strong>팀 만들기</strong><code>/teams/create</code></div>
+   <div class="flow-screen hub" style="left:224px;top:62px;width:184px" data-route="/teams/:id"><strong>TEAM BOARD</strong><code>/teams/:id</code></div>
+   <div class="flow-screen dialog" style="left:448px;top:62px;width:180px"><strong>팀 정보 수정</strong><span class="screen-note">저장 후 보드에 반영</span></div>
+   <div class="flow-screen dialog" style="left:224px;top:170px;width:184px"><strong>팀 삭제 확인</strong><span class="screen-note">삭제를 확정한 경우</span></div>
+   <div class="flow-screen" style="left:448px;top:170px;width:180px" data-route="/teams"><strong>내 팀으로 이동</strong><code>/teams</code></div>
+   <p class="flow-hint" style="left:20px;top:169px">팀 생성 시<br /><strong>OWNER + MEMBER</strong></p>
+   <span class="flow-hint" style="left:328px;top:139px">삭제 선택</span>
+  </section>
+  <section class="actor-flow-panel public" aria-label="비회원의 공개 프로필 열람 흐름">
+   <h3 class="actor-flow-title">4. 비회원 방문자<small>GUEST · 로그인 없이 열람</small></h3>
+   <svg class="flow-wires" viewBox="0 0 1312 80" preserveAspectRatio="none" aria-hidden="true"><defs><marker id="public-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 Z"/></marker></defs><path d="M560 40 H648" marker-end="url(#public-arrow)"/></svg>
+   <div class="flow-screen compact" style="left:300px;top:15px;width:260px"><strong>프로필 URL 클릭 · QR 스캔</strong></div>
+   <div class="flow-screen compact" style="left:648px;top:15px;width:262px" data-route="/p/:token"><strong>공개 프로필</strong><code>/p/:token</code></div>
+   <p class="flow-hint" style="left:957px;top:25px"><strong>PUBLIC</strong>으로 설정한 프로필만 공개</p>
+  </section>
+ </div>
+ <p class="flow-map-note">팀 초대도 팀원이 공유할 수 있습니다. OWNER는 별도 관리자 계정이 아니라, 자신이 생성한 팀에서의 권한입니다.<br />현재 비로그인 상태에서 팀 초대를 열면 로그인으로 이동하며, 로그인 후 초대 링크를 다시 열거나 코드를 입력해야 합니다.</p>
+</section>
+
+<section class="slide erd-overview" contenteditable="true" data-title="전체 ERD">
+ <p class="eyebrow">APPENDIX · 데이터 모델 설계</p><h2>공통 프로필과 팀별 역할을 연결한 전체 ERD입니다.</h2>
+ <figure class="full-erd"><img class="editable-image" src="report-assets/redesign/full-erd.svg" alt="users.user_id 등 테이블별 식별자와 참조 키, 8개 테이블의 33개 필드·타입·제약 조건 및 8개 관계를 표시한 전체 ERD" /></figure>
+ <div class="erd-design-note"><strong>핵심 설계</strong><p>공통 프로필은 재사용<br />역할과 목표는 팀별 저장<br />관심사·역할의 N:M 해소</p></div>
+ <p class="caption">8개 테이블 · 33개 필드 · 8개 관계의 논리 모델 · DB 구축 전 설계 · * user_password_hash는 향후 비밀번호 해시 저장에 사용</p>
+</section>
+
+<section class="slide catalog-slide" contenteditable="true" data-title="전체 API 화면">
+ <p class="eyebrow">APPENDIX · 기능별 API 목록 · 기본 경로 /api</p><h2>7개 기능 그룹, 20개 API를 하나의 명세로 관리합니다.</h2>
+ <div class="api-catalog"><div><figure class="catalog-group"><figcaption>Auth · 인증<span>2개</span></figcaption><img class="editable-image" src="report-assets/redesign/swagger-tag-auth.png" alt="실제 Swagger Auth · 인증 전체 2개 API 목록" /></figure><figure class="catalog-group"><figcaption>Profile · 내 프로필<span>2개</span></figcaption><img class="editable-image" src="report-assets/redesign/swagger-tag-profile.png" alt="실제 Swagger Profile · 내 프로필 전체 2개 API 목록" /></figure><figure class="catalog-group"><figcaption>Team · 팀 관리<span>5개</span></figcaption><img class="editable-image" src="report-assets/redesign/swagger-tag-team.png" alt="실제 Swagger Team · 팀 관리 전체 5개 API 목록" /></figure><figure class="catalog-group"><figcaption>Public · 공개 프로필<span>1개</span></figcaption><img class="editable-image" src="report-assets/redesign/swagger-tag-public.png" alt="실제 Swagger Public · 공개 프로필 전체 1개 API 목록" /></figure></div><div><figure class="catalog-group"><figcaption>Options · 선택지<span>4개</span></figcaption><img class="editable-image" src="report-assets/redesign/swagger-tag-options.png" alt="실제 Swagger Options · 선택지 전체 4개 API 목록" /></figure><figure class="catalog-group"><figcaption>Team Member · 팀별 프로필<span>4개</span></figcaption><img class="editable-image" src="report-assets/redesign/swagger-tag-team-member.png" alt="실제 Swagger Team Member · 팀별 프로필 전체 4개 API 목록" /></figure><figure class="catalog-group"><figcaption>Invitation · 초대·참여<span>2개</span></figcaption><img class="editable-image" src="report-assets/redesign/swagger-tag-invitation.png" alt="실제 Swagger Invitation · 초대·참여 전체 2개 API 목록" /></figure></div></div>
+ <p class="catalog-caption">15개 경로 · GET 12 / POST 4 / PATCH 3 / DELETE 1 · 조회·생성·수정·삭제를 HTTP 메서드로 구분</p>
+</section>
+
+<section class="slide technical-media" contenteditable="true" data-title="API 공통 전역 정의">
+ <p class="eyebrow">APPENDIX · API 명세 — 공통·전역 정의</p><h2>기본 요청 규칙을 정하고, 공개 API만 예외로 둡니다.</h2>
+ <div class="source-screen"><section><h3>기본 경로와 사용자 식별 규칙</h3><pre class="source-code">servers:
+  - url: /api
+
+components:
+  securitySchemes:
+    MockUserId:
+      type: apiKey
+      in: header
+      name: x-user-id
+
+security:
+  - MockUserId: []</pre><p class="source-callout">전역 security → 기본 인증 요구<br />개별 API의 security: [] → 공개 예외</p></section>
+ <section><h3>Swagger · 요청에 사용자 ID 지정</h3><figure><img class="editable-image" src="report-assets/redesign/swagger-auth.png" alt="MockUserId apiKey와 헤더 x-user-id를 지정하는 Swagger Authorize 모달" /></figure><div class="explain-stack"><p><strong>/api + JSON</strong><br />기본 경로와 요청·응답 형식</p><p><strong>x-user-id: 1</strong><br />요청 주체를 구분하는 Mock 헤더</p><p><strong>공개 API는 인증 제외</strong><br />인증 2개 · 선택지 4개 · 공개 프로필 · 초대 조회</p></div></section></div>
+ <p class="bottom-note">명세의 인증 요구와 실행 시 권한 검사는 별개입니다. 현재는 사용자 ID로 요청을 구분하며, 서버 인증·전체 API 권한 검사는 보완 대상입니다.</p>
+</section>
+
+<section class="slide technical-media" contenteditable="true" data-title="공통 스키마 재사용">
+ <p class="eyebrow">APPENDIX · API 명세 — 공통 스키마</p><h2>공통 정의를 참조하고, 화면에 필요한 응답을 조합합니다.</h2>
+ <div class="source-screen"><section><h3>components의 재사용 단위</h3><div class="reference-rows"><p><strong>parameters</strong>TeamId · MemberId · InviteCode · ShareToken</p><p><strong>responses</strong>UserResponse · StringArrayResponse · ErrorResponse</p><p><strong>schemas</strong>User · Profile · TeamMember 등 15개</p></div><pre class="source-code schema-code">MemberDetail:
+  allOf:
+    - $ref: '#/components/schemas/TeamMember'
+    - type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        profile:
+          $ref: '#/components/schemas/Profile'</pre><p class="source-callout">팀별 역할·목표 + 사용자 + 공통 프로필<br />→ 팀원 상세 화면의 하나의 응답</p></section>
+ <section><h3>팀원 상세 응답과 공통 오류 구조</h3><figure><img class="editable-image schema-shot" src="report-assets/redesign/swagger-schema-memberdetail.png" alt="MemberDetail의 역할, 목표, 식별자와 User·Profile 참조" /></figure><figure class="error-shot"><img class="editable-image" src="report-assets/redesign/swagger-schema-error.png" alt="Error 공통 스키마의 필수 message 필드" /></figure><p class="schema-caption"><strong>공통 오류</strong> { "message": "실패 사유" }<br />실패 사유를 같은 필드로 전달합니다.</p></section></div>
+ <p class="bottom-note">$ref로 경로 변수·응답·스키마를 재사용합니다. JSON 성공 응답은 객체 또는 배열이며, 별도의 data/meta 래퍼는 없습니다.</p>
+</section>
+
+<section class="slide appendix" contenteditable="true" data-title="Appendix Swagger">
+ <p class="eyebrow">APPENDIX · 팀원 조회 API</p><h2>팀원 목록과 역할·협업 정보를 함께 반환합니다.</h2>
+ <div class="swagger-comparison">
+  <section><h3>01 · teamId를 입력하고 Execute</h3><figure><img class="editable-image" src="report-assets/redesign/ui-swagger-request.png" alt="Swagger 실제 팀원 목록 API: GET 경로, teamId 1, Execute 버튼" /></figure></section>
+  <section><h3>02 · 요청 URL과 200 JSON 응답 확인</h3><figure><img class="editable-image" src="report-assets/redesign/ui-swagger-response.png" alt="실제 /api/teams/1/members 요청 URL과 200 상태, 팀원 Mock JSON 응답 상단" /></figure></section>
+ </div>
+ <div class="swagger-facts"><p><strong>Authorize → Try it out</strong>사용자 ID를 지정하고 요청</p><p><strong>GET /api/teams/1/members</strong>선택한 팀의 구성원 목록 조회</p><p><strong>200 OK · 팀원 5명</strong>역할·목표·공통 프로필을 함께 전달</p></div>
+</section>
+
+<section class="slide appendix repo" contenteditable="true" data-title="Appendix Repo Structure">
+ <p class="eyebrow">APPENDIX · 구현 구조와 레포 구조</p><h2>Vue 화면의 요청은 Service를 거쳐 MSW로 연결됩니다.</h2>
+ <div class="repo-diagram">
+  <div class="repo-block"><h3>View</h3><p>src/views<br />src/components<br />src/router</p></div><span class="arrow">→</span>
+  <div class="repo-block"><h3>Service</h3><p>src/services<br />httpClient.js</p></div><span class="arrow">→</span>
+  <div class="repo-block"><h3>HTTP</h3><p>fetch /api/...<br />브라우저 Network</p></div><span class="arrow">→</span>
+  <div class="repo-block"><h3>MSW</h3><p>src/mocks<br />handlers.js · mockStore.js</p></div>
+ </div>
+ <div class="oas-link">public/specs/<br /><span>API.yml · API 명세 / HowToDo.dbml · 데이터 모델</span></div>
+ <p class="caption">MSW(Mock Service Worker)가 /api 요청을 처리합니다. 데이터는 브라우저에 저장하며, Backend와 DB는 아직 연결하지 않았습니다.</p>
+</section>
+
+<section class="slide " contenteditable="true" data-title="추가 및 개선 사항">
+ <p class="eyebrow">APPENDIX · 추가 및 개선 사항</p><h2>다음 단계는 사용성 검증과 다중 사용자 서비스입니다.</h2>
+ <table class="spec-table improvement-table"><colgroup><col style="width:20%"/><col style="width:37%"/><col style="width:43%"/></colgroup><thead><tr><th>구분</th><th>현재 범위·한계</th><th>다음 개선</th></tr></thead><tbody>
+ <tr><td>사용 경험</td><td>프로필 작성·팀 참여·동료 조회 구현<br />교육생 대상 사용성 검증 전</td><td>질문·선택 항목의 이해도와<br />역할 분담에 도움이 되는 정보 검증</td></tr>
+ <tr><td>인증·공개 범위</td><td>Mock 사용자 ID로 식별<br />일부 조회 권한 미검사·응답에 password 포함</td><td>서버 인증·팀 소속·공개 범위 검사<br />PATCH 허용 필드 제한·비밀번호 응답 제외</td></tr>
+ <tr><td>데이터·동시 사용</td><td>MSW 객체와 localStorage 저장<br />Backend·DB 미구현</td><td>전체 ERD에 따른 DB 영속화,<br />Backend API 연결·다중 사용자 검증</td></tr>
+ <tr><td>운영 기능</td><td>이니셜 아바타<br />만료·재발급 없는 초대 코드</td><td>프로필 사진 업로드<br />초대 유효기간 설정·코드 재발급</td></tr>
+ </tbody></table>
+ <p class="spec-note">현재는 브라우저에서 동작하는 Frontend Prototype입니다. 서버 연결 후 여러 사용자의 협업 흐름과 정보 공유를 검증합니다.</p>
+</section>
+
+<section class="slide dark closing" contenteditable="true" data-title="Closing">
+ <div class="wordmark">HowToDo</div>
+ <h1>좋은 협업은<br />서로의 사용법을<br />아는 것부터 시작합니다.</h1>
+ <p class="lead">평가가 아닌 이해,<br />긴 소개가 아닌 빠른 연결.</p>
+</section>
+</main>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+function fit(){document.documentElement.style.setProperty('--zoom',Math.min(1,(innerWidth-32)/1440));}
+fit();addEventListener('resize',fit);
+function current(){return slides.reduce((best,s,i)=>Math.abs(s.getBoundingClientRect().top-70)<Math.abs(slides[best].getBoundingClientRect().top-70)?i:best,0);}
+function move(delta){slides[Math.max(0,Math.min(slides.length-1,current()+delta))].scrollIntoView({block:'start'});}
+document.getElementById('previous').onclick=()=>move(-1);
+document.getElementById('next').onclick=()=>move(1);
+document.getElementById('editMode').onchange=e=>slides.forEach(s=>s.contentEditable=String(e.target.checked));
+addEventListener('keydown',e=>{if(e.target.isContentEditable||/INPUT|TEXTAREA/.test(e.target.tagName))return;if(e.key==='ArrowRight'){e.preventDefault();move(1);}if(e.key==='ArrowLeft'){e.preventDefault();move(-1);}});
+let selectedImage=null;
+document.addEventListener('click',e=>{if(e.target.closest('.toolbar'))return;document.querySelectorAll('.selected').forEach(i=>i.classList.remove('selected'));selectedImage=e.target.matches('.editable-image')?e.target:null;if(selectedImage){selectedImage.classList.add('selected');document.getElementById('imageSize').value=selectedImage.dataset.size||100;}});
+document.getElementById('imageSize').oninput=e=>{if(selectedImage){selectedImage.style.width=e.target.value+'%';selectedImage.dataset.size=e.target.value;}};
+document.addEventListener('paste',e=>{const file=[...e.clipboardData.items].find(i=>i.type.startsWith('image/'))?.getAsFile();if(!file||!selectedImage)return;e.preventDefault();const reader=new FileReader();const target=selectedImage;reader.onload=()=>{target.src=reader.result;target.alt='사용자가 교체한 화면 캡처';};reader.readAsDataURL(file);});
+</script>
+</body>
+</html>

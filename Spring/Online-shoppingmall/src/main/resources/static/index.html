@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKALA-SHOP</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="top-strip"><span>WEEKLY DROP</span> 지금 가입하면 1,000,000 포인트 지급 · 전 상품 포인트 주문</div>
+<main class="page">
+    <header class="site-header">
+        <a class="brand" href="/">SKALA<span>SHOP</span></a>
+        <nav class="main-nav" aria-label="주요 메뉴">
+            <a href="#products">SHOP</a>
+            <a href="#order">MY ORDER</a>
+            <a href="#benefits">DISCOVER</a>
+        </nav>
+        <a class="docs-link" href="/swagger-ui.html" target="_blank">SWAGGER API ↗</a>
+    </header>
+
+    <section class="hero">
+        <div>
+            <p class="eyebrow">NEW TECH, NEW ROUTINE</p>
+            <h1>평범한 일상에<br><span>컬러를 더하다.</span></h1>
+            <p class="intro">일과 취향을 한 단계 올려줄 테크 아이템을 만나보세요.</p>
+            <a class="hero-button" href="#products">이번 주 아이템 보기 <b>→</b></a>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+            <span class="hero-badge">HOT DROP</span>
+            <strong>WORK<br>BETTER.</strong>
+            <small>SKALA가 고른 데스크 셋업</small>
+        </div>
+    </section>
+
+    <div class="category-rail" aria-label="상품 카테고리">
+        <span>QUICK CATEGORY</span>
+        <a href="#products">데스크 셋업</a>
+        <a href="#products">디지털 기기</a>
+        <a href="#products">오디오</a>
+        <a href="#products">오피스</a>
+        <a href="#benefits">베스트 상품</a>
+    </div>
+
+    <section class="status-card" aria-live="polite">
+        <span id="statusDot" class="status-dot"></span>
+        <div>
+            <strong id="statusTitle">서버 연결 확인 중</strong>
+            <p id="statusMessage">잠시만 기다려 주세요.</p>
+        </div>
+    </section>
+
+    <section class="auth-grid">
+        <article class="card">
+            <span class="step">01</span>
+            <h2>회원가입</h2>
+            <p>새 고객은 1,000,000 포인트로 시작합니다.</p>
+            <form id="signupForm">
+                <label for="signupId">고객 ID</label>
+                <input id="signupId" name="customerId" autocomplete="username"
+                       placeholder="예: skala01" required>
+                <label for="signupPassword">비밀번호</label>
+                <input id="signupPassword" name="customerPassword" type="password"
+                       autocomplete="new-password" placeholder="비밀번호 입력" required>
+                <button type="submit">회원가입</button>
+            </form>
+        </article>
+
+        <article class="card">
+            <span class="step">02</span>
+            <h2>로그인</h2>
+            <p>로그인 성공 시 JWT가 HttpOnly Cookie에 저장됩니다.</p>
+            <form id="loginForm">
+                <label for="loginId">고객 ID</label>
+                <input id="loginId" name="customerId" autocomplete="username"
+                       placeholder="예: skala01" required>
+                <label for="loginPassword">비밀번호</label>
+                <input id="loginPassword" name="customerPassword" type="password"
+                       autocomplete="current-password" placeholder="비밀번호 입력" required>
+                <button type="submit">로그인</button>
+            </form>
+        </article>
+    </section>
+
+    <section id="order" class="order-section card">
+        <div class="section-heading">
+            <div><p class="eyebrow">MY ORDER</p><h2>주문 관리</h2></div>
+            <strong id="pointBadge" class="point-badge">로그인 필요</strong>
+        </div>
+        <div id="selectedProductDetail" class="selected-product-detail" hidden>
+            <div id="selectedProductImage"></div>
+            <div><p class="eyebrow">SELECTED PRODUCT</p><h3 id="selectedProductName">상품을 선택하세요</h3><p id="selectedProductMeta"></p></div>
+        </div>
+        <div class="order-controls">
+            <label for="orderProduct">상품</label>
+            <select id="orderProduct"><option value="">상품을 선택하세요</option></select>
+            <label for="orderQuantity">수량</label>
+            <input id="orderQuantity" type="number" min="1" value="1">
+            <button id="orderButton" type="button">주문하기</button>
+            <button id="cancelButton" class="cancel-button" type="button">선택 상품 취소</button>
+        </div>
+        <div class="order-heading"><h3>내 주문 내역</h3><button id="refreshOrders" class="text-button" type="button">내 주문 내역 조회</button></div>
+        <div id="orderList" class="order-list"><p class="empty-state">조회 버튼을 누르면 주문 내역이 표시됩니다.</p></div>
+    </section>
+
+    <section id="products" class="shop-section">
+        <div class="section-heading">
+            <div><p class="eyebrow">CURATED FOR YOU</p><h2>지금 가장 갖고 싶은 것들</h2></div>
+            <button id="refreshProducts" class="outline-button" type="button">상품 새로고침</button>
+        </div>
+        <div id="productGrid" class="product-grid"><p class="empty-state">상품을 불러오는 중입니다.</p></div>
+    </section>
+
+    <section id="benefits" class="insight-grid">
+        <article class="card insight-card"><div class="section-heading"><div><p class="eyebrow">RECENTLY VIEWED</p><h2>최근 본 상품</h2></div><button id="refreshRecent" class="text-button" type="button">조회</button></div><div id="recentList" class="compact-list"><p class="empty-state">로그인 후 확인할 수 있습니다.</p></div></article>
+        <article class="card insight-card"><div class="section-heading"><div><p class="eyebrow">BEST SELLERS</p><h2>판매 순위</h2></div><button id="refreshRankings" class="text-button" type="button">조회</button></div><div id="rankingList" class="compact-list"><p class="empty-state">아직 판매 이력이 없습니다.</p></div></article>
+        <article class="card insight-card"><div class="section-heading"><div><p class="eyebrow">LOW STOCK</p><h2>품절 임박</h2></div><button id="refreshLowStock" class="text-button" type="button">조회</button></div><div id="lowStockList" class="compact-list"><p class="empty-state">재고를 확인하는 중입니다.</p></div></article>
+    </section>
+
+    <section id="resultPanel" class="result-panel" aria-live="polite">
+        <div class="result-heading">
+            <div>
+                <p class="eyebrow">API RESPONSE</p>
+                <h2 id="resultTitle">실행 결과</h2>
+            </div>
+            <span id="resultCode" class="result-code">READY</span>
+        </div>
+        <pre id="resultBody">회원가입 또는 로그인을 실행하면 응답이 여기에 표시됩니다.</pre>
+    </section>
+
+    <footer class="site-footer">
+        <a class="brand footer-brand" href="/">SKALA<span>SHOP</span></a>
+        <p>Spring Boot API와 연결된 가장 생생한 테크 쇼핑 경험.</p>
+        <a href="/swagger-ui.html" target="_blank">DEVELOPER API ↗</a>
+    </footer>
+</main>
+<script src="/js/app.js"></script>
+</body>
+</html>

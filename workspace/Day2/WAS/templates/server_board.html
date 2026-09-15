@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flask 서버 렌더링 게시판</title>
+  <style>
+    body{max-width:900px;margin:32px auto;padding:0 16px;font-family:Arial,sans-serif;color:#222}
+    header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #222}
+    form{display:grid;gap:10px;background:#f4f4f4;padding:18px;margin:20px 0}
+    input,textarea,select,button{box-sizing:border-box;padding:10px;font:inherit}textarea{min-height:90px}
+    article{padding:16px 4px;border-bottom:1px solid #ddd}.notice{background:#fff9d8;padding:16px}
+    .meta,.guide{color:#666;font-size:14px}.error{color:#b00020;font-weight:bold}
+  </style>
+</head>
+<body>
+  <header><h1>방법 3 게시판</h1><a href="/">REST 게시판으로 이동</a></header>
+  <p class="guide">이 화면은 Flask가 PostgreSQL 데이터를 읽어 HTML을 완성한 뒤 브라우저로 전달합니다.</p>
+  {% if error_message %}<p class="error">{{ error_message }}</p>{% endif %}
+  <form method="post" action="/server-board">
+    <select name="category" required>{% for category in categories %}<option>{{ category }}</option>{% endfor %}</select>
+    <input name="author" maxlength="50" placeholder="작성자" required>
+    <input name="title" maxlength="200" placeholder="제목" required>
+    <textarea name="content" placeholder="내용" required></textarea>
+    <button type="submit">서버 방식으로 등록</button>
+  </form>
+  <section>
+    {% for post in posts %}
+    <article class="{% if post.is_notice %}notice{% endif %}">
+      <p class="meta">{% if post.is_notice %}공지 · {% endif %}{{ post.category }} · {{ post.author }} · 조회 {{ post.views }}</p>
+      <h2>{{ post.title }}</h2><p>{{ post.content }}</p>
+    </article>
+    {% else %}<p>등록된 게시글이 없습니다.</p>{% endfor %}
+  </section>
+</body>
+</html>

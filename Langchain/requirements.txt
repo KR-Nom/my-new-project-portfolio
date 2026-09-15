@@ -1,0 +1,7 @@
+# 설치: python -m pip install -r requirements.txt
+langchain>=1,<2
+langchain-core>=1,<2
+langchain-openai>=1,<2
+gradio>=6,<7
+python-dotenv>=1,<2
+pydantic>=2,<3

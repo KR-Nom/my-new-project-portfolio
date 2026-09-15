@@ -1,0 +1,13 @@
+INSERT INTO products (product_name, product_price, stock_quantity) VALUES ('무선마우스', 15000, 10);
+INSERT INTO products (product_name, product_price, stock_quantity) VALUES ('블루투스키보드', 29000, 10);
+INSERT INTO products (product_name, product_price, stock_quantity) VALUES ('USB허브', 39000, 10);
+INSERT INTO products (product_name, product_price, stock_quantity) VALUES ('기계식키보드', 89000, 10);
+INSERT INTO products (product_name, product_price, stock_quantity) VALUES ('27인치 모니터', 249000, 10);
+INSERT INTO products (product_name, product_price, stock_quantity) VALUES ('노트북 거치대', 45000, 10);
+INSERT INTO products (product_name, product_price, stock_quantity) VALUES ('USB-C 멀티충전기', 59000, 10);
+INSERT INTO products (product_name, product_price, stock_quantity) VALUES ('웹캠 HD', 69000, 10);
+INSERT INTO products (product_name, product_price, stock_quantity) VALUES ('노이즈캔슬링 헤드폰', 159000, 10);
+INSERT INTO products (product_name, product_price, stock_quantity) VALUES ('스마트 데스크 램프', 38000, 10);
+INSERT INTO products (product_name, product_price, stock_quantity) VALUES ('휴대용 SSD 1TB', 119000, 10);
+INSERT INTO products (product_name, product_price, stock_quantity) VALUES ('블루투스 스피커', 79000, 10);
+INSERT INTO products (product_name, product_price, stock_quantity) VALUES ('사무용 의자 쿠션', 32000, 10);

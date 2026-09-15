@@ -1,0 +1,663 @@
+{
+  "layouts": [
+    {
+      "name": "home-desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "team-desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "member-desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "profile-edit-desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "profile-desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "share-desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "role-edit-desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "home-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "teams-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "team-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "profile-edit-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "profile-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "member-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "role-edit-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "join-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "create-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "public-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "activeNav": 0
+    },
+    {
+      "name": "home-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "teams-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "team-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "profile-edit-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "profile-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "member-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "role-edit-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "join-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "create-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "public-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "activeNav": 0
+    },
+    {
+      "name": "team-320",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "profile-edit-320",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "activeNav": 1
+    },
+    {
+      "name": "public-error-mobile",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "activeNav": 0
+    },
+    {
+      "name": "login-mobile",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "activeNav": 0
+    },
+    {
+      "name": "signup-mobile",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "activeNav": 0
+    },
+    {
+      "name": "login-desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "overlay": false,
+      "activeNav": 0
+    }
+  ],
+  "responses": [
+    {
+      "path": "/api/profiles/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1/members",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1/members/2",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/profiles/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/interests",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/style-options",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/conversation-questions",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/roles",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/profiles/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/profiles/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/team-invitations/invalid-ui-check",
+      "status": 404,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/team-invitations/SKALA3",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/team-invitations/SKALA3",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/team-memberships",
+      "status": 201,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1/members/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/interests",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/style-options",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/conversation-questions",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/roles",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1/members/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1/members",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams",
+      "status": 201,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1788920605815",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1788920605815/members",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1788920605815",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1788920605815",
+      "status": 204,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/profiles/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1/members",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/profiles/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/interests",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/style-options",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/conversation-questions",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/roles",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/profiles/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1/members/2",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1/members/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/interests",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/style-options",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/conversation-questions",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/roles",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/team-invitations/SKALA3",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/public/profiles/hyeonjin",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/profiles/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1/members",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/profiles/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/interests",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/style-options",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/conversation-questions",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/roles",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/profiles/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1/members/2",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1/members/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/interests",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/style-options",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/conversation-questions",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/roles",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/team-invitations/SKALA3",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/public/profiles/hyeonjin",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams/1/members",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/profiles/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/interests",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/style-options",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/conversation-questions",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/roles",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/public/profiles/no-such-profile",
+      "status": 404,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/profiles/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 401,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/profiles/me",
+      "status": 200,
+      "serviceWorker": true
+    },
+    {
+      "path": "/api/teams",
+      "status": 200,
+      "serviceWorker": true
+    }
+  ],
+  "errors": []
+}
