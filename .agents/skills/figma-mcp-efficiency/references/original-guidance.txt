@@ -1,0 +1,286 @@
+Figma MCP Efficiency Skill
+Purpose
+Use Figma MCP efficiently and minimize unnecessary MCP calls, context reads, screenshots, metadata requests, and repeated inspections.
+This skill is optimized for workflows where Figma is primarily used for:
+- Slides
+- Presentation design
+- PDF export
+- Final visual polishing
+- AI-assisted editing through MCP
+The default philosophy is:
+Plan first outside Figma. Read Figma once. Batch changes. Re-read only when necessary.
+
+1. Core Rule
+Never use Figma MCP as a thinking or exploration tool when the task can be planned without reading Figma.
+Before calling Figma MCP, first determine:
+- What needs to change
+- Which page/frame/node is relevant
+- What text/content/layout is required
+- Whether the user has already provided enough context through screenshots, PDFs, descriptions, or previous MCP results
+If enough information already exists, do not call Figma again.
+2. MCP Call Budget
+Default MCP budget per task:
+- Figma read calls: 0–2
+- Figma write/edit operations: batch whenever possible
+- Screenshot/verification calls: 0–1
+- Re-reading the same frame: avoid by default
+Do not exceed this budget unless the task cannot be completed correctly without additional inspection.
+Before making an additional Figma read call, ask internally:
+“Will this call provide information that I do not already have?”
+
+If the answer is no, skip it.
+3. Preferred Workflow
+Use this sequence by default:
+Step 1 — Plan outside Figma
+Complete as much as possible before touching Figma:
+1. Understand the user's goal
+2. Finalize slide/page structure
+3. Finalize copy
+4. Decide information hierarchy
+5. Decide layout direction
+6. Decide visual references
+7. Group all requested edits
+Figma should be used near the end of the workflow, not at the beginning.
+Step 2 — Target the smallest possible scope
+Never read an entire Figma file when only one slide, frame, section, or component is needed.
+Prefer:
+- Selected frame
+- Specific page
+- Specific component
+- Explicit node ID
+- Direct Figma link containing the target node
+Avoid broad instructions such as:
+“Analyze the whole Figma file.”
+
+Instead operate like:
+“Inspect only slide 4 and slide 7.”
+
+or
+“Use only the selected frame.”
+
+4. Read Tool Priority
+When Figma information must be read, use the minimum sufficient tool.
+Preferred
+Use get_design_context when actual design structure and implementation context are needed.
+Use only when necessary
+Use get_metadata only when:
+- The target node cannot be identified
+- The file structure must be navigated
+- A large design must first be narrowed down
+Use get_screenshot only when:
+- Visual verification is genuinely required
+- Layout cannot be confidently judged from existing context
+- The user did not already provide a screenshot or exported PDF
+Use get_variable_defs only when:
+- Variables/tokens are directly relevant
+- The task requires exact design-system values
+Do not call several read tools automatically.
+5. No Duplicate Reads
+Once a frame or node has been read:
+Treat that result as cached context for the current task.
+Do not re-read the same node merely to:
+- Remember its contents
+- Reconfirm unchanged text
+- Recheck dimensions already obtained
+- Reinspect structure that has not changed
+Re-read only if:
+- The node was materially modified
+- Another actor may have changed it
+- The previous result was incomplete
+- Verification is necessary for correctness
+6. Batch All Edits
+Never perform small independent edits one by one when they can be grouped.
+Bad pattern:
+1. Change title
+2. Read Figma
+3. Change image
+4. Read Figma
+5. Change body text
+6. Read Figma
+7. Adjust spacing
+8. Read Figma
+Preferred pattern:
+1. Collect all requested changes
+2. Resolve ambiguities outside Figma
+3. Apply all compatible changes in one editing pass
+4. Verify once only if necessary
+Example batch:
+- Slide 2: change title
+- Slide 3: shorten body text
+- Slide 5: replace image
+- Slide 6: align cards
+- Slides 1–10: normalize footer
+Apply them together whenever possible.
+7. Avoid Figma for Content Work
+Do not use Figma MCP for work that can be completed directly in chat or code.
+Examples:
+Do outside Figma:
+- Research
+- Summarization
+- Copywriting
+- Slide outline creation
+- Storyline development
+- Table content
+- Chart data preparation
+- Image prompt creation
+- Translation
+- Grammar correction
+- Text shortening
+- Section naming
+Use Figma only for:
+- Layout
+- Visual placement
+- Component use
+- Design-system application
+- Final formatting
+- Visual hierarchy
+- Export-ready composition
+8. Use Screenshots and PDFs as a Cheap Verification Layer
+When the user provides:
+- Screenshot
+- Exported PDF
+- Slide preview
+- Image of the current layout
+Prefer analyzing that directly instead of reading Figma again.
+Recommended workflow:
+Figma edit
+→ Export PDF or screenshot
+→ Review outside Figma
+→ Prepare all corrections
+→ One final Figma editing pass
+Do not repeatedly inspect Figma through MCP when an exported artifact is enough.
+9. Large File Strategy
+For large Figma files:
+Never load the whole file by default.
+Use progressive narrowing:
+1. Identify the relevant page
+2. Identify the relevant frame
+3. Read only that frame
+4. Work from cached context
+5. Expand scope only if blocked
+If multiple slides share a common design pattern, inspect one representative slide first.
+Then infer reusable styling for the others unless exact differences matter.
+10. Design-System Reuse
+Once the design language is understood, reuse it.
+Cache mentally/contextually:
+- Font hierarchy
+- Spacing pattern
+- Card style
+- Border radius
+- Grid
+- Alignment rules
+- Header/footer style
+- Color roles
+- Component patterns
+Do not repeatedly request the same design tokens or inspect identical components.
+If one representative component is sufficient, do not inspect every instance.
+11. Verification Rule
+Do not automatically verify every edit through another MCP read.
+Verification is required only when:
+- Pixel-level accuracy matters
+- Complex layout relationships changed
+- A component may have overflowed
+- User explicitly asks for visual verification
+- The modification is difficult to predict without rendering
+For simple text replacements, labels, copy changes, or known component edits:
+- Do not re-read automatically.
+12. Figma Slides Workflow
+For presentation work, use this default pipeline:
+Phase A — Outside Figma
+- Research
+- Storyline
+- Slide titles
+- Slide body copy
+- Data
+- Charts
+- Image direction
+- Page-by-page specification
+Phase B — Figma
+- Apply layout
+- Insert final copy
+- Place visuals
+- Apply consistent styles
+- Batch page adjustments
+Phase C — Verification
+Prefer:
+PDF export
+→ Review PDF
+→ Collect corrections
+→ Final Figma pass
+Avoid:
+Figma read
+→ edit
+→ Figma read
+→ edit
+→ Figma read
+→ edit
+13. Existing Context Has Priority
+Before using Figma MCP, check whether the needed information already exists in:
+1. Current conversation
+2. Previous Figma MCP output in the same task
+3. User-provided screenshot
+4. User-provided PDF
+5. User description
+6. Existing design specification
+If yes, reuse it.
+Do not spend an MCP call retrieving information already present in context.
+14. User Prompt Interpretation
+When the user says:
+- “수정해줘”
+- “피그마에 넣어줘”
+- “슬라이드 바꿔줘”
+- “이거 이어서 해줘”
+Do not immediately inspect the whole file.
+First infer the target from available context.
+Use the smallest relevant Figma scope.
+15. Autonomous Agent Rule
+When operating autonomously:
+Do not make exploratory Figma MCP calls simply because tools are available.
+A tool call must have a concrete purpose.
+Every Figma read call should answer one of these:
+- What is the target node?
+- What is the current design structure?
+- What exact value is required to perform the requested edit?
+- Is visual verification necessary?
+If none applies, do not call Figma.
+16. Stop Condition
+Stop using Figma MCP when:
+- The requested edits are complete
+- Additional calls would only reconfirm existing information
+- The remaining work can be done from an exported PDF/screenshot
+- Visual inspection would not change the result
+Do not perform “one more check” by default.
+17. Recommended Agent Instruction
+When working with Figma, internally follow this rule:
+Minimize Figma MCP usage. Reuse all existing context. Read only the smallest required node. Prefer one get_design_context call over multiple exploratory calls. Do not call metadata, screenshot, variables, or other read tools unless specifically required. Batch all edits. Never re-read an unchanged frame. Use exported screenshots or PDFs for validation whenever possible.
+
+18. Hard Restrictions
+Unless technically necessary, DO NOT:
+- Read the entire Figma document
+- Re-read an unchanged node
+- Take screenshots after every edit
+- Request metadata before every design-context call
+- Fetch variables when the task does not require them
+- Inspect every slide individually when one representative pattern is enough
+- Perform one MCP edit per tiny change
+- Use Figma to generate or refine copy that can be prepared beforehand
+- Reopen Figma merely to confirm text that was just written
+- Explore unrelated pages or components
+19. Efficiency Priority
+When two approaches produce comparable output quality, choose the one with:
+1. Fewer Figma MCP calls
+2. Smaller Figma scope
+3. More batched changes
+4. More reuse of existing context
+5. More offline/chat-side planning
+6. Less repeated visual verification
+Output quality remains the first requirement, but unnecessary MCP usage should always be eliminated.
+20. Default Summary
+Remember:
+Plan outside Figma.
+Target one frame.
+Read once.
+Cache context.
+Batch edits.
+Verify once.
+Use PDF/screenshots instead of repeated MCP reads.
