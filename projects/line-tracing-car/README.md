@@ -1,72 +1,101 @@
-# RC카 자율주행 — 직접 주행하며 모은 데이터로 흰 선 따라가기
+# RC 주행 데이터 스튜디오
 
-조이스틱으로 주행하며 모은 이미지와 조작값을 학습에 연결하고, 3D 프린팅 차체와 구동부를 조립한 경험입니다. 아래 내용은 사용자가 설명한 프로젝트 경험을 정리한 것이며, 현재 저장소에서 당시 원본 코드나 주행 로그를 확인한 결과는 아닙니다.
+RC카 전방 이미지와 같은 시각의 조향·스로틀 명령값을 저장하고 검토하는 로컬 웹앱입니다. 포트폴리오에서 설명한 수동 주행 → 이미지와 조작값 수집 → CNN 학습 흐름을 실행 가능한 코드로 새로 구성했습니다.
 
-[Figma 포트폴리오](https://www.figma.com/slides/BtEeOASUuWzEkWpycXmhEb) · [전체 프로젝트](../../README.md)
+![실제 실행 화면](docs/screen.png)
 
-## 제작·학습 경험
+## 실행
 
-1. **차체와 구동부**: 차체를 3D 프린터로 제작하고, 구매한 바퀴·모터 등 구동 부품을 조립했습니다.
-2. **수동 주행과 수집**: 조이스틱으로 전진·좌우를 조작하며, 주행 화면과 속도·조향에 관한 값을 함께 수집했습니다.
-3. **학습 데이터 구성**: 약 1초 간격으로 저장한 화면과 해당 시점의 조작값을 학습에 활용한 것으로 설명했습니다. 정확한 저장 주기와 로그 형식은 원본 확인이 필요합니다.
-4. **모델 학습과 보완**: TensorFlow 기반 CNN 학습, 데이터 재수집·증강을 경험했습니다. 학습 설정과 함께 데이터 품질·주행 상황의 분포를 살폈습니다.
-5. **주행 목표**: 바닥의 흰 선을 벗어나지 않고 따라가도록 하는 것이 목표였습니다. 완주율·정확도·지연 시간의 실측 기록은 확인하지 못했습니다.
+Python 3.11 환경을 권장합니다. 이미 사용 중인 가상환경이 있으면 먼저 활성화하세요.
 
-```text
-조이스틱 수동 주행
-        ↓
-주행 이미지 + 같은 시점의 조작값
-        ↓
-데이터 점검 · 재수집 · 증강
-        ↓
-TensorFlow CNN 학습
-        ↓
-흰 선을 따라가는 주행 제어 실험
+```bash
+cd projects/line-tracing-car
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m uvicorn app:app --host 127.0.0.1 --port 8022
 ```
 
-참여 경험은 **차체 제작·구동부 조립, 주행 데이터 수집, CNN 학습과 데이터 보완**으로 정리합니다. 팀 전체의 모든 하드웨어·펌웨어·서버를 단독으로 구현했다고 표현하지 않습니다.
+http://127.0.0.1:8022 에서 확인합니다. 첫 실행에 공개 샘플 3장을 SQLite에 넣습니다. 기본 저장 위치는 `data/`; 변경하려면 `RC_DATA_DIR`을 지정합니다. 이 앱은 로컬 검토용이며 인증 기능 없이 외부에 노출하지 않습니다.
 
-## 하드웨어 설명에서 확인이 필요한 부분
+## 구현한 기능
 
-| 항목 | 현재 확인 범위 |
+- 실제 160×120 카메라 프레임과 해당 원본 명령값 표시
+- 세션 선택, 프레임 슬라이더/이전/다음/썸네일 탐색
+- ZIP으로 CSV와 이미지 일괄 수집, 원본 이미지 보존, SQLite 영속 저장
+- 파일 경로, 중복 파일/시각, 손상 이미지, NaN, 명령값 범위, 압축 크기 검증
+- CSV 내보내기와 입력 형식 예제 ZIP 다운로드
+- 주행 세션을 기준으로 분리하는 TensorFlow CNN 학습 및 오프라인 추론 CLI
+
+## 직접 수집한 데이터 가져오기
+
+ZIP 최상위에 `frames.csv`, 그 아래에 이미지 파일을 넣습니다.
+
+```text
+session.zip
+├── frames.csv
+└── images/
+    ├── frame001.jpg
+    └── frame002.jpg
+```
+
+```csv
+filename,timestamp_ms,steering,throttle
+images/frame001.jpg,1000,-0.12,0.40
+images/frame002.jpg,2000,0.05,0.35
+```
+
+- `timestamp_ms`: 같은 주행 세션 내 0 이상의 타임스탬프. 고정 수집 주기를 가정하지 않습니다.
+- `steering`, `throttle`: -1~1의 정규화된 조작 명령. 실제 각도(°)·속도(km/h)·라이다 거리와 다릅니다.
+- 같은 시각의 카메라 이미지와 조작값을 수집 장치 쪽에서 묶어야 합니다. 이 앱이 서로 다른 센서 시계를 자동 동기화하지는 않습니다.
+- 한 세션은 3,000장 이하, ZIP 24MB 이하, 압축 해제 합계 80MB 이하, 이미지 하나는 4MB/12MP 이하입니다.
+- 수집기에서 `POST /api/sessions?name=SESSION_NAME`에 ZIP을 바이트 본문으로 보내도 됩니다. 브라우저 수동 업로드와 동일한 검증을 거칩니다.
+
+## CNN 학습·추론
+
+웹앱 구동에는 TensorFlow가 필요하지 않습니다. 학습하려면 별도 의존성을 설치하고 **서로 다른 주행 세션**을 준비합니다.
+
+```bash
+python -m pip install -r requirements-training.txt
+curl http://127.0.0.1:8022/api/sessions
+python train.py --validation-session 검증용_세션_ID --epochs 20 --output runs/experiment-01
+python predict.py --model runs/experiment-01/model.keras --image sample-data/images/1720_cam-image_array_.jpg
+```
+
+CSV에 넣은 조향·스로틀 두 값을 예측하는 회귀 모델입니다. 이미지를 160×120으로 맞춘 뒤 상단 30픽셀을 자르고 Conv2D 3개와 Dense 층을 통과시킵니다. `tanh` 출력 두 값은 -1~1 범위입니다. 모델 저장 파일에 정규화·상단 자르기를 포함해 학습과 추론 전처리를 같게 유지합니다.
+
+검증 세션은 학습에서 통째로 제외합니다. 동일 이미지 해시가 학습과 검증에 걸쳐 있으면 중단합니다. 인접 프레임을 무작위로 나눠 성능이 부풀려지는 상황을 줄이기 위한 선택이며, 서로 다른 세션에서도 같은 코스·조건이 반복되면 일반화 성능이 높게 나올 수 있습니다. 학습 20장/검증 5장은 실행을 위한 최소치일 뿐 충분한 데이터 기준이 아닙니다. 다양한 코너, 조명, 속도, 이탈 후 복귀 장면을 별도로 확보해야 합니다.
+
+`--augment-flip`은 이미지 좌우 반전과 조향 부호 반전을 함께 적용합니다. 트랙과 명령 규약에서 반전이 타당한 경우에만 사용합니다. 스로틀 값은 유지합니다. `report.json`에는 세션 ID·이미지 해시·seed·학습 곡선·명령별 MAE·학습 평균 명령을 그대로 예측한 기준 모델의 MAE가 저장됩니다. 이는 오프라인 데이터 오차이며 실제 주행 성공률이 아닙니다.
+
+기본 데모는 원본 데이터에서 발췌한 **3장**으로, 학습용 모델이나 성능 수치를 제공하지 않습니다. ESP32 펌웨어, 조이스틱 장치 수집 코드, 라이다 입력, GPIO/PWM 제어는 이 구현에 포함하지 않았습니다. 추론 결과를 차량에 자동 전달하지 않으며 실물 RC카 테스트를 수행했다고 주장하지 않습니다. 3D 프린팅 차체·구동부 조립은 과거 사용자 경험이고 이 소프트웨어에서 재현한 하드웨어가 아닙니다.
+
+## API
+
+| 주소 | 기능 |
 |---|---|
-| ESP32 | 사용자는 ESP32 계열 보드로 값을 받았던 것으로 기억합니다. 정확한 보드 모델, 펌웨어, 핀 연결과 서버 실행 위치는 미확인입니다. |
-| LiDAR | 사용자는 LiDAR 사용을 언급했습니다. 거리 측정의 대상, 제어 경로, CNN 입력과의 관계는 아직 확인되지 않았습니다. |
-| 속도·조향 값 | 조작값을 수집했다는 설명이 있습니다. 독립 센서의 실측값인지 제어 명령값인지, 단위와 동기화 방식은 원본으로 확인하지 못했습니다. |
+| `GET /api/health` | 서버 상태, 프레임 수, 차량 미연결 상태 |
+| `GET /api/sessions` | 저장 세션 목록 |
+| `GET /api/sessions/{id}` | 시간순 프레임·명령값 |
+| `GET /api/frames/{id}/image` | 저장된 원본 이미지 |
+| `GET /api/sessions/{id}/csv` | 해당 세션 CSV |
+| `POST /api/sessions?name=...` | ZIP 업로드 |
+| `GET /api/example.zip` | 공개 샘플과 형식 예제 |
 
-따라서 LiDAR가 카메라를 대신했다거나 CNN의 직접 입력이었다는 구조는 확정하지 않았습니다. 불확실한 보드·서버 구성을 구현 완료 기술 스택에 넣지 않습니다.
+## 검증
 
-## 이번 Figma 재구성
-
-차체 구성, 조이스틱 수동 주행, 이미지·조작값 수집, CNN 학습과 주행 제어의 연결을 편집 가능한 도식으로 표현합니다. 초기 도식은 원격 Figma에 반영됐으며, `RC카 자율주행` 제목과 아래 공개 참고 구조를 표시하는 수정안은 적용 대기 상태입니다. 원본 주행 화면이나 하드웨어 사진이 아니며, 임의의 센서 수치·학습 곡선·성과 지표를 만들지 않았습니다.
-
-이 디렉터리에는 당시 펌웨어, STL, 학습 데이터, 모델 파일이나 실행 가능한 주행 제어 코드는 포함하지 않았습니다. 별도 [Fashion-MNIST CNN 실습](https://github.com/KR-Nom/skala-python-deep-learning)은 다른 학습 자료이므로 이 자율주행 프로젝트의 구현·성능 근거로 연결하지 않습니다.
-
-## 공개 RC카 프로젝트의 참고 구조
-
-사용자가 지정한 [Hustar-HAI](https://github.com/wotjd0715/Hustar-HAI)의 소스와 문서를 정적으로 검토해 카메라 전처리·방향 분류·모터 제어의 연결을 참고했습니다. 확인 브랜치는 `master`, 커밋은 `563246ee6a49074d3ba72b2b4289a79236331af7`입니다. 해당 코드를 실행하거나 실차 성능을 검증한 것은 아닙니다.
-
-```text
-USB 카메라
-    ↓
-OpenCV 전처리: 흑백·Canny·하단 영역
-    ↓
-TensorFlow CNN: LEFT / STRAIGHT / RIGHT
-    ↓
-TCP 명령 전송
-    ↓
-Raspberry Pi GPIO → L298N → 좌우 모터 PWM 제어
+```bash
+python -m unittest discover -s tests -v
+# TensorFlow 환경: 합성 시험 입력으로 학습·저장·추론 경로 확인
+python tests/smoke_training.py
 ```
 
-카메라 전처리는 [imgprocess.py](https://github.com/wotjd0715/Hustar-HAI/blob/master/imgprocess.py), 3개 방향 분류 모델은 [learning.py](https://github.com/wotjd0715/Hustar-HAI/blob/master/learning.py), TCP 수신과 모터 제어는 [motor_server.py](https://github.com/wotjd0715/Hustar-HAI/blob/master/motor_server.py)에서 확인했습니다. 실시간 카메라 추론과 전송을 연결하는 클라이언트는 공개 트리에서 확인하지 못했으므로, 공개 파일만으로 전체 흐름의 실행이 검증됐다고 표현하지 않습니다.
+실제 API → SQLite 저장 → 이미지 조회 → CSV 내보내기와 잘못된 입력·경로·파일·세션 분리 누출을 테스트합니다. smoke 테스트는 임시 폴더에 합성 프레임 20장/5장을 만들고 1 epoch 학습·모델 저장·추론을 실행한 뒤 정리합니다. 실제 주행 성능을 검증하는 테스트는 아닙니다. 실제 모델 학습에는 별도로 수집한 학습/검증 데이터가 필요합니다.
 
-| 구분 | 사용자 경험 | Hustar-HAI 참고 구현 |
-|---|---|---|
-| 차체 | 3D 프린팅 차체와 구매한 구동 부품 | RC카 키트 조립·개조 |
-| 조작 | 조이스틱 | pygame 키보드 방향키 |
-| 기록 | 약 1초 간격 화면·조작값이라는 회상 | 별도 녹화 영상과 명령 로그의 동기화. 기록 루프의 대기는 0.05초 |
-| 라벨 | 전진·좌우·속도·조향 관련 값이라는 회상 | LEFT·STRAIGHT·RIGHT 범주 |
-| 제어 보드 | ESP32 계열로 기억, 정확한 모델 미확인 | Raspberry Pi·L298N |
-| LiDAR | 역할 미확인 | 관련 기록 없음. 카메라 기반 구조 |
+2026-09-28 검증: Python 3.11.15, FastAPI 0.141.1, TensorFlow 2.21.0 환경에서 API/데이터 테스트 10개와 합성 학습 smoke 테스트를 통과했습니다. 브라우저에서 프레임 선택, ZIP 업로드 후 저장, 1440px/390px 화면을 확인했습니다. 검증 기록은 `VERIFICATION.md`에 정리했습니다.
 
-참고 프로젝트의 보드·키보드·PWM 설정을 사용자의 당시 구성으로 대체하지 않습니다. 수정 도식에는 `참고 구조: github.com/wotjd0715/Hustar-HAI`를 별도로 표시합니다. 원본 코드·사진·영상·모델은 이 저장소에 재공개하지 않고 출처 링크를 제공합니다.
+## 데이터 출처
+
+공개 샘플은 [robocarstore/donkeycar-dataset](https://github.com/robocarstore/donkeycar-dataset)의 Hong Kong Jordan Valley `tub_49_19-12-10`에서 발췌한 자료입니다. [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)로 제공되며 사용자가 직접 촬영한 사진이 아닙니다. 원본 이미지는 수정하지 않고, 원본 JSON의 명령값과 시각을 CSV로 변환했습니다. 고정 커밋·파일 해시·원본 record는 `sample-data/sources.json`, 자세한 출처와 라이선스 전문은 같은 폴더에 있습니다.
+
+참고 문서: [FastAPI 파일 응답](https://fastapi.tiangolo.com/advanced/custom-response/#fileresponse), [TensorFlow 이미지 데이터 입력](https://www.tensorflow.org/api_docs/python/tf/io/decode_image), [Keras 모델 저장](https://www.tensorflow.org/tutorials/keras/save_and_load).

@@ -1,0 +1,36 @@
+{
+  "date": "2026-09-28",
+  "service": "GOLABA",
+  "url": "http://127.0.0.1:8317",
+  "browser_session": "golaba-qa",
+  "browser_session_closed": true,
+  "server_left_running": true,
+  "dataset": "synthetic",
+  "precheck_engine": "rules; required evidence text presence and minimum 20 characters",
+  "flow": [
+    {"step": "Fill example application and remove plan evidence", "passed": true},
+    {"step": "Submit through UI and observe NEEDS_SUPPLEMENT", "passed": true},
+    {"step": "View exact missing evidence reason", "passed": true},
+    {"step": "Fill supplement and resubmit revision 2", "passed": true},
+    {"step": "Observe READY; reviewer token login", "passed": true},
+    {"step": "Review submitted evidence, enter decision reason and approve", "passed": true},
+    {"step": "Reload, open own applications and verify approved state persists", "passed": true}
+  ],
+  "database_check": {
+    "application_id": "3dd5de42631f4017",
+    "status": "APPROVED",
+    "revision": 2,
+    "jobs": [{"revision": 1, "state": "DONE", "attempts": 1}, {"revision": 2, "state": "DONE", "attempts": 1}],
+    "event_count": 5
+  },
+  "layout": [
+    {"viewport_width": 1440, "document_scroll_width": 1440, "horizontal_overflow": false},
+    {"viewport_width": 390, "document_scroll_width": 390, "horizontal_overflow": false},
+    {"viewport_width": 390, "dialog_width": 352, "dialog_horizontal_overflow": false}
+  ],
+  "browser_errors": [],
+  "console_messages": [],
+  "api_integration_tests": {"passed": 8, "failed": 0},
+  "javascript_syntax_check": "passed",
+  "screenshots": ["golaba-desktop.png", "golaba-supplement-request.png", "golaba-approved.png", "golaba-mobile.png", "golaba-mobile-form.png"]
+}

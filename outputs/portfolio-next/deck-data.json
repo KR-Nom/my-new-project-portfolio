@@ -1,0 +1,140 @@
+[
+  {
+    "id": "order-balance",
+    "name": "Order Balance",
+    "subtitle": "판매·재고·소비기한을 함께 검토하는 발주 워크스페이스",
+    "definition": "발주 수량은 정확하게, 판단 근거는 이해하기 쉽게.",
+    "accent": "#A6D8B5",
+    "background": "#17221E",
+    "layout": "right",
+    "screen": "order-balance.png",
+    "pain": [
+      "판매·재고·소비기한이 흩어져 판단이 느림",
+      "LLM의 가변적인 출력으로 수량 검증이 어려움"
+    ],
+    "solution": [
+      "수요·주문 배수·예산을 Python으로 검증",
+      "수량 수정 → 확정 → 발주서 저장까지 연결",
+      "검증된 수치와 AI의 자연어 설명을 분리"
+    ],
+    "role": "에이전트 역할·프롬프트·판단 기준 설계\n이번 확장: 웹 화면·발주 API·승인 이력 DB",
+    "stack": "Python · FastAPI · SQLite\nCrewAI 실습 · Qwen·MLX",
+    "caption": "실제 발주 서비스 · 공개 합성 데이터 ST001",
+    "url": "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/LLM/order-balance"
+  },
+  {
+    "id": "doclens",
+    "name": "DocLens",
+    "subtitle": "문서의 원문까지 확인하는 PDF 질의응답",
+    "definition": "답변 옆에 근거를 놓는 문서 검색 서비스.",
+    "accent": "#6554D9",
+    "background": "#F7F6FB",
+    "layout": "left",
+    "screen": "doclens.png",
+    "pain": [
+      "긴 PDF에서 질문에 맞는 정보를 찾기 어려움",
+      "답변만으로는 원문 근거를 확인하기 어려움"
+    ],
+    "solution": [
+      "PDF 추출 → 청크 → 임베딩 → FAISS 검색",
+      "답변·검색 원문·페이지 링크를 함께 제공",
+      "문서와 질문 이력을 DB에 저장해 재조회"
+    ],
+    "role": "문서 전처리·검색·답변 파이프라인 구현\n이번 확장: 웹·DB·로컬 sLLM 서빙 연결",
+    "stack": "Python · pypdf · FAISS · SQLite\nE5 임베딩 · Qwen·MLX · FastAPI",
+    "caption": "실제 문서 워크스페이스 · NIST 공개 문서 사용",
+    "url": "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/LLM/rag"
+  },
+  {
+    "id": "toonvoice",
+    "name": "ToonVoice",
+    "subtitle": "웹툰의 말풍선을 편집 가능한 음성으로",
+    "definition": "이미지 속 대사를 읽고, 목소리로 이어 듣다.",
+    "accent": "#C3B3FF",
+    "background": "#201B2B",
+    "layout": "right",
+    "screen": "toonvoice.png",
+    "pain": [
+      "말풍선마다 대사를 다시 입력해야 하는 번거로움",
+      "인물별 목소리와 읽는 속도를 따로 조정해야 함"
+    ],
+    "solution": [
+      "한국어 OCR로 대사를 추출하고 직접 수정",
+      "인물·목소리·속도를 지정해 실제 음성 생성",
+      "대사·프로젝트 저장과 WAV 내보내기 연결"
+    ],
+    "role": "2024 Deep Dive · 웹툰 OCR·TTS 프로젝트\n이번 확장: 웹·DB·실제 음성 검증",
+    "stack": "Python · FastAPI · SQLite\nApple Vision · macOS TTS · WAV",
+    "caption": "실제 OCR·음성 편집 화면 · 자체 제작 샘플 장면",
+    "url": "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/projects/toonvoice"
+  },
+  {
+    "id": "howtodo",
+    "name": "HowToDo",
+    "subtitle": "팀원이 서로의 일하는 방식을 이해하는 프로필 서비스",
+    "definition": "함께 일하기 전에, 서로를 이해하는 사용설명서.",
+    "accent": "#347BD4",
+    "background": "#F9FAFC",
+    "layout": "wide",
+    "screen": "howtodo.png",
+    "pain": [
+      "업무 성향·연락 방식이 메신저 속에 흩어짐",
+      "팀별 공유 범위와 수정 권한이 불명확함"
+    ],
+    "solution": [
+      "프로필·팀·초대 흐름을 한 서비스에 연결",
+      "로그인 세션과 팀 소유자 권한을 검증",
+      "공개 범위와 프로필 변경 내용을 DB에 저장"
+    ],
+    "role": "기존 Vue 화면·API 계약 설계\n이번 확장: 실제 인증·팀 권한·SQLite 서버",
+    "stack": "Vue 3 · Vite · Node.js\nSQLite · scrypt · HttpOnly Session",
+    "caption": "실제 프로필 화면 · 로그인·권한·저장 API 연결",
+    "url": "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/WebService"
+  },
+  {
+    "id": "courtcast",
+    "name": "CourtCast",
+    "subtitle": "코트 위치와 날씨, 현장 제보를 한곳에",
+    "definition": "오늘 어디서 운동할지, 근거를 보고 결정하다.",
+    "accent": "#287653",
+    "background": "#F1F6F0",
+    "layout": "left",
+    "screen": "courtcast.png",
+    "pain": [
+      "코트 위치·예약·날씨를 여러 곳에서 확인",
+      "현장 상태를 다음 방문자에게 전달하기 어려움"
+    ],
+    "solution": [
+      "공식 코트·예약 정보와 좌표 기반 날씨 연결",
+      "검색·즐겨찾기·상태 제보를 DB에 저장",
+      "날씨 캐시와 조회 시점을 함께 표시"
+    ],
+    "role": "기존 CourtCast 화면 구상\n이번 확장: 공공 데이터·날씨 API·DB 구현",
+    "stack": "JavaScript · FastAPI · SQLite\n서울 열린데이터 · Open-Meteo",
+    "caption": "실제 코트 탐색 화면 · 서울시 공식 데이터 사용",
+    "url": "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/WebService/Court"
+  },
+  {
+    "id": "shop",
+    "name": "Shop",
+    "subtitle": "주문부터 취소까지 거래 상태를 지키는 쇼핑 서비스",
+    "definition": "상품·재고·포인트를 하나의 주문 흐름으로.",
+    "accent": "#F4AB70",
+    "background": "#25211E",
+    "layout": "right",
+    "screen": "shop.png",
+    "pain": [
+      "주문·취소 시 재고와 포인트가 어긋날 수 있음",
+      "화면의 성공 메시지만으로 거래를 확인하기 어려움"
+    ],
+    "solution": [
+      "주문·재고·포인트 변경을 트랜잭션으로 처리",
+      "취소 시 수량과 포인트 복구를 검증",
+      "상품·주문 화면을 Spring API·DB에 연결"
+    ],
+    "role": "Spring Boot 서비스·주문 로직 구현\nJPA 데이터 모델·테스트·웹 API 연결",
+    "stack": "Java · Spring Boot · JPA\nH2 · REST API · JUnit",
+    "caption": "실제 주문 서비스 · 테스트 상품 데이터 사용",
+    "url": "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/Spring/Online-shoppingmall"
+  }
+]

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GOLABA · 지원사업 워크스페이스</title><link rel="stylesheet" href="/static/style.css"></head>
+<body>
+<header><a class="brand" href="/">GO<span>LABA</span><i>지원사업 워크스페이스</i></a><span class="local-chip">LOCAL PORTFOLIO</span></header>
+<div class="layout"><aside><div class="side-caption">WORKSPACE</div><button class="nav active" data-view="programs">▦ &nbsp; 지원사업 둘러보기</button><button class="nav" data-view="applications">▤ &nbsp; 내 신청 내역 <span id="application-count">0</span></button><button class="nav" data-view="reviewer">✓ &nbsp; 담당자 검토</button><div class="side-note"><span class="tiny-dot"></span> 빠른 접수, 꼼꼼한 확인<p>접수는 먼저 저장하고,<br>서류 확인은 이어서 처리합니다.</p></div><div class="side-foot">GOLABA / 장현진<br><small>합성 데이터로 체험하는 로컬 서비스</small></div></aside>
+<main>
+<div id="notice" role="status" class="notice" hidden></div>
+<section id="programs-view">
+  <div class="eyebrow">FIND YOUR NEXT OPPORTUNITY</div><div class="heading-row"><div><h1>필요한 기회를,<br><em>놓치지 않도록.</em></h1><p class="lead">나에게 맞는 지원사업을 고르고 신청부터 보완까지 한곳에서 확인하세요.</p></div><div class="hero-mark" aria-hidden="true"><div>GO</div><span>YOUR NEXT<br>STEP ↗</span></div></div>
+  <div class="demo-note">예시 지원사업 · 실제 공고나 지원금 지급과 연결되지 않습니다. 주민번호·실제 증빙 대신 합성 텍스트로 체험하세요.</div>
+  <div class="section-head"><h2>지금 둘러볼 지원사업 <span>03</span></h2><span>생활 · 성장 · 지역의 기회</span></div><div id="projects" class="project-grid"></div>
+  <div class="flow"><div><b>01</b><strong>신청 접수</strong><span>필수 내용과 증빙 텍스트 입력</span></div><i>→</i><div><b>02</b><strong>사전 점검</strong><span>누락·분량을 규칙으로 확인</span></div><i>→</i><div><b>03</b><strong>담당자 판단</strong><span>검토 사유와 최종 결과 안내</span></div></div>
+</section>
+<section id="applications-view" hidden><div class="eyebrow">MY APPLICATIONS</div><h1>신청 이후도<br><em>한눈에.</em></h1><p class="lead">현재 브라우저에서 접수한 신청과 보완 요청을 확인하세요.</p><div id="applications" class="application-list"></div></section>
+<section id="reviewer-view" hidden><div class="eyebrow">REVIEW WORKSPACE</div><h1>서류를 확인하고,<br><em>이유를 남깁니다.</em></h1><p class="lead">규칙 점검은 누락 확인만 보조합니다. 실제 자격·증빙 내용은 담당자가 판단합니다.</p><form id="reviewer-login" class="login-card"><label for="reviewer-token">담당자 토큰</label><div><input id="reviewer-token" type="password" minlength="16" maxlength="256" autocomplete="off" required placeholder="서버에 설정한 담당자 토큰"><button class="primary">담당자 인증</button></div><p id="reviewer-help">서버의 GOLABA_REVIEWER_TOKEN으로 인증합니다. 일반 신청자는 다른 신청을 볼 수 없습니다.</p></form><div id="reviewer-tools" hidden><div class="section-head"><h2>접수된 신청</h2><button id="reviewer-logout" class="text-button">담당자 로그아웃</button></div><div id="reviewer-applications" class="application-list"></div></div></section>
+</main></div>
+<dialog id="application-dialog"><form id="application-form"><div class="dialog-head"><span class="eyebrow">APPLICATION</span><button type="button" class="close" data-close="application-dialog" aria-label="닫기">×</button></div><h2 id="form-title"></h2><p class="muted">증빙이 부족해도 접수할 수 있습니다. 사전 점검 후 보완 사유를 안내합니다.</p><input type="hidden" id="project-id"><input type="hidden" id="application-id"><label for="applicant-name">신청자 이름 <small>합성 예시 이름을 사용하세요</small></label><input id="applicant-name" minlength="2" maxlength="50" required placeholder="예시 지원자"><label for="purpose">신청 목적 <small>20자 이상</small></label><textarea id="purpose" minlength="20" maxlength="2000" required rows="3" placeholder="참여 목적과 계획을 설명해 주세요."></textarea><div id="document-fields"></div><div id="form-error" class="form-error" role="alert" hidden></div><div class="form-actions"><button type="button" id="fill-example" class="secondary">예시 내용 채우기</button><button id="submit-application" class="primary">신청 접수</button></div></form></dialog>
+<dialog id="detail-dialog"><div class="dialog-head"><span class="eyebrow">APPLICATION DETAIL</span><button class="close" data-close="detail-dialog" aria-label="닫기">×</button></div><div id="detail-content"></div></dialog>
+<script src="/static/app.js"></script></body></html>

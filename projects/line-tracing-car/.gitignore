@@ -1,0 +1,8 @@
+data/
+.venv/
+.venv-training/
+__pycache__/
+*.pyc
+*.keras
+runs/
+.DS_Store

@@ -1,0 +1,20 @@
+/* Thirteen-slide HTML edition. Shared typography follows the Figma deck. */
+.project-index>h2{top:87px;padding-bottom:30px;font-size:48px}
+.project-index .index-list{top:232px}
+.project-index .index-row{height:87px;gap:28px}
+.project-index .index-row>span{width:172px;font-size:21px}
+.project-index .index-row h3{width:330px;flex:none;font-size:33px;margin:0;letter-spacing:-.8px}
+.project-index .index-row p{margin:0;font-size:23px;letter-spacing:-.35px}
+.slide.thanks .thanks-title{position:absolute;left:100px;top:402px;margin:0;font-size:100px;line-height:1.35;letter-spacing:-4px;font-weight:750}
+.slide.thanks .thanks-rule{position:absolute;left:100px;top:650px;width:420px;height:3px;background:var(--red)}
+.slide.thanks .thanks-contact{position:absolute;left:100px;right:100px;top:804px;display:grid;grid-template-columns:510px 1fr;gap:72px;align-items:end}
+.slide.thanks .thanks-person{display:flex;flex-direction:column;gap:9px}
+.slide.thanks .thanks-person h3{margin:0 0 6px;font-size:30px;line-height:1.4}
+.slide.thanks .thanks-person a{font-size:28px;line-height:1.4;font-weight:600;text-decoration:none}
+.slide.thanks .thanks-repository{padding-bottom:4px;display:flex;flex-direction:column;gap:19px}
+.slide.thanks .thanks-repository>span{color:#f47725;font-size:19px;font-weight:650;letter-spacing:.15px}
+.slide.thanks .thanks-repository>a{font:600 31px/1.5 Arial,var(--font);letter-spacing:-.45px;text-decoration:none;white-space:nowrap}
+.slide.thanks .thanks-repository b{font-weight:400;color:#f47725;margin-left:9px}
+.slide.thanks a:hover{text-decoration:underline;text-underline-offset:6px}
+.slide figure{margin:0}
+@media print{.slide{outline:none!important}.sheet{page-break-after:always}.sheet:last-child{page-break-after:auto}}

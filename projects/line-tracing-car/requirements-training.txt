@@ -1,0 +1,2 @@
+-r requirements.txt
+tensorflow>=2.16,<3  # Python 3.11 권장. CNN 학습·추론에만 필요

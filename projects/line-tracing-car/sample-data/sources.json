@@ -1,0 +1,65 @@
+{
+  "repo": "https://github.com/robocarstore/donkeycar-dataset",
+  "commit": "debe6549eb2df1b24b7d9cd337f9e70771aed7ee",
+  "dataset": "Hong Kong / Jordan Valley / tub_49_19-12-10",
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "license_evidence": "https://raw.githubusercontent.com/robocarstore/donkeycar-dataset/debe6549eb2df1b24b7d9cd337f9e70771aed7ee/README.md",
+  "archive_url": "https://raw.githubusercontent.com/robocarstore/donkeycar-dataset/debe6549eb2df1b24b7d9cd337f9e70771aed7ee/Hong%20Kong/Jordan%20Valley/tub_49_19-12-10.tar.gz",
+  "attribution": "Donkey Car dataset — robocarstore and community contributors, CC BY 4.0",
+  "context": "Third-party public RC-car dataset. Not collected by portfolio owner. Sample labels are original, unmodified JSON records.",
+  "capture": {
+    "date": "2019-12-10",
+    "venue": "Jordan Valley, Hong Kong",
+    "environment": "Mini-RC car track, semi-indoor; fluorescent light on",
+    "camera": "OV5647",
+    "resolution": [
+      160,
+      120
+    ],
+    "direction": "Clockwise"
+  },
+  "download_method": "Streaming tar reader; stopped after matched samples; did not download or retain full archive",
+  "entries_scanned": 932,
+  "samples": [
+    {
+      "group": "negative",
+      "image": "7533_cam-image_array_.jpg",
+      "record_file": "record_7533.json",
+      "record": {
+        "cam/image_array": "7533_cam-image_array_.jpg",
+        "user/angle": -0.6245307779168066,
+        "user/throttle": 0.5612964262825404,
+        "user/mode": "user",
+        "milliseconds": 327878
+      },
+      "image_sha256": "a57ced67557d6d20d6e148e7276f06b5bba38b69773ecc79ae8b7009ac9cc03d"
+    },
+    {
+      "group": "neutral",
+      "image": "1720_cam-image_array_.jpg",
+      "record_file": "record_1720.json",
+      "record": {
+        "cam/image_array": "1720_cam-image_array_.jpg",
+        "user/angle": -0.007965330973235268,
+        "user/throttle": 1.0,
+        "user/mode": "user",
+        "milliseconds": 83579
+      },
+      "image_sha256": "2b1c49b9157386f5be710a6cbbf52e28aa218f65d2601b06785e1e955cad4c60"
+    },
+    {
+      "group": "positive",
+      "image": "4266_cam-image_array_.jpg",
+      "record_file": "record_4266.json",
+      "record": {
+        "cam/image_array": "4266_cam-image_array_.jpg",
+        "user/angle": 0.20551164281136508,
+        "user/throttle": 1.0,
+        "user/mode": "user",
+        "milliseconds": 206800
+      },
+      "image_sha256": "5369fb9678a6f53c38b7182e31e4ed1561ef269c08a8ebf6a6a3afcae2b877f9"
+    }
+  ]
+}

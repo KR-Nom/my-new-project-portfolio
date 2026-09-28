@@ -1,15 +1,15 @@
 # 장현진 포트폴리오
 
-[Figma 편집본](https://www.figma.com/slides/BtEeOASUuWzEkWpycXmhEb) · [단일 HTML](./index.html) · [구현·검증 근거](./VERIFICATION.md)
+[Figma 참고자료](https://www.figma.com/slides/BtEeOASUuWzEkWpycXmhEb) · [13장 단일 HTML](./index.html) · [구현·검증 근거](./VERIFICATION-13.md)
 
-참고 자료의 표지, 소개, 프로젝트 목차, 마무리 구성을 해석해 다시 제작했습니다. 사진과 지원자 소개 문구를 빼고 경험·교육·수상으로 구성했으며, 프로젝트마다 실제 실행 화면과 정의·Pain Point·Solution·Role·기술 스택·GitHub URL을 담았습니다. [SK하이닉스 공식 CI 색상 체계](https://www.skhynix.com/company/UI-FR-CP0402/)의 레드·오렌지와 차콜을 기준으로, 각 앱의 색을 함께 적용했습니다.
+참고 자료의 표지, 소개, 프로젝트 목차, 마무리 구성을 해석해 다시 제작했습니다. 사진과 지원자 소개 문구를 빼고 경험·교육·수상으로 구성했으며, 프로젝트마다 대표 화면과 정의·Pain Point·Solution·Role·기술 스택·GitHub URL을 담았습니다. HONBOT 화면은 실행 기능을 편집 가능한 HTML로 재구성했고, RC카 사진과 프레임은 출처를 표시한 공개 참고 자료입니다. [SK하이닉스 공식 CI 색상 체계](https://www.skhynix.com/company/UI-FR-CP0402/)의 레드·오렌지와 차콜을 기준으로, 각 앱의 색을 함께 적용했습니다.
 
 - [포트폴리오 HTML](./index.html): 파일을 내려받아 브라우저에서 엽니다.
 - 상단 **PDF로 저장** 버튼으로 인쇄합니다. 배경 그래픽을 켜고 머리글·바닥글은 끕니다.
 - 문장을 직접 편집하고 **편집본 저장**으로 이미지까지 포함한 단일 HTML을 저장할 수 있습니다.
 - 프로젝트별 실제 URL은 각 슬라이드 하단에 표시합니다. 마지막 장은 전체 프로젝트를 모은 공개 저장소로 연결합니다.
 - 이미지를 선택한 뒤 교체 버튼이나 붙여넣기(⌘V)를 사용할 수 있습니다. 크기 조절은 30~100%입니다.
-- 이 HTML은 최신 이력을 받기 전의 10장 판본입니다. 사용자 요청에 따라 그대로 유지하며, 새 경험·교육·수상과 추가 프로젝트는 [최신 시안·반영 상태](./additions/)에서 확인할 수 있습니다.
+- HTML은 표지·경험/교육/수상·목차·프로젝트 9개·마무리로 구성한 13장입니다.
 
 ## 다시 만들기
 
@@ -19,6 +19,6 @@
 node portfolio/build.mjs
 ```
 
-현재 제작 소스는 `source/`입니다. `deck-data.json`에서 프로젝트 설명과 링크, `profile.json`에서 경험·교육·수상, `slides.css`에서 디자인을 수정할 수 있습니다. `source/screens/`는 직접 실행하고 검수한 화면입니다. 모델·DB·개인 문서·API 키는 포함하지 않습니다.
+현재 제작 소스는 `../outputs/portfolio-html-update/`와 `../outputs/portfolio-next/`입니다. `portfolio-next/deck-data.json`에서 대표 6개 프로젝트의 설명과 링크를, `portfolio-html-update/{additions,honbot,rc}.mjs`에서 추가 3개 화면을 수정할 수 있습니다. `portfolio-next/screens/`에는 직접 실행하고 검수한 화면이 있습니다. 모델·DB·개인 문서·API 키는 포함하지 않습니다.
 
-이전 제작에 사용한 `projects-*.mjs` 등 루트의 모듈은 과거 작업 기록으로 남아 있으며 현재 빌드에는 사용하지 않습니다. 웹툰 예시 장면은 자체 생성한 창작 이미지이고, 실제 OCR·음성 서비스와 함께 [ToonVoice](../projects/toonvoice/)에서 확인할 수 있습니다.
+이전 제작에 사용한 `source/`와 `projects-*.mjs` 등은 과거 작업 기록으로 남아 있으며 현재 빌드에는 사용하지 않습니다. 웹툰 예시 장면은 자체 생성한 창작 이미지이고, 실제 OCR·음성 서비스와 함께 [ToonVoice](../projects/toonvoice/)에서 확인할 수 있습니다.
