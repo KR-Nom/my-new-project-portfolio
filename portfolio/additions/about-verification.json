@@ -1,0 +1,32 @@
+{
+  "slideCount": 1,
+  "entryCounts": {
+    "experience": 3,
+    "education": 4,
+    "awards": 5
+  },
+  "missingFacts": [],
+  "fonts": [
+    "Inter Bold",
+    "Noto Sans KR Bold",
+    "Noto Sans KR Regular",
+    "Inter Regular",
+    "Noto Sans KR Medium"
+  ],
+  "source": "about-data.json — latest user-provided facts",
+  "browserLayout": {
+    "viewport": [
+      1920,
+      1080
+    ],
+    "outsideSlide": [],
+    "textHorizontalOverflow": [],
+    "columnBottoms": {
+      "experience": 925.3125,
+      "education": 986.921875,
+      "awards": 968.59375
+    },
+    "screenshot": "about-preview.png"
+  },
+  "nativeFigmaExecution": "Not run; remote MCP quota unavailable. Source will be incorporated into local Figma plugin."
+}

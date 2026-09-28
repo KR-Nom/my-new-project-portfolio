@@ -1,0 +1,23 @@
+{
+  "name": "장현진",
+  "degree": "전남대학교 전기및반도체공학 학사 · 2018.03–2026.02",
+  "experience": [
+    {"date":"2026.02–2026.05","title":"대신기공 · 폴란드 Płock 플랜트","role":"QC 인턴","details":["현대엔지니어링 EPC 현장 Hydro Test 품질 문서·검사 진행 데이터 관리","PICS·WIR·MTC·ISO 도면 대조, 배관·용접부·자재 추적성 확인","Google Sheets 함수·링크로 검사 집계·문서 조회 자동화","현장·도면 불일치 확인, 문서 수정·검사 준비 지원"]},
+    {"date":"2022.03–2025.06","title":"전남대학교 R.O.B LAB","role":"학부연구생 및 실험실장","details":["전력·태양광·풍력·통신 시계열 예측 연구","RNN·LSTM 구현, 전처리·이상치 분석","Min-Max·Z-score·Log 정규화별 결과 비교·연구 보고서","6개월간 실험실장: 세미나·발표 양식·온라인 협업 운영"]},
+    {"date":"2023.10–2023.11","title":"ICT이노베이션스퀘어 우수교육생 국외연수","role":"미국 뉴욕","details":["우수교육생 선발, 글로벌 ICT 기업·스타트업 관련 연수","LinkedIn 한국인 재직자·스타트업 창업자 기술·실무 공유 세션","IBM 로봇개 시연·관련 코드 교육"]}
+  ],
+  "education": [
+    {"date":"2026.07–현재","title":"SKALA 4기 · SK AX","role":"생성형 AI 서비스 개발 과정","details":["Java·Spring Boot·SQL·DB 설계","Python 분석·ML·DL·모델 최적화","Transformer·LLM·프롬프트·파인튜닝","LangChain·LangGraph·RAG·AI 에이전트","AI 시스템 설계·모델 서빙·AIOps","Docker·Kubernetes·MSA·DevOps"]},
+    {"date":"2024.07–2024.08","title":"수도권 ICT이노베이션스퀘어","role":"Deep Dive Fullstack + GenAI Course","details":["HTML·CSS·Node.js 웹 서비스, Python 크롤링·수집 자동화","프롬프트·OpenAI/ChatGPT API·n8n 자동화","AWS·Docker·Git·Linux 개발·배포 환경"]},
+    {"date":"2024.03–2024.05","title":"패스트캠퍼스","role":"나도 할 수 있는 Java&Spring 웹 개발 종합반","details":["Java 프로그래밍·Spring 웹 개발 교육 이수","서버·웹 애플리케이션 구현 기초"]},
+    {"date":"2023.06–2023.07","title":"호남 ICT이노베이션스퀘어","role":"AI융합 개발과정 전남대 특별반","details":["ML·DL·전처리, KNN·선형/로지스틱 회귀","결정 트리·교차 검증·앙상블·군집화·K-means·PCA","인공신경망·심층신경망·CNN·RNN"]}
+  ],
+  "awards": [
+    {"date":"2025.01","title":"전남대학교 자유학기 성과발표회 대상","issuer":"전남대학교 총장상","details":["온도 감지 기반 충전 프로그램","Arduino 프로토타입 구현·검증","NFC Wireless Charging·UART, 온도·발열과 충전 동작 분석"]},
+    {"date":"2024.12","title":"일취월장 프로그램 우수상","issuer":"전남대학교 글로벌교육원장상","details":["여수캠퍼스 2024학년도 2학기 학습법 프로그램 우수 활동"]},
+    {"date":"2024.09","title":"대학생 무한도전 프로젝트 장려상","issuer":"전남인재평생교육진흥원","details":["기업·지역 인재 연결 SNS형 플랫폼 LinkLike 기획·개발","팀장: 방향 설정·역할 분담·진행 관리"]},
+    {"date":"2024.08","title":"수도권 ICT이노베이션스퀘어 Deep Dive 프로젝트 우수상","issuer":"수도권 ICT이노베이션스퀘어","details":["시각장애인을 위한 AI 웹툰 음성 안내 서비스","웹툰 이미지 텍스트 추출·TTS 연계"]},
+    {"date":"2023.07","title":"전남권 사회문제해결 아이디어 공모전 대상","issuer":"호남 ICT이노베이션스퀘어","details":["폐교·유휴공간 활용 스마트팜 기획·프로토타입","Python 공공데이터·선형회귀·PyQt5","분석·프로토타입·발표 담당, 전국대회 진출권"]}
+  ],
+  "source":"사용자가 이 대화에서 제공한 최신 이력 내용. 이전 자료와 다른 명칭·기간은 최신 제공 내용을 우선함."
+}

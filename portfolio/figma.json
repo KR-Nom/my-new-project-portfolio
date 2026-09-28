@@ -1,8 +1,14 @@
 {
   "title": "장현진 포트폴리오",
   "url": "https://www.figma.com/slides/BtEeOASUuWzEkWpycXmhEb",
-  "slides": 10,
-  "projectScreens": 6,
+  "slides": 12,
+  "plannedSlides": 13,
+  "projectScreens": 7,
+  "status": "Profile, GOLABA and initial driving slide applied. HONBOT, contents, order and RC-car reference revision pending because the Figma MCP Starter call limit was reached.",
+  "htmlSlides": 10,
+  "htmlSyncRequested": false,
+  "latestUserProfileApplied": false,
+  "pendingUpdatePackage": "additions/figma-finish-plugin.zip",
   "editableText": true,
   "reference": "User-provided reference layouts 1,2,3,4,23; other person’s text, photo and contact information not copied."
 }

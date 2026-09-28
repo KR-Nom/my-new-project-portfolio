@@ -1,0 +1,14 @@
+const s=slide('07 GOLABA','#FFF8F2'),accent='#E67626',ink='#25282D';
+label(s,'Project number','07',64,accent,64,48,120,'Bold','Inter');
+label(s,'Project name','GOLABA',60,ink,206,49,970,'Bold','Inter');
+label(s,'One line definition','신청 접수와 AI 서류 검토를 분리하는 지원사업 플랫폼.',28,ink,64,157,1150,'Medium');
+const shot=box(s,'GOLABA / 원본 Vue 랜딩 실행 화면',64,250,1128,704,'#FFF8F2');screens.push({project:'golaba',nodeId:shot.id,slideId:s.id});
+label(s,'Screen caption','원본 Vue 화면 실행 · 심사 API 연동은 설계 단계',17,'#8A7567',64,970,1128);
+const body=col(s,'Project details',1250,105,606,26);
+text(body,'Subtitle','마감일의 신청 집중과\n반복 서류 검토를 함께 고려한 설계',27,ink,606,'Bold');
+section(body,'PAIN POINT','1. 긴 서류 처리가 신청 접수까지 지연시킴\n2. 누락된 증빙과 보완 사유를 반복 확인',606,accent,ink);
+section(body,'SOLUTION · 설계 방향','1. 접수 기록 저장과 문서 검수 작업을 분리\n2. Kafka 이벤트로 검수 요청·결과 연결\n3. AI의 보완 의견을 담당자가 최종 검토',606,accent,ink);
+section(body,'ROLE','백엔드 영역 담당 · 서비스 경계·데이터 계약 검토\n서비스별 DB 분리·이벤트 재처리 개선안 제안',606,accent,ink,21);
+section(body,'TECH STACK','Vue 3 · Spring Boot · FastAPI\nKafka · MariaDB · Docker Compose · Eureka',606,accent,'#7B746E',20);
+footer(s,'https://github.com/KR-Nom/my-new-project-portfolio/tree/main/MSA');
+return {createdNodeIds:created,mutatedNodeIds:mutated,slides:built.map(s=>({id:s.id,name:s.name})),screens,issues:check()};

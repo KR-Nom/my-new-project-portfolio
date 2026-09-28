@@ -1,0 +1,27 @@
+{
+  "type": "local-contract-model-only",
+  "actual_figma_execution": false,
+  "passed": [
+    "first run: 13 slides",
+    "re-run: no duplicates",
+    "9 contents rows and dividers",
+    "contents fixed-height rows end at y=1011 inside 1080",
+    "original node objects retained",
+    "original six project titles retained",
+    "GOLABA/HONBOT/driving/closing order",
+    "driving reference label linked",
+    "driving hardware diagram added once",
+    "about slide object retained and original layers hidden without removal",
+    "new about frame added once at 1920x1080",
+    "about includes 3 experience, 4 education, 5 awards",
+    "latest 2023.07 award date retained",
+    "ToonVoice confirmed 2024 project role reflected",
+    "all text fonts loaded before mutation",
+    "additional user slide retained",
+    "wrong file: no mutation"
+  ],
+  "limitations": [
+    "Figma desktop execution not available",
+    "native text layout and API compatibility require final editor check"
+  ]
+}

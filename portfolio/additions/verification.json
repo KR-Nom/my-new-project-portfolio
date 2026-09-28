@@ -1,0 +1,37 @@
+{
+  "reviewed_at": "2026-09-28",
+  "remote_figma": {
+    "file_key": "BtEeOASUuWzEkWpycXmhEb",
+    "profile_updated": true,
+    "golaba_slide": "22:12",
+    "golaba_image_uploaded": true,
+    "driving_initial_slide": "21:2",
+    "last_known_slide_count": 12,
+    "honbot_inserted": false,
+    "contents_updated_to_nine": false,
+    "closing_reordered": false,
+    "rc_car_reference_update_applied": false,
+    "blocker": "Figma MCP Starter plan tool-call limit; browser request also returned 403",
+    "latest_user_profile_applied": false,
+    "latest_profile_status": "The earlier evidence-based profile was applied; the new user-provided 3 experience / 4 education / 5 awards revision is prepared locally."
+  },
+  "local_previews": {
+    "honbot.png": "Locally rendered from native Figma design source; not a remote Figma screenshot",
+    "driving.png": "Locally rendered RC-car revision including attributed Hustar-HAI reference structure",
+    "golaba.png": "Locally rendered slide using screenshot from original Vue source",
+    "about.png": "Locally rendered latest user-provided 3 experience / 4 education / 5 awards design; not yet applied remotely."
+  },
+  "checks": {
+    "all_three_previews_visually_reviewed": true,
+    "honbot_text_out_of_bounds": 0,
+    "driving_text_out_of_bounds_before_hardware_addition": 0,
+    "hardware_addition_visually_reviewed": true,
+    "golaba_text_out_of_bounds": 0,
+    "about_all_12_entries_present": true,
+    "about_text_overflow": 0
+  },
+  "original_portfolio_html_updated": false,
+  "hustar_source": "https://github.com/wotjd0715/Hustar-HAI",
+  "hustar_source_commit": "563246ee6a49074d3ba72b2b4289a79236331af7",
+  "original_honbot_untitled_file": "URL not yet provided; not inspected"
+}
