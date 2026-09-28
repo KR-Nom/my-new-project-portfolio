@@ -1,0 +1,3 @@
+Tool: built-in image_gen / illustration-story
+Asset: webtoon-scene.png
+Prompt: Original two-panel contemporary Korean webtoon. Quiet city bus stop after rain at twilight. Upper panel: young adult woman with dark shoulder-length hair, cream trench coat, hopeful expression looking right. Lower panel: young adult man with short dark hair, teal jacket, looking left. Clean ink linework, watercolor/cel coloring, amber street lamps and teal-blue evening. Each panel has one empty white speech balloon. Portrait 2:3, no lettering, logo, watermark or UI. Generated for the fictional webtoon-to-voice editor. Korean dialogue typeset separately in HTML.

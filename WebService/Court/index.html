@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="현장 제보, 주변 코트 탐색, 즐겨찾기로 이어지는 CourtCast 화면 갤러리">
+  <title>CourtCast · 화면 갤러리</title>
+  <style>
+    :root { color-scheme: light; --ink: #173c31; --muted: #61746b; --line: #d7e1da; --paper: #f5f8f3; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; line-height: 1.65; word-break: keep-all; }
+    main { width: min(1240px, calc(100% - 64px)); margin: 0 auto; padding: 48px 0 52px; }
+    .brand { margin: 0 0 16px; font-size: 15px; font-weight: 750; letter-spacing: .1em; }
+    h1 { margin: 0; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.3; letter-spacing: -.04em; }
+    .intro { max-width: 750px; margin: 16px 0 20px; color: var(--muted); font-size: 17px; }
+    .notice { display: inline-block; margin: 0; padding: 9px 14px; border: 1px solid #d2ddcb; border-radius: 8px; background: #eaf0e4; color: #38543f; font-size: 14px; }
+    .gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 42px; margin-top: 36px; }
+    figure { margin: 0; min-width: 0; }
+    .phone { display: block; width: min(100%, 282px); margin: 0 auto; overflow: hidden; border: 7px solid #234338; border-radius: 29px; background: #f8faf5; box-shadow: 0 10px 30px #173c3110; }
+    .phone:focus-visible { outline: 3px solid #c5623b; outline-offset: 5px; }
+    .phone img { display: block; width: 100%; height: auto; }
+    figcaption { width: min(100%, 320px); margin: 22px auto 0; }
+    .step { display: block; margin-bottom: 5px; color: #8b6841; font-size: 12px; font-weight: 700; letter-spacing: .08em; }
+    h2 { margin: 0 0 7px; font-size: 23px; letter-spacing: -.03em; }
+    figcaption p { margin: 0; color: var(--muted); font-size: 15px; }
+    .scope { margin: 38px 0 0; padding-top: 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    .scope a { color: var(--ink); text-underline-offset: 3px; }
+    @media (max-width: 760px) {
+      main { width: min(100% - 36px, 440px); padding-top: 30px; }
+      .gallery { grid-template-columns: 1fr; gap: 38px; }
+      .phone { width: min(100%, 292px); }
+      figcaption { width: min(100%, 320px); }
+      .intro { font-size: 16px; }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .phone { transition: transform 150ms ease; }
+      .phone:hover { transform: translateY(-3px); }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="brand">COURTCAST / SCREEN GALLERY</p>
+      <h1>비가 오면, 다음 코트를 고를 수 있도록.</h1>
+      <p class="intro">현재 코트의 상황을 제보하고, 가까운 코트를 비교하고, 다음 방문을 준비하는 세 가지 화면입니다.</p>
+      <p class="notice">기상 상태와 예보는 합성 데모입니다. 실제 서비스의 실시간 정보가 아닙니다.</p>
+    </header>
+    <section class="gallery" aria-label="CourtCast의 세 가지 사용 흐름">
+      <figure>
+        <a class="phone" href="screenshots/image3.png" aria-label="현장 제보 화면을 원본 크기로 보기">
+          <img src="screenshots/image3.png" width="440" height="900" alt="현재 코트의 비 여부를 두 버튼으로 선택하는 CourtCast 현장 제보 화면">
+        </a>
+        <figcaption>
+          <span class="step">01 / REPORT</span>
+          <h2>한 번에 현장 제보</h2>
+          <p>현재 코트를 확인하고 비가 오는지 제보합니다. 다음 이용자가 다른 코트를 선택할 근거를 남깁니다.</p>
+        </figcaption>
+      </figure>
+      <figure>
+        <a class="phone" href="screenshots/image4.png" aria-label="주변 코트 탐색 화면을 원본 크기로 보기">
+          <img src="screenshots/image4.png" width="440" height="900" alt="가까운 주변 코트의 거리와 예보 출처를 함께 보여주는 CourtCast 탐색 화면">
+        </a>
+        <figcaption>
+          <span class="step">02 / EXPLORE</span>
+          <h2>가까운 코트 비교</h2>
+          <p>주변 코트 5곳을 가까운 순으로 살펴봅니다. 현장 제보와 예보를 구분해 정보의 출처를 확인합니다.</p>
+        </figcaption>
+      </figure>
+      <figure>
+        <a class="phone" href="screenshots/image8.png" aria-label="즐겨찾기 화면을 원본 크기로 보기">
+          <img src="screenshots/image8.png" width="440" height="900" alt="즐겨찾는 코트의 시간대별 상태와 알림 규칙을 보여주는 CourtCast 화면">
+        </a>
+        <figcaption>
+          <span class="step">03 / SAVE</span>
+          <h2>다음 방문 준비</h2>
+          <p>자주 가는 코트의 상태를 모아 봅니다. 시간대별 상태와 알림 규칙을 확인하는 흐름입니다.</p>
+        </figcaption>
+      </figure>
+    </section>
+    <p class="scope">기존 소개 자료의 원본 화면을 정리한 정적 갤러리입니다. 화면 안의 버튼은 동작하지 않으며, 이미지를 누르면 원본으로 열립니다. <a href="README.md">자료 범위 보기</a></p>
+  </main>
+</body>
+</html>

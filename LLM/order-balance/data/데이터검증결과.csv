@@ -1,0 +1,66 @@
+﻿검증ID,원본파일,결과,검사행수,오류행수,상세
+sales.required_columns,판매기록.csv,PASS,33717,0,필수 컬럼이 모두 존재합니다.
+sales.required_values,판매기록.csv,PASS,33717,0,필수값에 결측 또는 빈 문자열이 없습니다.
+inventory.required_columns,현재재고.csv,PASS,36,0,필수 컬럼이 모두 존재합니다.
+inventory.required_values,현재재고.csv,PASS,36,0,필수값에 결측 또는 빈 문자열이 없습니다.
+expiry.required_columns,유통기한.csv,PASS,58,0,필수 컬럼이 모두 존재합니다.
+expiry.required_values,유통기한.csv,PASS,58,0,필수값에 결측 또는 빈 문자열이 없습니다.
+products.required_columns,상품단가.csv,PASS,36,0,필수 컬럼이 모두 존재합니다.
+products.required_values,상품단가.csv,PASS,36,0,필수값에 결측 또는 빈 문자열이 없습니다.
+sales.primary_key,판매기록.csv,PASS,33717,0,"기본키 ('store_id', 'transaction_id', 'line_no')가 유일하고 결측이 없습니다."
+inventory.primary_key,현재재고.csv,PASS,36,0,"기본키 ('snapshot_at', 'store_id', 'item_id')가 유일하고 결측이 없습니다."
+expiry.primary_key,유통기한.csv,PASS,58,0,"기본키 ('snapshot_at', 'store_id', 'item_id', 'lot_no')가 유일하고 결측이 없습니다."
+products.primary_key,상품단가.csv,PASS,36,0,"기본키 ('store_id', 'item_id', 'supplier_id', 'effective_from')가 유일하고 결측이 없습니다."
+sales.product_foreign_key,판매기록.csv,PASS,33717,0,모든 매장-상품키가 상품단가에 존재합니다.
+inventory.product_foreign_key,현재재고.csv,PASS,36,0,모든 매장-상품키가 상품단가에 존재합니다.
+expiry.product_foreign_key,유통기한.csv,PASS,58,0,모든 매장-상품키가 상품단가에 존재합니다.
+sales.temporal_product_foreign_key,판매기록.csv,PASS,33717,0,모든 행에 해당 기준일의 유효 상품레코드가 존재합니다.
+inventory.temporal_product_foreign_key,현재재고.csv,PASS,36,0,모든 행에 해당 기준일의 유효 상품레코드가 존재합니다.
+expiry.temporal_product_foreign_key,유통기한.csv,PASS,58,0,모든 행에 해당 기준일의 유효 상품레코드가 존재합니다.
+sales.base_uom_consistency,판매기록.csv↔상품단가.csv,PASS,33717,0,사실 데이터 단위가 상품 기본단위와 일치합니다.
+inventory.base_uom_consistency,현재재고.csv↔상품단가.csv,PASS,36,0,사실 데이터 단위가 상품 기본단위와 일치합니다.
+sales.positive_quantity_amounts,판매기록.csv,PASS,33717,0,판매 수량은 양수이고 금액은 음수가 아닙니다.
+sales.allowed_channel,판매기록.csv,PASS,33717,0,판매채널이 허용된 코드입니다.
+sales.completed_sale_status,판매기록.csv,PASS,33717,0,모든 행이 완료 판매입니다.
+sales.gross_amount_formula,판매기록.csv,PASS,33717,0,총매출이 수량×판매단가와 일치합니다.
+sales.net_amount_formula,판매기록.csv,PASS,33717,0,순매출이 총매출-할인과 일치합니다.
+sales.business_date,판매기록.csv,PASS,33717,0,영업일과 서울 기준 판매일시 날짜가 일치합니다.
+sales.promotion_discount,판매기록.csv,PASS,33717,0,프로모션 식별자와 할인 발생 여부가 일치합니다.
+sales.contiguous_line_numbers,판매기록.csv,PASS,29555,0,거래별 라인번호가 1부터 연속입니다.
+sales.transaction_channel_consistency,판매기록.csv,WARN,29555,2378,거래 내 판매채널이 둘 이상인 거래가 2378건입니다. sales_channel을 라인 속성으로 사용할 경우 허용할 수 있습니다.
+inventory.nonnegative_quantities,현재재고.csv,PASS,36,0,모든 재고 수량이 0 이상입니다.
+inventory.reserved_not_over_on_hand,현재재고.csv,PASS,36,0,예약재고가 현재고를 초과하지 않습니다.
+inventory.available_formula,현재재고.csv,PASS,36,0,가용재고 계산식이 일치합니다.
+inventory.inbound_date_presence,현재재고.csv,PASS,36,0,입고수량과 입고예정일 존재 여부가 일치합니다.
+inventory.inbound_date_future,현재재고.csv,PASS,36,0,입고예정일이 스냅샷 날짜보다 빠르지 않습니다.
+expiry.date_order,유통기한.csv,PASS,58,0,제조·입고·경고·제거·기한 날짜 순서가 유효합니다.
+expiry.quantity_order,유통기한.csv,PASS,58,0,로트 수량이 0 이상이고 예약수량이 현재고 이하입니다.
+expiry.allowed_domains,유통기한.csv,PASS,58,0,기한유형과 품질상태가 허용된 코드입니다.
+expiry.inventory_reconciliation,유통기한.csv↔현재재고.csv,PASS,20,0,로트 수량 합계가 현재재고와 일치합니다.
+expiry.perishable_coverage,유통기한.csv↔상품단가.csv,PASS,20,0,활성 기한상품과 로트 보유상품이 일치합니다.
+products.effective_date_overlap,상품단가.csv,PASS,36,0,상품-공급사별 유효기간이 중첩되지 않습니다.
+products.effective_dates,상품단가.csv,PASS,36,0,유효기간 순서가 정상입니다.
+products.order_constraints,상품단가.csv,PASS,36,0,단가·MOQ·발주배수·최대량 조건이 유효합니다.
+products.service_parameters,상품단가.csv,PASS,36,0,리드타임·검토주기·안전재고·서비스수준이 유효합니다.
+products.shelf_life_requirement,상품단가.csv,PASS,36,0,기한상품의 최소 잔여기한 값이 정상입니다.
+products.gtin13,상품단가.csv,PASS,36,0,GTIN-13 체크디지트가 유효합니다.
+products.primary_supplier,상품단가.csv,PASS,36,0,활성 상품마다 주공급사가 정확히 하나입니다.
+products.allowed_domains,상품단가.csv,PASS,36,0,상품 단위와 통화 코드가 유효합니다.
+final.budget.row_count,agent_예산관리자.csv,PASS,9,0,예산 후보 행 수가 9행입니다.
+final.budget.total_candidate_cost_krw,agent_예산관리자.csv,PASS,9,0,total_candidate_cost_krw이 모든 행에서 181560입니다.
+final.budget.available_budget_krw,agent_예산관리자.csv,PASS,9,0,available_budget_krw이 모든 행에서 500000입니다.
+final.budget.budget_shortfall_krw,agent_예산관리자.csv,PASS,9,0,budget_shortfall_krw이 모든 행에서 0입니다.
+final.budget.budget_remaining_krw,agent_예산관리자.csv,PASS,9,0,budget_remaining_krw이 모든 행에서 318440입니다.
+final.budget.budget_exceeded_yn,agent_예산관리자.csv,PASS,9,0,budget_exceeded_yn이 모든 행에서 FALSE입니다.
+final.sales_summary.row_count,agent_판매분석가.csv,PASS,36,0,판매 요약 행 수가 36행입니다.
+final.sales_summary.item_id_unique,agent_판매분석가.csv,PASS,36,0,item_id당 정확히 1행입니다.
+final.sales_summary.gtin_string,agent_판매분석가.csv,PASS,36,0,GTIN이 13자리 StringDtype으로 유지되었습니다.
+final.sales_detail.row_count,agent_판매분석가_일별상세.csv,PASS,6480,0,"판매 일별상세 행 수가 6,480행입니다."
+final.sales_detail.api_input,데이터셋명세서.csv,PASS,1,0,판매 일별상세는 DATA_ANALYST_ONLY이며 API 입력 대상이 아닙니다.
+final.inventory.expiry_short_horizon_days,agent_재고관리자.csv,PASS,36,0,expiry_short_horizon_days이 모든 행에서 1입니다.
+final.inventory.expiry_medium_horizon_days,agent_재고관리자.csv,PASS,36,0,expiry_medium_horizon_days이 모든 행에서 3입니다.
+final.inventory.expiry_long_horizon_days,agent_재고관리자.csv,PASS,36,0,expiry_long_horizon_days이 모든 행에서 7입니다.
+final.inventory.lead_time_days_required,agent_재고관리자.csv,PASS,36,0,lead_time_days에 결측 또는 비유한값이 없습니다.
+final.order.quantity_units_present,agent_발주담당자.csv,PASS,36,0,EA 수량과 주문단위 수량이 모두 존재합니다.
+final.order.order_uom_formula,agent_발주담당자.csv,PASS,36,0,EA 수량 / units_per_order_uom이 주문단위 수량과 일치합니다.
+final.order.estimated_cost_formula,agent_발주담당자.csv,PASS,36,0,예상 금액이 EA 수량 × unit_cost_krw와 일치합니다.

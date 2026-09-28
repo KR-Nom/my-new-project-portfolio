@@ -1,0 +1,8 @@
+crewai[openai]>=1.15,<2.0
+numpy
+pandas
+pydantic
+python-dotenv
+reportlab
+ipykernel
+ipywidgets
