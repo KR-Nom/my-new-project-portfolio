@@ -17,7 +17,268 @@
 @media print{html,body{margin:0!important;padding:0!important;background:white!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}.toolbar,.outline,.evidence-drawer,.toast{display:none!important}.deck{margin:0!important;padding:0!important}.sheet{width:1600px!important;height:900px!important;margin:0!important;box-shadow:none;break-inside:avoid;break-after:page;page-break-after:always}.sheet:last-child{break-after:auto;page-break-after:auto}.slide{position:relative;transform:none!important;outline:none!important}.selected-image{outline:none!important}.sheet a{color:inherit;text-decoration:none}}
 @media(max-width:900px){.outline{display:none}.deck{margin-left:0;padding:80px 12px 20px}.toolbar{padding:0 12px;gap:7px}.toolbar strong,.toolbar .save-status,.toolbar .image-control{display:none}.toolbar button{font-size:11px;padding:8px}.toolbar .spacer{display:none}}
 
-body{padding:40px;background:#eef1f7}header{max-width:1400px;margin:0 auto 28px}header h1{font-size:32px;margin:0 0 14px}header p{font-size:17px;color:#637586;line-height:1.7}.demo-shell{max-width:1400px;margin:0 auto}.demo-stage{height:650px;padding:22px;border-radius:16px;background:#e7edf6;display:flex;align-items:center;justify-content:center;overflow:hidden}.demo-caption{font-size:14px;line-height:1.6;color:#627486;margin:15px 0}.back{display:inline-block;margin-bottom:22px;color:#315cac;text-decoration:none;font-size:14px}@media(max-width:850px){body{padding:20px}.demo-shell{overflow:auto}.demo-stage{width:1200px}.demo-caption{max-width:90vw}}@media print{body{padding:25px}.back{display:none}}</style><header><a class="back" href="../../portfolio/index.html">← 장현진 포트폴리오</a><h1>HONBOT·자율주행 · 학습 경험의 연결</h1><p>API 연동과 CNN 학습 경험을 바탕으로 새로 구성한 대표 화면입니다.</p></header><main class="demo-shell"><div class="demo-stage"><div class="two-visual" style="gap:16px">
+/*
+ * 장현진 포트폴리오 · 시각 테마 (2026-09-28)
+ * SK hynix 공식 CI 컬러 참고: https://www.skhynix.com/company/UI-FR-CP0402/
+ * 개인 포트폴리오의 색상 참고이며 회사 로고나 공식 문서 표시는 사용하지 않습니다.
+ * portfolio.css, webtoon.css 다음에 적용합니다. 기존 콘텐츠·글꼴 크기·배치는 유지합니다.
+ */
+:root {
+  --brand-red: #ea002c;
+  --brand-orange: #f47725;
+  --brand-teal: #009a93;
+  --brand-blue: #0072c6;
+  --brand-navy: #0e306d;
+  --brand-purple: #68127a;
+  --brand-yellow: #fbbc05;
+  --paper: #fff;
+  --ink: #242424;
+  --muted: #686868;
+  --line: #e1e1e1;
+  --soft: #f5f5f5;
+  --mint: #009a93;
+  --accent: var(--brand-red);
+  --accent-ink: #c80026;
+  --accent-tint: #fff2f4;
+  --accent-line: #f2cbd2;
+  --stage-tint: #f5f5f5;
+  --blue: var(--accent);
+}
+
+body { background: #eeeeef; color: var(--ink); }
+.sheet { background: #fff; box-shadow: 0 8px 25px #0000000d; }
+.slide { background: #fff; }
+.slide, .theme-project { --blue: var(--accent); }
+.slide::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 68px;
+  width: 92px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--brand-red) 0 66%, var(--brand-orange) 66% 100%);
+  pointer-events: none;
+}
+
+/* 프로젝트마다 색만 바꾸며 같은 문서 체계를 유지합니다. */
+:is(.slide, .theme-project)[data-title="Order Balance · 발주 판단"],
+:is(.slide, .theme-project)[data-title="GOLABA · 접수와 AI 검수의 분리"],
+:is(.slide, .theme-project)[data-title="AI 서비스 운영 · AIOps 확장 설계"] {
+  --accent: var(--brand-red); --accent-ink: #c80026;
+  --accent-tint: #fff2f4; --accent-line: #f2cbd2; --stage-tint: #f8f3f4;
+}
+:is(.slide, .theme-project)[data-title="LLM 호출 비용 분석"],
+:is(.slide, .theme-project)[data-title="CNN 구조와 과적합"],
+:is(.slide, .theme-project)[data-title="CNN 구조와 일반화"],
+:is(.slide, .theme-project)[data-title="SKALA Shop · 주문과 데이터 정합성"] {
+  --accent: var(--brand-orange); --accent-ink: #a7460b;
+  --accent-tint: #fff5ed; --accent-line: #efd3bd; --stage-tint: #f8f5f1;
+}
+:is(.slide, .theme-project)[data-title="Developer Prompt ER"],
+:is(.slide, .theme-project)[data-title="QuizFlash · 스트리밍 API"],
+:is(.slide, .theme-project)[data-title="HowToDo · 협업 사용설명서"],
+:is(.slide, .theme-project)[data-title="PostgreSQL · 실행계획 기반 튜닝"],
+:is(.slide, .theme-project)[data-title="HONBOT·자율주행 · 학습 경험의 연결"] {
+  --accent: var(--brand-navy); --accent-ink: var(--brand-navy);
+  --accent-tint: #f0f3f9; --accent-line: #ccd5e6; --stage-tint: #f1f3f7;
+}
+:is(.slide, .theme-project)[data-title="PDF 문서 질의응답"],
+:is(.slide, .theme-project)[data-title="Weather Flow · 날씨 대시보드"] {
+  --accent: var(--brand-blue); --accent-ink: #005eaa;
+  --accent-tint: #edf5fb; --accent-line: #c8dfef; --stage-tint: #f0f5f8;
+}
+:is(.slide, .theme-project)[data-title="Text-to-SQL · LoRA"] {
+  --accent: var(--brand-red); --accent-ink: #c80026;
+  --accent-tint: #fff4ef; --accent-line: #efd1c4; --stage-tint: #f9f4f1;
+}
+:is(.slide, .theme-project)[data-title="웹툰 보이스 스튜디오"] {
+  --accent: var(--brand-purple); --accent-ink: var(--brand-purple);
+  --accent-tint: #f7f0f9; --accent-line: #dfcde3; --stage-tint: #f5f1f6;
+}
+:is(.slide, .theme-project)[data-title="CourtCast · 현장 제보와 코트 비교"],
+:is(.slide, .theme-project)[data-title="매출 EDA · 데이터에서 학습까지"] {
+  --accent: var(--brand-teal); --accent-ink: #00726d;
+  --accent-tint: #edf8f7; --accent-line: #c5e4e1; --stage-tint: #f0f6f5;
+}
+:is(.slide, .theme-project)[data-title="3-tier 게시판 · 컨테이너 실행"] {
+  --accent: #373737; --accent-ink: #373737;
+  --accent-tint: #f2f2f2; --accent-line: #d8d8d8; --stage-tint: #f2f3f3;
+}
+
+/* 편집 도구와 탐색은 문서의 대표색을 사용합니다. */
+.toolbar { background: #242424; box-shadow: 0 2px 12px #00000018; }
+.toolbar button { border-color: #ffffff40; background: #ffffff08; }
+.toolbar .primary { background: var(--brand-red); color: #fff; border-color: var(--brand-red); }
+.toolbar .save-status { color: #bfbfbf; }
+.toolbar input { accent-color: var(--brand-red); }
+.outline { background: #fafafa; border-color: #e1e1e1; }
+.outline b, .outline .help { color: #777; }
+.outline a { color: #595959; }
+.outline a:hover, .outline a.active { background: #fff0f3; color: #c80026; }
+.outline a.active { box-shadow: inset 3px 0 var(--brand-red); }
+.toast { background: #242424; }
+.evidence-drawer { border-color: #dedede; border-radius: 8px; box-shadow: 0 10px 40px #00000020; }
+.evidence-drawer p { color: #686868; }
+.selected-image { outline-color: var(--brand-red); }
+body.editing .slide [data-edit]:hover { outline-color: #d98796; }
+body.editing .slide { outline-color: #c7c7c7; }
+
+/* 본문: 흰 바탕, 차콜 제목, 프로젝트별 강조색. */
+.heading h2, .app-head h3, .index-col h3, .diagram-box b, .stat strong { color: var(--ink); }
+.heading .sub, .role, .story-block p, .story-list, .feature-strip p { color: #5e5e5e; }
+.heading .category, .story-block h3 { color: #777; }
+.eyebrow, .story-block.solution h3, .solution .story-list li::before { color: var(--accent-ink); }
+.eyebrow::before { border-radius: 0; }
+.story-block.solution p, .solution .story-list { color: #303030; }
+.role, .feature-strip { border-color: var(--line); }
+.role b, .feature-strip b { color: #262626; }
+.takeaway { color: #414141; border-left-color: var(--accent); }
+.feature-strip span { color: var(--accent); }
+.tag { color: #636363; border-color: #dcdcdc; background: #fff; }
+.caption, .proof-label { color: #787878; }
+.caption b { color: #4b4b4b; }
+.cap-tag { color: var(--accent-ink); border-color: var(--accent-line); }
+.source-link { color: var(--accent-ink) !important; }
+
+.visual-stage, .visual-stage.light, .visual-stage.tint, .visual-stage.green {
+  background: var(--stage-tint); border-radius: 8px;
+}
+.screen-card, .chart-panel, .diagram-box, .diagram-band, .image-pair figure,
+.cover-window, .cover-mini > div, .index-col { border-radius: 8px; border-color: #dcdcdc; }
+.screen-card { box-shadow: 0 12px 26px #0000000b; }
+.screen-card, .chart-panel, .cover-window, .cover-mini > div, .index-col { background: #fff; }
+.app-chrome { background: #f6f6f6; border-color: #e5e5e5; color: #878787; }
+.app-chrome i { background: #ccc; }
+.app-side { background: #fcfcfc; border-color: #e7e7e7; }
+.app-logo { color: #282828; }
+.app-logo em { color: var(--accent); }
+.app-menu { color: #737373; }
+.app-menu.on { background: var(--accent-tint); color: var(--accent-ink); }
+.app-head p, .stat small, .stat strong em, .ui-label, .ui-note { color: #7a7a7a; }
+.stat, .ui-panel, .ui-input { border-color: #dedede; }
+.ui-table { color: #5c5c5c; }
+.ui-table th { background: #f5f5f5; color: #747474; }
+.ui-table td { border-color: #e9e9e9; }
+.ui-table td:first-child { color: #303030; }
+.ui-panel p { color: #595959; }
+.ui-panel h4 { color: #303030; }
+.ui-panel.blue { background: var(--accent-tint); border-color: var(--accent-line); }
+.ui-panel.green { background: #edf8f5; border-color: #c9e5df; }
+.ui-button { background: var(--accent); color: #fff; }
+.ui-input { color: #494949; background: #fcfcfc; }
+.ui-code { color: #3e3e3e; background: #f5f5f5; }
+.ui-code .key { color: var(--accent-ink); }
+.ui-flow b { background: var(--accent-tint); color: var(--accent-ink); }
+.ui-flow span { color: #929292; }
+.badge { background: #eaf7f3; border-color: #c9e7dc; color: #136e55; }
+.badge.blue { color: var(--accent-ink); background: var(--accent-tint); border-color: var(--accent-line); }
+.badge.amber { color: #a14b10; background: #fff5ec; border-color: #efd4ba; }
+.bar-track { background: #ededed; }
+.bar-fill { background: var(--accent); }
+.bar-fill.green { background: var(--brand-teal); }
+.bar-fill.amber { background: var(--brand-orange); }
+.bar-fill.gray { background: #b7b7b7; }
+.bar-label, .chart-panel h3, .metric-large { color: #282828; }
+.metric-label, .chart-note { color: #737373; }
+.diagram-box { color: #303030; }
+.diagram-box small, .diagram-label { color: #777; }
+.diagram-box.highlight { background: var(--accent-tint); border-color: var(--accent-line); }
+.diagram-band { background: #fafafa; border-color: #ccc; }
+.diagram-arrow { color: #898989; }
+.image-pair figcaption { color: #626262; }
+.phone { border-color: #292929; box-shadow: 0 16px 26px #00000010; }
+
+/* 원본 그림에는 손대지 않고, 재구성 화면의 고정 강조색만 교정합니다. */
+:is(.slide, .theme-project) .visual-stage [style*="color:#245ad5"],
+:is(.slide, .theme-project) .visual-stage [style*="color:#255bdd"],
+:is(.slide, .theme-project) .visual-stage [style*="color:#2c5090"] { color: var(--accent-ink) !important; }
+:is(.slide, .theme-project) .visual-stage [style*="background:#edf3ff"],
+:is(.slide, .theme-project) .visual-stage [style*="background:#f2f6ff"] { background: var(--accent-tint) !important; }
+:is(.slide, .theme-project) .visual-stage [style*="border:1px solid #d7e3ff"] { border-color: var(--accent-line) !important; }
+:is(.slide, .theme-project)[data-title="Text-to-SQL · LoRA"] .ui-panel.green { background: #fff5ed; border-color: #efd3bd; }
+.weather-step { border-color: #d8e1e8; }
+.weather-step > span, .weather-end { color: var(--accent-ink); }
+.weather-step p { color: #717171; }
+.weather-end { background: var(--accent-tint); }
+
+/* 웹툰 편집 화면은 동일한 UI 체계 안에서 보라색을 사용합니다. */
+.toon-head { border-color: #e4e1e5; }
+.toon-head b span, .toon-check, .toon-wave { color: var(--brand-purple); }
+.toon-export, .toon-render { background: var(--brand-purple); }
+.toon-layout, .toon-lines { background: #f7f4f8; }
+.toon-preview, .toon-settings { border-color: #e4dce7; }
+.dialogue { border-color: #e2dce5; }
+.dialogue.selected { border-color: #b689c0; box-shadow: 0 2px 8px #68127a08; }
+.dialogue p { color: #393039; }
+.dialogue-tags span, .emotion-choices b, .avatar.lilac { background: #f1e6f5; color: var(--brand-purple); }
+.avatar.teal { background: #e1f3f0; color: #00726d; }
+.toon-wave i { background: #cfb7d6; }
+.toon-wave i:nth-child(3n), .voice-slider::before, .voice-slider i { background: var(--brand-purple); }
+.voice-slider { background: #e9dfed; }
+.voice-slider i { box-shadow: 0 0 0 1px #b994c4; }
+.voice-field label b, .toon-sequence b { color: #68466d; }
+.toon-sequence { border-color: #e1d9e5; }
+
+/* 표지·목차·마지막 장은 SK Red와 차콜로 하나의 문서를 이룹니다. */
+.cover { background: #fff; }
+.cover h1, .contents-cover-title, .contents-cover-heading { color: #242424; }
+.cover h1 span, .contents-cover-number { color: var(--brand-red); }
+.cover-lead, .cover-label, .cover-author small, .cover-mini p { color: #696969; }
+.contents-cover-link { color: #333; }
+.contents-cover-link:hover { color: var(--brand-red); }
+.index-col .num { color: var(--brand-red); }
+.index-col:nth-child(2) .num { color: var(--brand-orange); }
+.index-col:nth-child(3) .num { color: #3b3b3b; }
+.index-col > p, .index-item span { color: #727272; }
+.index-item { border-color: #e5e5e5; }
+.index-item b { color: #292929; }
+.slide.dark, .slide.blue { background: #242424; color: #fff; }
+.dark .heading h2, .blue .heading h2, .closing-author { color: #fff; }
+.dark .eyebrow, .blue .eyebrow { color: var(--brand-orange); }
+.dark .heading .sub, .closing-grid p { color: #c7c7c7; }
+.closing-grid article { border-color: #515151; }
+.closing-grid h3 { color: #ff496b; }
+.closing-grid article:nth-child(even) h3 { color: var(--brand-orange); }
+.github-heading h2, .github-intro > b, .github-item { color: #292929; }
+.github-profile { color: var(--brand-red); }
+.github-intro p, .github-group h3, .github-item small { color: #747474; }
+.github-intro > a { color: #b90024; }
+.github-group { border-top-color: var(--brand-red); }
+.github-group:nth-child(2) { border-top-color: var(--brand-orange); }
+.github-group:nth-child(3) { border-top-color: #3b3b3b; }
+.github-item { border-bottom-color: #e4e4e4; }
+.github-item em { color: #a9a9a9; }
+.github-item:hover { background: #fff3f5; }
+.github-item:hover b, .github-item:hover em { color: #c80026; }
+
+/* 새 목차 표지와 단일 저장소 마무리 장의 전용 배치. */
+.slide.contents-cover { display: flex; flex-direction: column; padding: 90px 100px; gap: 0; }
+.contents-cover .contents-cover-title { font-size: 62px; line-height: 1.2; letter-spacing: -2.5px; margin: 0; }
+.contents-cover-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 64px; margin-top: 90px; }
+.contents-cover-heading { display: flex; gap: 14px; align-items: baseline; font-size: 23px; margin: 0; }
+.contents-cover-number { font-size: 18px; }
+.contents-cover-list { list-style: none; padding: 0; margin: 28px 0 0; border-top: 1px solid #dedede; }
+.contents-cover-link { display: block; font-size: 21px; padding: 14px 0; text-decoration: none; border-bottom: 1px solid #ededed; }
+.project-url { position: absolute; left: 68px; bottom: 22px; font-size: 12px; line-height: 16px; color: #7b7b7b; text-decoration: none; }
+.project-url:hover { color: var(--accent-ink); }
+.github-directory { display: flex; flex-direction: column; justify-content: center; flex: 1; padding: 35px 44px; }
+.directory-label { color: var(--brand-red); font-size: 15px; letter-spacing: 2px; font-weight: 800; margin: 0 0 25px; }
+.github-directory h2 { color: #242424; font-size: 45px; letter-spacing: -1.5px; line-height: 1.3; margin: 0 0 62px; }
+.directory-link { display: block; text-decoration: none; line-height: 1.45; letter-spacing: -1.5px; }
+.directory-link > span { display: block; color: #6d6d6d; font-size: 37px; font-weight: 500; }
+.directory-link > strong { display: block; color: var(--brand-red); font-size: 61px; font-weight: 750; }
+.directory-link i { font-style: normal; color: var(--brand-orange); }
+.directory-note { color: #727272; font-size: 21px; line-height: 1.6; margin: 35px 0 0; }
+
+@media print {
+  .slide, .sheet { background: #fff; }
+  .slide.dark, .slide.blue { background: #242424; }
+  .sheet .github-profile { color: var(--brand-red); }
+  .sheet .source-link { color: var(--accent-ink) !important; }
+  .sheet .project-url { color: #7b7b7b; }
+}
+
+body{padding:40px;background:#eef1f7}header{max-width:1400px;margin:0 auto 28px}header h1{font-size:32px;margin:0 0 14px}header p{font-size:17px;color:#637586;line-height:1.7}.demo-shell{max-width:1400px;margin:0 auto}.demo-stage{height:650px;padding:22px;border-radius:16px;background:#e7edf6;display:flex;align-items:center;justify-content:center;overflow:hidden}.demo-caption{font-size:14px;line-height:1.6;color:#627486;margin:15px 0}.back{display:inline-block;margin-bottom:22px;color:#315cac;text-decoration:none;font-size:14px}@media(max-width:850px){body{padding:20px}.demo-shell{overflow:auto}.demo-stage{width:1200px}.demo-caption{max-width:90vw}}@media print{body{padding:25px}.back{display:none}}</style><header><a class="back" href="../../portfolio/index.html">← 장현진 포트폴리오</a><h1>HONBOT·자율주행 · 학습 경험의 연결</h1><p>API 연동과 CNN 학습 경험을 바탕으로 새로 구성한 대표 화면입니다.</p></header><main class="demo-shell"><div class="demo-stage theme-project" data-title="HONBOT·자율주행 · 학습 경험의 연결"><div class="two-visual" style="gap:16px">
       <div class="screen-card"><div class="app-chrome"><i></i><i></i><i></i><span>HONBOT / 영상 챗봇</span></div><div class="app"><div class="app-body">
         <div class="app-head" style="margin-bottom:13px"><h3 style="font-size:21px">HONBOT</h3><span class="badge blue">구성 예시</span></div>
         <div style="height:106px;background:linear-gradient(135deg,#152b4b,#315b8c);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#dfe9fa;position:relative;overflow:hidden">

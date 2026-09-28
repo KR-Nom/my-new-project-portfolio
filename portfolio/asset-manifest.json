@@ -1,12 +1,12 @@
 {
-  "slides": 22,
-  "htmlBytes": 6574946,
+  "slides": 21,
+  "htmlBytes": 6352712,
   "uniqueImages": 10,
   "images": [
-    "WebService/report-assets/ui-refresh/home-desktop.png",
     "Python/Day4~5/outputs/plot_history_08_overall.png",
     "outputs/portfolio/webtoon-scene.png",
     "workspace/Day2/ScreenShot/13_방법3_서버렌더링.png",
+    "WebService/report-assets/ui-refresh/home-desktop.png",
     "outputs/portfolio/shop-screen.png",
     "WebService/Court/outputs/source-review/image3.png",
     "WebService/Court/outputs/source-review/image4.png",

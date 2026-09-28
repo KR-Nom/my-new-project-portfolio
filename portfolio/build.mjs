@@ -9,7 +9,7 @@ const imageCache=new Map();
 function resolveAsset(relative){if(!assetMap[relative])throw Error('Missing asset '+relative);return path.join(dir,'assets',assetMap[relative]);}
 function image(relative){if(!imageCache.has(relative)){const file=resolveAsset(relative);const mime={'.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.svg':'image/svg+xml','.webp':'image/webp'}[path.extname(file)];if(!mime)throw Error('Unsupported image');imageCache.set(relative,`data:${mime};base64,${fs.readFileSync(file).toString('base64')}`);}return imageCache.get(relative);}
 const {slides,evidence}=makePortfolio(image);
-const css=fs.readFileSync(path.join(dir,'webtoon.css'),'utf8')+'\n'+fs.readFileSync(path.join(dir,'portfolio.css'),'utf8');
+const css=fs.readFileSync(path.join(dir,'webtoon.css'),'utf8')+'\n'+fs.readFileSync(path.join(dir,'portfolio.css'),'utf8')+'\n'+fs.readFileSync(path.join(dir,'brand.css'),'utf8');
 const js=fs.readFileSync(path.join(dir,'editor.js'),'utf8');
 const html=`<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>장현진 포트폴리오</title><meta name="description" content="장현진의 AI 시스템 설계, 모델 학습, 서비스 구현 포트폴리오"><style>${css}</style></head>
