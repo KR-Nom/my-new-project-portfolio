@@ -1,0 +1,37 @@
+{
+  "unit_tests": 7,
+  "browser_flow": [
+    "generate draft",
+    "change SKU003 from 24 to 18",
+    "save through API",
+    "reload and verify persistence"
+  ],
+  "api_checks": {
+    "budget_10000_total": 5580,
+    "approved_edit_status": 409,
+    "baseline_total": 181560,
+    "baseline_items": 9,
+    "sqlite_matches_api": true,
+    "server_restart_persistence": true
+  },
+  "llm_review": {
+    "verified": true,
+    "provider": "local",
+    "model": "mlx-community/Qwen3-1.7B-4bit",
+    "review": "- 발주 금액: 181,560원, 남은 예산: 318,440원  \n- 품절 위험: 불고기 삼각김밥 24개, 제로콜라 500mL 48개  \n- 소비기한 주: 치킨마요 도시락 4개",
+    "usage": {
+      "input_tokens": 271,
+      "output_tokens": 86,
+      "latency_ms": 1211,
+      "model": "mlx-community/Qwen3-1.7B-4bit",
+      "provider": "local"
+    },
+    "reviewed_amounts_match_calculation": true,
+    "quality_scope": "One synthetic snapshot, human comparison. Not a model accuracy benchmark."
+  },
+  "source": "Published ST001 synthetic CSV",
+  "additional_regressions": [
+    "minimum rounded to order multiple",
+    "CSV code and name formula escaping"
+  ]
+}

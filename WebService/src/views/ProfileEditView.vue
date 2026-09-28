@@ -22,8 +22,8 @@ const sections = computed(() => options.value ? [
 ] : [])
 const visibilityHelp = computed(() => ({
   PUBLIC: '링크를 받은 누구나 공통 프로필을 볼 수 있어요.',
-  TEAM_ONLY: '외부 공유 링크는 열리지 않아요. 팀에서 사용할 프로필로 설정합니다.',
-  PRIVATE: '외부 공유 링크를 비활성화합니다.',
+  TEAM_ONLY: '같은 팀의 동료만 볼 수 있어요. 외부 공유 링크는 열리지 않아요.',
+  PRIVATE: '공통 프로필은 나만 볼 수 있어요. 팀별 역할과 목표는 팀원에게 표시됩니다.',
 }[form.value?.visibility] || ''))
 
 async function load() {
@@ -145,7 +145,7 @@ onMounted(load)
         </section>
         <section class="card form-section">
           <div class="field-heading"><h2>프로필 공유 설정</h2><p class="help">공개 링크에는 이 사용설명서의 공통 정보가 표시됩니다.</p></div>
-          <label>공개 범위<select v-model="form.visibility"><option value="PUBLIC">전체 공개 · 링크로 공유</option><option value="TEAM_ONLY">팀에서 사용 · 외부 링크 비공개</option><option value="PRIVATE">링크 공유 안 함</option></select></label>
+          <label>공개 범위<select v-model="form.visibility"><option value="PUBLIC">전체 공개 · 링크로 공유</option><option value="TEAM_ONLY">같은 팀에게 공개</option><option value="PRIVATE">공통 프로필은 나만 보기</option></select></label>
           <p class="help" aria-live="polite">{{ visibilityHelp }} 팀별 역할과 프로젝트 목표는 공개 링크에 포함되지 않아요.</p>
         </section>
       </div>

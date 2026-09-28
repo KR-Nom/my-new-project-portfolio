@@ -46,6 +46,8 @@ public class SessionHandler {
 
         Cookie cookie = new Cookie(COOKIE_NAME, token);
         cookie.setHttpOnly(true);
+        cookie.setAttribute("SameSite", "Lax");
+        cookie.setSecure(request.isSecure());
         cookie.setPath("/");
         cookie.setMaxAge((int) (expiration / 1000));
         response.addCookie(cookie);

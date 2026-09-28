@@ -1,0 +1,36 @@
+{
+  "executedAt": "2026-09-28T01:40:04.584Z",
+  "baseUrl": "http://127.0.0.1:5179",
+  "backendUrl": "http://127.0.0.1:8314",
+  "method": "agent-browser session howtodo, real Vue form interaction",
+  "login": true,
+  "profileSave": {
+    "method": "PATCH",
+    "path": "/api/profiles/me",
+    "status": 200
+  },
+  "profileRead": {
+    "method": "GET",
+    "path": "/api/profiles/me",
+    "status": 200
+  },
+  "changedTaglineVisible": true,
+  "sqliteValueMatches": true,
+  "serviceWorkerActive": false,
+  "teamCards": 5,
+  "desktop": {
+    "width": 1440,
+    "scrollWidth": 1440
+  },
+  "mobile": {
+    "width": 390,
+    "scrollWidth": 390
+  },
+  "errorOverlay": false,
+  "runtimeErrors": [],
+  "screenshots": [
+    "howtodo.png",
+    "howtodo-profile.png",
+    "howtodo-mobile.png"
+  ]
+}

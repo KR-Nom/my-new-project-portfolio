@@ -3,6 +3,7 @@ package com.sk.skala.shopapi.service;
 import com.sk.skala.shopapi.common.PagedList;
 import com.sk.skala.shopapi.common.Response;
 import com.sk.skala.shopapi.common.SessionHandler;
+import com.sk.skala.shopapi.common.PasswordHasher;
 import com.sk.skala.shopapi.data.dto.CustomerSession;
 import com.sk.skala.shopapi.data.dto.OrderItemDto;
 import com.sk.skala.shopapi.data.dto.OrderListDto;
@@ -37,6 +38,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final OrderItemRepository orderItemRepository;
     private final SessionHandler sessionHandler;
+    private final PasswordHasher passwordHasher;
     private final SalesHistoryRepository salesHistoryRepository;
 
     public Response<PagedList<Customer>> getAllCustomers(int offset, int count) {
@@ -85,10 +87,14 @@ public class CustomerService {
         if (StringUtil.isAnyEmpty(customerEntity.getCustomerPassword())) {
             throw new ParameterException("customerPassword");
         }
+        if (customerEntity.getCustomerPassword().length() < 4 || customerEntity.getCustomerPassword().length() > 128) {
+            throw new ParameterException("customerPassword (4~128 characters)");
+        }
         if (customerRepository.existsById(customerEntity.getCustomerId())) {
             throw new ResponseException(ErrorCode.DATA_DUPLICATED, "이미 가입된 고객 ID입니다.");
         }
         customerEntity.setCustomerPoint(INITIAL_POINT);
+        customerEntity.setCustomerPassword(passwordHasher.hash(customerEntity.getCustomerPassword()));
         return Response.ok("회원가입이 완료되었습니다.", customerRepository.save(customerEntity));
     }
 
@@ -103,7 +109,8 @@ public class CustomerService {
             throw new ParameterException("customerPassword");
         }
         Customer customerEntity = findCustomer(customerSession.getCustomerId());
-        if (!customerEntity.getCustomerPassword().equals(customerSession.getCustomerPassword())) {
+        if (customerSession.getCustomerPassword().length() > 128
+                || !passwordHasher.matches(customerSession.getCustomerPassword(), customerEntity.getCustomerPassword())) {
             throw new ResponseException(ErrorCode.NOT_AUTHENTICATED, "비밀번호가 일치하지 않습니다.");
         }
         sessionHandler.createSession(customerEntity.getCustomerId());

@@ -1,0 +1,82 @@
+{
+  "project": "ToonVoice",
+  "recorded_at_utc": "2026-09-28T01:59:06Z",
+  "scope": "New local full-stack extension of the original static concept",
+  "verification_method": "Executed integration tests and real browser interactions; this file summarizes observations rather than simulating results",
+  "environment": {
+    "platform": "macOS",
+    "ocr": "Apple Vision VNRecognizeTextRequest, ko-KR and en-US",
+    "tts": "macOS Speech via say and afconvert",
+    "database": "SQLite",
+    "application_url": "http://127.0.0.1:8312",
+    "external_ai_api_used": false
+  },
+  "integration_tests": {
+    "command": "python -m unittest discover -s tests -v",
+    "source": "tests/test_pipeline.py",
+    "passed": 2,
+    "failed": 0,
+    "elapsed_seconds": 31.439,
+    "real_engine_pipeline": {
+      "image_upload": "passed",
+      "korean_ocr": "passed",
+      "recognized_dialogue_regions": 2,
+      "korean_text_assertions": ["비가", "천천히"],
+      "dialogue_speaker_voice_rate_edit": "passed",
+      "nonempty_audio_and_nonzero_waveform": "passed",
+      "wav_bytes": 305950,
+      "duration_seconds_rounded": 6.373,
+      "wav_sample_rate_hz": 24000,
+      "wav_channels": 1,
+      "sqlite_reopen_with_saved_dialogues": "passed",
+      "export_bytes_identical_after_reopen": "passed"
+    },
+    "input_validation": {
+      "invalid_image": 422,
+      "synthesize_without_dialogues": 422,
+      "stale_revision": 409,
+      "unapproved_voice_string": 422,
+      "cross_origin_mutation": 403,
+      "oversized_upload": 413
+    }
+  },
+  "browser_e2e": {
+    "browser": "Google Chrome via isolated agent-browser session",
+    "desktop_viewport": {"width": 1500, "height": 1100},
+    "mobile_viewport": {"width": 390, "height": 844},
+    "checks": {
+      "upload_sample_image": "passed",
+      "recognize_two_korean_dialogues": "passed",
+      "edit_dialogue_text_and_rate": "passed",
+      "save_and_generate_audio": "passed",
+      "actual_audio_playback": "passed",
+      "wav_download": "passed",
+      "reload_restores_saved_dialogues_rate_and_audio": "passed",
+      "desktop_horizontal_overflow": false,
+      "mobile_horizontal_overflow": false,
+      "console_errors_observed": 0
+    },
+    "playback_observation": {
+      "paused": false,
+      "current_time_seconds": 0.370215,
+      "duration_seconds": 6.725042,
+      "media_error": null
+    },
+    "downloaded_wav_measured": {
+      "bytes": 322846,
+      "frames": 161401,
+      "duration_seconds": 6.725041666666667,
+      "sample_rate_hz": 24000,
+      "channels": 1,
+      "sample_width_bytes": 2
+    },
+    "screenshot_workspace_relative": "outputs/portfolio-next/screens/toonvoice.png"
+  },
+  "limitations": [
+    "Requires macOS with the listed OCR and Korean speech engines installed.",
+    "Recognition quality varies with image resolution, lettering and bubble layout.",
+    "Character names and voice assignments are editable defaults, not automatic character identification.",
+    "The development service is bound to loopback and is not a public hosted deployment.",
+    "Runtime database and generated audio are excluded from version control."
+  ]
+}

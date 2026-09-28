@@ -1,0 +1,26 @@
+{
+  "verified_on": "2026-09-28",
+  "project": "outputs/portfolio-publish/WebService/Court",
+  "runtime": "FastAPI / Uvicorn 8313 / SQLite",
+  "new_implementation": true,
+  "source_places": 36,
+  "source_reservation_services": 336,
+  "api_tests": {"passed": 7, "failed": 0, "command": "python -m unittest discover -s tests -v"},
+  "browser": {
+    "empty_search": "0 results, report button disabled",
+    "name_search": "응봉 resolves to one official facility",
+    "district_filter": "마포구 resolves to 5 source places, all match district",
+    "favorite": "UI POST succeeded, SQLite favorites count 1",
+    "report": "UI POST with explicit demo flag succeeded; SQLite persisted condition/note/is_demo",
+    "restart": "Uvicorn stopped and restarted; same browser retained report, favorite and weather cache",
+    "report_cleanup": "own-report DELETE used after persistence verification; no reports remain",
+    "reservation_services": "4 actual official reservation links for 응봉공원",
+    "weather": "actual Open-Meteo response rendered, second request cache mode, cache survived restart",
+    "desktop": {"width": 1600, "height": 1100, "horizontal_overflow": false},
+    "mobile": {"width": 390, "height": 844, "horizontal_overflow": false},
+    "page_errors": 0
+  },
+  "screenshot": "outputs/portfolio-next/screens/courtcast.png",
+  "initial_fake_reports": 0,
+  "credentials_or_database_committed": false
+}

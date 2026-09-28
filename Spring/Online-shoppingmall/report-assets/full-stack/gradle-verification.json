@@ -1,0 +1,37 @@
+{
+  "executedAt": "2026-09-28T01:50:12.341299+00:00",
+  "kind": "Current execution of Gradle test task, extracted from JUnit XML",
+  "tests": 18,
+  "failures": 0,
+  "errors": 0,
+  "suites": [
+    {
+      "name": "com.sk.skala.shopapi.PasswordHasherTest",
+      "tests": "3",
+      "failures": "0",
+      "errors": "0",
+      "time": "0.439"
+    },
+    {
+      "name": "com.sk.skala.shopapi.ShoppingMallFeatureIntegrationTest",
+      "tests": "9",
+      "failures": "0",
+      "errors": "0",
+      "time": "1.445"
+    },
+    {
+      "name": "com.sk.skala.shopapi.CustomerTransactionIntegrationTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "time": "0.199"
+    },
+    {
+      "name": "com.sk.skala.shopapi.ShopApiApplicationTests",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "time": "0.001"
+    }
+  ]
+}

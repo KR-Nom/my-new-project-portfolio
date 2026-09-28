@@ -1,0 +1,59 @@
+{
+  "executedAt": "2026-09-28T01:35:13.480Z",
+  "runtime": "v26.7.0",
+  "kind": "actual HTTP requests against Node server and file-backed SQLite",
+  "testDatabase": "isolated temporary database (removed after tests)",
+  "processRestart": true,
+  "passed": true,
+  "count": 12,
+  "checks": [
+    {
+      "name": "Forged x-user-id cannot authenticate",
+      "passed": true
+    },
+    {
+      "name": "Signup stores scrypt hash, issues HttpOnly session, normalizes duplicate email",
+      "passed": true
+    },
+    {
+      "name": "Login validates password and rotates the existing session",
+      "passed": true
+    },
+    {
+      "name": "Creating a team creates its owner membership atomically",
+      "passed": true
+    },
+    {
+      "name": "Invitation joins once and preserves role priority in relational tables",
+      "passed": true
+    },
+    {
+      "name": "Only owner can mutate team and payload cannot change ownership",
+      "passed": true
+    },
+    {
+      "name": "Profile public, team-only and private visibility are enforced server-side",
+      "passed": true
+    },
+    {
+      "name": "Invalid URLs and excessive roles fail without partially saving data",
+      "passed": true
+    },
+    {
+      "name": "Foreign origin cannot write using an existing session",
+      "passed": true
+    },
+    {
+      "name": "SQLite profile, team and login session survive an actual server process restart",
+      "passed": true
+    },
+    {
+      "name": "Deleting a team cascades memberships and member roles",
+      "passed": true
+    },
+    {
+      "name": "Logout revokes server session even when previous cookie is replayed",
+      "passed": true
+    }
+  ]
+}

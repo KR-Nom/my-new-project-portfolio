@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.safetensors
+*.onnx
+*.sqlite3
+.env

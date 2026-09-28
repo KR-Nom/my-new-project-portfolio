@@ -1,53 +1,62 @@
-# 장현진 | AI & Software Portfolio
+# 장현진 포트폴리오
 
-정확도·출력 일관성·응답 속도·비용을 함께 고려하며 AI 기능을 서비스에 연결한 프로젝트와 학습 결과를 정리했습니다.
+사용자의 조작이 **API 요청·데이터 저장·재조회**로 이어지는 6개 서비스를 정리했습니다. AI 기능은 검색, 계산, 생성, 사용자의 확인 단계를 나누어 연결하고, 실행 근거와 구현 제약을 함께 기록했습니다.
 
-[GitHub 프로필](https://github.com/KR-Nom) · [포트폴리오 HTML](./portfolio/index.html) · [편집·PDF 저장 안내](./portfolio/README.md)
+[Figma 발표자료](https://www.figma.com/slides/BtEeOASUuWzEkWpycXmhEb) · [포트폴리오 HTML](./portfolio/index.html) · [실행 검증 기록](./portfolio/VERIFICATION.md) · [GitHub 프로필](https://github.com/KR-Nom)
 
-![장현진 포트폴리오 표지](./portfolio/previews/cover.png)
+## 대표 서비스
 
-## AI · 모델
-
-| 프로젝트 | 내용 | 공개 범위 |
+| 프로젝트 | 해결하려는 문제와 서비스 흐름 | 구현 구성 |
 |---|---|---|
-| [Order Balance](./LLM/order-balance/) | 재고·판매·예산 기반 발주 검토, 호출·토큰 비용 분석 | 노트북·입력 데이터·결과 CSV |
-| [Developer Prompt ER](./Langchain/) | 질문 진단, 구조화 출력, 질문 전후 답변 비교 | LangChain·Gradio 구현 |
-| [PDF RAG](./LLM/rag/) | PDF 추출·청크·임베딩·FAISS 검색·답변 생성 | 실습 코드·실행 안내 |
-| [Text-to-SQL · LoRA](./sLLM/) | 업무 규칙에 맞춘 소형 모델 학습·평가 | 학습 코드·데이터·GPU 가이드 |
-| [CNN 학습 비교](https://github.com/KR-Nom/skala-python-deep-learning) | Fashion-MNIST에서 8개 학습 전략과 과적합 비교 | 별도 공개 저장소 |
-| [QuizFlash](./Answer/) | macOS 캡처·스트리밍 API·최신 요청 제어·지연 계측 | Swift 코드·테스트 |
+| [Order Balance](./LLM/order-balance/web/) | 재고·판매·예산을 함께 보고 발주 초안 생성 → 수량 조정 → AI 설명 확인 → 확정·CSV 출력 | 웹 UI · FastAPI · SQLite · 제약 기반 계산 · 로컬 Qwen |
+| [DocLens](./LLM/rag/web/) | PDF를 추가하고 질문 → 관련 페이지 검색 → 답변과 출처 확인 → 질의 이력 조회 | 웹 UI · FastAPI · E5 임베딩 · FAISS · Qwen · SQLite |
+| [ToonVoice](./projects/toonvoice/) | 웹툰 이미지 → 한국어 OCR → 대사·인물·목소리·속도 편집 → WAV 생성·내보내기 | 웹 UI · FastAPI · SQLite · macOS Vision/음성 엔진 |
+| [HowToDo](./WebService/) | 공통 협업 프로필과 팀별 역할·목표를 분리하고, 초대·팀 보드·공개범위를 관리 | Vue 3 · Node.js · SQLite · 쿠키 세션 · 팀 권한 |
+| [CourtCast](./WebService/Court/) | 공공 테니스장 검색 → 공식 예약상품 확인 → 날씨·현장 제보 비교 → 즐겨찾기 저장 | 웹 UI · FastAPI · SQLite · 서울 공공데이터 · Open-Meteo |
+| [SKALA Shop](./Spring/Online-shoppingmall/) | 상품 선택 → 포인트 주문 → 취소, 재고·주문 내역·판매순위를 함께 반영 | HTML/JavaScript · Spring Boot · JPA · H2 파일 DB |
 
-## 제품 · 화면
+각 링크의 README에 실행 명령, 데이터 출처, 저장 위치와 현재 제한을 적었습니다. 서버와 DB가 필요한 서비스이므로 GitHub에서 HTML 파일만 열면 전체 기능이 실행되는 방식은 아닙니다. ToonVoice의 OCR·음성 생성은 macOS에서 실행합니다.
 
-| 프로젝트 | 내용 | 공개 범위 |
+## 기존 경험과 이번 구현
+
+| 프로젝트 | 기존 작업·학습 자료 | 이번 포트폴리오에서 추가·검증한 부분 |
 |---|---|---|
-| [ToonVoice](./projects/toonvoice/) | 웹툰 대사·화자·목소리·감정 편집 | 새로 만든 정적 UI 프로토타입 |
-| [HowToDo](./WebService/) | 협업 프로필·팀 보드·역할·공유 | Vue·MSW Mock API·OpenAPI·DBML |
-| [SKALA Shop](./Spring/Online-shoppingmall/) | 주문·취소·재고·포인트의 트랜잭션 | Spring Boot·JPA·H2·통합 테스트 |
-| [CourtCast](./WebService/Court/) | 현장 제보·주변 코트 비교·즐겨찾기 | 원본 앱 화면 갤러리·설계 설명 |
-| [Weather Flow](./Vue/skala-vue/src/components/practices/HandsOn/) | 날씨 검색·즐겨찾기·단위·API 상태 관리 | Vue·Router·Pinia·Axios |
-| [HONBOT · 자율주행](./projects/ai-experience/) | API 연결과 CNN 데이터 보완 경험 | 경험 설명과 새로 구성한 대표 UI |
+| Order Balance | 발주 에이전트 역할·프롬프트 설계, CrewAI 노트북과 합성 CSV 실행 기록 | 계산을 분리한 웹 검토 흐름, 수량 검증, 로컬 AI 설명, 확정 상태, SQLite 이력, CSV 출력 |
+| DocLens | pypdf 추출·청크 분할·임베딩·FAISS 기반 문서 QA 실습 | PDF 업로드, 로컬 임베딩·생성모델 연결, 문서·벡터·질의 이력 저장, 페이지별 근거 표시 |
+| ToonVoice | 새로 구성한 웹툰 보이스 스튜디오 UI 콘셉트 | 실제 OCR·시스템 음성·WAV·파형·SQLite 연결 |
+| HowToDo | Vue 화면, MSW API 계약, OpenAPI·논리 DBML | 실제 Node API·SQLite·비밀번호 해시·세션·팀별 권한·공개범위 처리 |
+| CourtCast | 기존 화면 자료와 서비스 구상 | 서울 공식 시설 데이터·날씨 호출·캐시·제보·즐겨찾기를 연결한 신규 서비스 |
+| SKALA Shop | Spring REST·JPA와 주문·취소·재고·포인트 처리 | 파일 H2 지속성, 비밀번호 해시, 주문 화면 동기화와 실제 실행 검증 |
 
-## 데이터 · 운영
+이번 서비스 확장은 **AI 코딩 도구의 도움을 받아 구현·검증**했습니다. 새로 추가한 서버·DB·엔진 연결을 과거 프로젝트의 완료 실적으로 소급하지 않습니다. 기존 노트북의 결과 수치와 현재 웹서비스의 실행 기록도 구분합니다.
 
-| 프로젝트 | 내용 | 공개 범위 |
-|---|---|---|
-| [GOLABA](./MSA/) | 신청 접수와 긴 AI 검수를 분리하는 REST·Kafka 설계 | 담당 범위와 설계 판단 |
-| [3-tier 게시판](./workspace/Day2/) | Nginx·Flask·PostgreSQL·healthcheck·volume | Compose 구성·서비스 코드 |
-| [매출 EDA](https://github.com/KR-Nom/skala-python-day2) | 100만 행 정제·분포·통계·Ridge Pipeline | 별도 공개 저장소 |
-| [PostgreSQL 튜닝](./DB/종합실습3/) | 실행계획·인덱스·반복 측정 비교 | SQL·실행계획 캡처·측정 조건 |
-| [AIOps 화면 설계](./projects/aiops/) | 요청·토큰·지연·오류 분석의 연결 | 향후 확장을 위한 정적 UI |
+## 확인한 실행 범위
 
-## ToonVoice 대표 화면
+| 서비스 | 현재 확인한 검증 |
+|---|---|
+| HowToDo | 실제 HTTP·SQLite 테스트 **12개**. 브라우저 프로필 저장·DB 일치와 서버 프로세스 재시작 지속성 |
+| SKALA Shop | Gradle 테스트 **18개** + 실제 HTTP·파일 DB·프로세스 재시작 확인 **7개**. 브라우저 주문·취소 |
+| CourtCast | API 테스트 **7개**. 검색·제보·즐겨찾기·날씨 캐시와 브라우저 저장·재시작 |
+| ToonVoice | 실제 macOS OCR·음성 엔진을 실행하는 통합 테스트 **2개**. 브라우저 편집·WAV 생성·재조회 |
+| Order Balance | 계산·수량·예산·확정 상태·CSV 테스트 **7개**. 브라우저 수정·저장·재조회와 로컬 AI 설명의 금액·수량 대조 |
+| DocLens | 입력·청크 검증 **4개** + 실제 NIST PDF 48페이지 검색·답변·원문 대조·DB 저장·재시작·다운로드 확인 |
 
-![웹툰 보이스 스튜디오](./portfolio/previews/toonvoice.png)
+서로 다른 종류의 검증을 단일 성능 점수로 합산하지 않았습니다. 테스트 명령과 공개된 JSON·코드 근거는 [VERIFICATION.md](./portfolio/VERIFICATION.md)에 연결했습니다. 실제 AI 화면은 [Local AI Runtime](./projects/local-ai-runtime/README.md)의 Qwen3 1.7B 4-bit와 multilingual-e5-small을 사용했습니다. 확인한 답변·설명은 각각 단일 사례이며 정확도 벤치마크가 아닙니다. 외부 OpenAI 경로는 이번 실행에서 인증 실패로 완료 검증하지 않았습니다.
 
-컷과 대사를 나란히 확인하고 캐릭터별 목소리와 감정·속도·쉼을 설정하는 화면입니다. OCR·음성 합성 엔진은 아직 연결하지 않았습니다.
+## 이전 실습과 참고 자료
 
-## 포트폴리오 사용
+대표 서비스를 만들며 참고한 학습·설계 자료를 함께 보존합니다. 아래 자료 모두가 현재 대표 서비스에 완성된 기능으로 포함된다는 뜻은 아닙니다.
 
-`portfolio/index.html`을 내려받아 브라우저에서 열면 이미지가 포함된 21장 가로 포트폴리오가 표시됩니다. 문장을 직접 수정하고 **편집본 저장**으로 보관할 수 있습니다. **PDF로 저장**을 누르고 배경 그래픽을 켜면 제출용 PDF로 저장할 수 있습니다.
+| 분야 | 자료 |
+|---|---|
+| AI 파이프라인 | [Order Balance 노트북·CSV](./LLM/order-balance/) · [RAG 실습](./LLM/rag/) · [Developer Prompt ER / LangChain](./Langchain/) |
+| 모델 학습 | [Text-to-SQL · LoRA](./sLLM/) · [CNN 학습 비교](https://github.com/KR-Nom/skala-python-deep-learning) |
+| 클라이언트·API 연결 | [QuizFlash](./Answer/) · [Weather Flow](./Vue/skala-vue/src/components/practices/HandsOn/) · [HONBOT·자율주행 경험 설명](./projects/ai-experience/) |
+| 데이터·운영 | [GOLABA 설계](./MSA/) · [3-tier 게시판](./workspace/Day2/) · [매출 EDA](https://github.com/KR-Nom/skala-python-day2) · [PostgreSQL 튜닝](./DB/종합실습3/) · [AIOps 화면 설계](./projects/aiops/) |
+| 이전 프론트엔드 | [HowToDo의 Vue·MSW 단계 기록](./WebService/README.frontend-history.md) · [CourtCast 원래 화면 갤러리](./WebService/Court/index.html) |
 
-원본 실행 결과와 새로 만든 화면 설계를 구분했으며, 측정값에는 데이터·실험 조건을 함께 적었습니다. 각 프로젝트의 자세한 실행 방법은 해당 README에 있습니다.
+## 포트폴리오 열기
 
-API 키와 비밀 설정, 가상환경·빌드 파일, 교육 원본 PDF·개인 자료는 포함하지 않았습니다.
+[Figma 발표자료](https://www.figma.com/slides/BtEeOASUuWzEkWpycXmhEb)에서 전체 흐름을 보고, [HTML](./portfolio/index.html)을 내려받아 브라우저에서 확인할 수 있습니다. HTML 편집·PDF 저장 방법은 [사용 안내](./portfolio/README.md)를 참고하세요.
+
+API 키·비밀 설정·실행 DB·세션·가상환경·의존성·빌드 파일은 공개 소스에서 제외합니다. 각 서비스는 로컬 실행과 포트폴리오 검증 범위이며, 공개 운영에 필요한 인증·운영 설정은 프로젝트별 README에서 구분했습니다.

@@ -1,0 +1,37 @@
+{
+  "executedAt": "2026-09-28T01:46:29.023600+00:00",
+  "runtime": "Spring Boot 3.3 / Java 21 / H2 file local profile",
+  "kind": "real HTTP and actual server process restart with isolated temporary database",
+  "passed": true,
+  "count": 7,
+  "checks": [
+    {
+      "name": "Signup returns user without password",
+      "passed": true
+    },
+    {
+      "name": "Login issues HttpOnly cookie",
+      "passed": true
+    },
+    {
+      "name": "Order 2 units: points 970000 and stock 8",
+      "passed": true
+    },
+    {
+      "name": "Cancel 1 unit: points 985000 and stock 9",
+      "passed": true
+    },
+    {
+      "name": "Rejected stock shortage leaves points and order unchanged",
+      "passed": true
+    },
+    {
+      "name": "Actual process restart preserves hashed login, order, points and stock",
+      "passed": true
+    },
+    {
+      "name": "Restart does not duplicate 13 seed products or reset net sales",
+      "passed": true
+    }
+  ]
+}

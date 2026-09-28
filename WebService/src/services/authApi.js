@@ -11,6 +11,20 @@ export const authApi = {
     localStorage.setItem('manual_user', JSON.stringify(user))
     return user
   },
-  getCurrentUser() { return JSON.parse(localStorage.getItem('manual_user') || 'null') },
-  logout() { localStorage.removeItem('manual_user') },
+  getCurrentUser() {
+    try { return JSON.parse(localStorage.getItem('manual_user') || 'null') }
+    catch { localStorage.removeItem('manual_user'); return null }
+  },
+  async refreshSession() {
+    if (import.meta.env.VITE_ENABLE_MOCKS === 'true') return this.getCurrentUser()
+    try {
+      const user = await apiRequest('/auth/me')
+      localStorage.setItem('manual_user', JSON.stringify(user))
+      return user
+    } catch { localStorage.removeItem('manual_user'); return null }
+  },
+  async logout() {
+    if (import.meta.env.VITE_ENABLE_MOCKS !== 'true') await apiRequest('/auth/logout', { method: 'POST', body: '{}' })
+    localStorage.removeItem('manual_user')
+  },
 }

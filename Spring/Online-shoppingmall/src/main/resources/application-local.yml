@@ -1,0 +1,17 @@
+# File persistence is opt-in. Default in-memory behavior remains for isolated tests.
+server:
+  port: 8097
+  address: 127.0.0.1
+spring:
+  datasource:
+    url: ${SHOP_DB_URL:jdbc:h2:file:./data/shopdb;DB_CLOSE_ON_EXIT=FALSE}
+  h2:
+    console:
+      enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  sql:
+    init:
+      mode: never

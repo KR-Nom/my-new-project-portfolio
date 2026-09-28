@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { authApi } from './services/authApi'
 import AppIcon from './components/AppIcon.vue'
@@ -14,9 +14,10 @@ const navigation = [
   { path: '/profile/preview', label: '내 사용설명서', icon: 'book', active: () => route.path.startsWith('/profile') },
   { path: '/teams', label: '내 팀', icon: 'users', active: () => route.path.startsWith('/teams') || route.path.startsWith('/join') },
 ]
-function logout() {
-  authApi.logout()
-  router.push('/login')
+const logoutError = ref('')
+async function logout() {
+  try { await authApi.logout(); logoutError.value = ''; await router.push('/login') }
+  catch { logoutError.value = '로그아웃하지 못했어요. 다시 시도해 주세요.' }
 }
 </script>
 
@@ -39,7 +40,7 @@ function logout() {
     </aside>
     <div class="workspace-main">
       <header class="workspace-header"><div><router-link class="mobile-brand" to="/">HowToDo</router-link><span class="header-breadcrumb">워크스페이스 <span>/</span></span><strong>{{ pageTitle }}</strong></div><div class="header-actions"><router-link class="header-profile" to="/profile/preview"><span>{{ user?.name }}</span><div class="avatar tiny">{{ user?.name?.[0] }}</div></router-link><button class="mobile-logout icon-button" aria-label="로그아웃" @click="logout"><AppIcon name="logout" :size="18" /></button></div></header>
-      <main id="main-content" class="shell" tabindex="-1"><router-view /></main>
+      <main id="main-content" class="shell" tabindex="-1"><p v-if="logoutError" class="error" role="alert">{{ logoutError }}</p><router-view /></main>
     </div>
   </div>
   <main v-else><router-view /></main>

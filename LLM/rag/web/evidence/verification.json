@@ -1,0 +1,28 @@
+{
+  "validation_tests": 4,
+  "provider": "local",
+  "chat_model": "mlx-community/Qwen3-1.7B-4bit",
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "document": {
+    "name": "NIST.AI.100-1.pdf",
+    "pages": 48,
+    "chunks": 128,
+    "source": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf"
+  },
+  "question": "NIST AI RMF의 핵심 기능 네 가지는 무엇인가요?",
+  "answer": "NIST AI RMF의 핵심 기능 네 가지는 GOVERN, MAP, MEASURE, and MANAGE입니다. [1]",
+  "retrieved_pdf_pages": [
+    25,
+    8,
+    47,
+    44
+  ],
+  "cited_first_page_verified": true,
+  "answer_matches_sqlite": true,
+  "document_survived_server_restart": true,
+  "pdf_download_valid": true,
+  "latency_ms": 1049,
+  "input_tokens": 1250,
+  "output_tokens": 32,
+  "quality_scope": "One grounded question checked against the source; not an accuracy benchmark. Concise prompting replaced unsupported extra commentary during development."
+}

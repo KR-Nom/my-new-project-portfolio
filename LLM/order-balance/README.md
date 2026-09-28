@@ -1,5 +1,7 @@
 # Order Balance — 프랜차이즈 발주 검토
 
+**[Order Balance 웹 서비스 실행하기](./web/README.md)** — 재고 CSV·수량 조정·예산 검증·확정·발주서 저장·로컬 AI 설명을 실제 FastAPI·SQLite로 연결했습니다. [웹 서비스 검증 기록](./web/evidence/verification.json)과 아래 노트북 실행 기록은 별도 버전입니다.
+
 판매·재고·소비기한·예산을 함께 검토해 품목별 발주 수량과 사유를 제시하는 CrewAI 학습 프로젝트입니다. Python이 수량과 금액을 계산하고 제약을 검증하며, LLM은 검증된 결과를 해석하고 설명합니다.
 
 ## 담당 범위와 두 구성

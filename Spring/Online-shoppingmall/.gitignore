@@ -4,3 +4,6 @@ out/
 *.class
 cookies.txt
 .DS_Store
+/data/
+*.mv.db
+*.trace.db

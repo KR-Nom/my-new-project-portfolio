@@ -32,11 +32,11 @@ async function checkServer() {
         const response = await fetch("/actuator/health");
         if (!response.ok) throw new Error("health check failed");
         statusDot.classList.add("online");
-        statusTitle.textContent = "백엔드 연결됨";
-        statusMessage.textContent = "Spring Boot API가 정상적으로 응답하고 있습니다.";
+        statusTitle.textContent = "오늘의 데스크 셋업을 만나보세요.";
+        statusMessage.textContent = "로그인하면 보유 포인트로 주문하고, 주문 내역을 확인할 수 있어요.";
     } catch {
-        statusTitle.textContent = "백엔드 연결 실패";
-        statusMessage.textContent = "터미널에서 ./gradlew bootRun 실행 상태를 확인하세요.";
+        statusTitle.textContent = "서비스에 연결하지 못했어요.";
+        statusMessage.textContent = "잠시 후 페이지를 새로고침해 주세요.";
     }
 }
 
@@ -60,15 +60,23 @@ async function submit(form, endpoint, title) {
         resultCode.textContent = `${response.status} ${data.code || ""}`.trim();
         resultCode.className = `result-code ${response.ok ? "success" : "failure"}`;
         resultBody.textContent = JSON.stringify(data, null, 2);
+        statusTitle.textContent = data.message || title;
+        statusMessage.textContent = response.ok ? "요청이 반영되었어요." : "입력 내용을 확인하고 다시 시도해 주세요.";
 
         if (response.ok && endpoint.endsWith("/login")) {
             sessionStorage.setItem("customerId", data.body.customerId);
             statusTitle.textContent = `${data.body.customerId}님 로그인됨`;
             statusMessage.textContent =
-                `JWT Cookie가 저장되었습니다. 현재 포인트: ${data.body.customerPoint.toLocaleString()}`;
+                `현재 사용 가능한 포인트: ${data.body.customerPoint.toLocaleString()} P`;
+            document.querySelector("#account").open = false;
+            loadOrders();
             loadRecent();
         }
-        document.querySelector("#resultPanel").scrollIntoView({behavior: "smooth", block: "center"});
+        if (response.ok && endpoint === "/api/customers") {
+            document.querySelector("#loginId").value = payload.customerId;
+            statusMessage.textContent = "아래 로그인 화면에서 새 계정으로 시작하세요.";
+        }
+        if (response.ok) form.reset();
     } catch (error) {
         resultTitle.textContent = "API 연결 실패";
         resultCode.textContent = "NETWORK ERROR";
@@ -76,7 +84,6 @@ async function submit(form, endpoint, title) {
         resultBody.textContent = error.message;
     } finally {
         button.disabled = false;
-        form.reset();
     }
 }
 
@@ -85,10 +92,13 @@ function showResult(title, response, data, moveToResult = false) {
     resultCode.textContent = `${response.status} ${data.code || ""}`.trim();
     resultCode.className = `result-code ${response.ok ? "success" : "failure"}`;
     resultBody.textContent = JSON.stringify(data, null, 2);
+    statusTitle.textContent = data.message || title;
+    statusMessage.textContent = response.ok ? "변경된 내역을 확인해 주세요." : "입력 내용을 확인하고 다시 시도해 주세요.";
     if (moveToResult) document.querySelector("#resultPanel").scrollIntoView({behavior: "smooth", block: "center"});
 }
 
 async function loadProducts(announce = false) {
+    const selectedId = orderProduct.value;
     const response = await fetch("/api/products?offset=0&count=50");
     const data = await response.json();
     if (announce) showResult("상품 조회", response, data);
@@ -102,9 +112,12 @@ async function loadProducts(announce = false) {
                 : `<div class="product-image product-image-placeholder"><span>${product.productName}<br><small>상품 이미지 등록중입니다</small></span></div>`}
             <span class="eyebrow">NO.${product.id}</span>
             <h3>${product.productName}</h3>
+            <div class="product-meta"><strong>${product.productPrice.toLocaleString()} P</strong><span>재고 ${product.stockQuantity}개</span></div>
         </article>`).join("");
     orderProduct.innerHTML = '<option value="">상품을 선택하세요</option>' + products.map(product =>
         `<option value="${product.id}">${product.productName} · ${product.productPrice.toLocaleString()}원</option>`).join("");
+    orderProduct.value = selectedId;
+    if (selectedId) selectProduct(products.find(product => String(product.id) === selectedId));
     productGrid.querySelectorAll(".product-card").forEach(card => card.addEventListener("click", () => {
         selectProduct(products.find(product => String(product.id) === card.dataset.productId));
         viewProduct(card.dataset.productId);
@@ -180,7 +193,9 @@ async function loadLowStock(announce = false) {
         `<div class="compact-row"><span>${item.productName}</span><strong>${item.stockQuantity}개 남음</strong></div>`).join("") : '<p class="empty-state">품절 임박 상품이 없습니다.</p>';
 }
 
+let orderPending = false;
 async function order(endpoint, title) {
+    if (orderPending) return;
     if (!sessionStorage.getItem("customerId")) {
         resultTitle.textContent = "로그인이 필요합니다.";
         resultCode.textContent = "AUTH REQUIRED";
@@ -189,20 +204,32 @@ async function order(endpoint, title) {
         return;
     }
     const payload = {productId: Number(orderProduct.value), quantity: Number(orderQuantity.value)};
-    if (!payload.productId) {
+    if (!payload.productId || !Number.isInteger(payload.quantity) || payload.quantity < 1) {
         resultTitle.textContent = "상품을 선택하세요.";
         resultCode.textContent = "INPUT REQUIRED";
         resultCode.className = "result-code failure";
-        resultBody.textContent = "주문할 상품을 먼저 선택해 주세요.";
+        resultBody.textContent = "주문할 상품과 1 이상의 정수 수량을 선택해 주세요.";
+        statusTitle.textContent = resultBody.textContent;
         return;
     }
-    const response = await fetch(endpoint, {method: "POST", headers: {"Content-Type": "application/json"}, credentials: "same-origin", body: JSON.stringify(payload)});
-    const data = await response.json();
-    showResult(title, response, data);
-    if (response.ok) {
-        pointBadge.textContent = `${data.body.customerPoint.toLocaleString()} P`;
-        loadRankings();
-        loadLowStock();
+    orderPending = true;
+    document.querySelector("#orderButton").disabled = true;
+    document.querySelector("#cancelButton").disabled = true;
+    try {
+        const response = await fetch(endpoint, {method: "POST", headers: {"Content-Type": "application/json"}, credentials: "same-origin", body: JSON.stringify(payload)});
+        const data = await response.json();
+        showResult(title, response, data);
+        if (response.ok) {
+            pointBadge.textContent = `${data.body.customerPoint.toLocaleString()} P`;
+            await Promise.all([loadOrders(), loadProducts(), loadRankings(), loadLowStock(), loadRecent()]);
+        }
+    } catch {
+        statusTitle.textContent = "요청을 완료하지 못했어요.";
+        statusMessage.textContent = "주문 내역을 확인한 뒤 다시 시도해 주세요.";
+    } finally {
+        orderPending = false;
+        document.querySelector("#orderButton").disabled = false;
+        document.querySelector("#cancelButton").disabled = false;
     }
 }
 
@@ -227,4 +254,4 @@ checkServer();
 loadProducts();
 loadRankings();
 loadLowStock();
-if (sessionStorage.getItem("customerId")) loadRecent();
+if (sessionStorage.getItem("customerId")) { loadRecent(); loadOrders(); }

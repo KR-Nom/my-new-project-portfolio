@@ -1,0 +1,296 @@
+{
+  "title": "장현진 포트폴리오",
+  "slideCount": 10,
+  "slideOrder": [
+    "cover",
+    "about",
+    "contents",
+    "order-balance",
+    "doclens",
+    "toonvoice",
+    "howtodo",
+    "courtcast",
+    "shop",
+    "github"
+  ],
+  "outOfBounds": [],
+  "textOverlaps": [],
+  "fonts": [
+    "-apple-system, \"system-ui\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", sans-serif",
+    "Arial, -apple-system, \"system-ui\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", sans-serif"
+  ],
+  "images": [
+    {
+      "alt": "Order Balance 실제 실행 화면",
+      "loaded": true,
+      "width": 1520,
+      "height": 1050,
+      "embedded": true,
+      "objectFit": "contain"
+    },
+    {
+      "alt": "DocLens 실제 실행 화면",
+      "loaded": true,
+      "width": 1440,
+      "height": 1000,
+      "embedded": true,
+      "objectFit": "contain"
+    },
+    {
+      "alt": "ToonVoice 실제 실행 화면",
+      "loaded": true,
+      "width": 1500,
+      "height": 1100,
+      "embedded": true,
+      "objectFit": "contain"
+    },
+    {
+      "alt": "HowToDo 실제 실행 화면",
+      "loaded": true,
+      "width": 1440,
+      "height": 1080,
+      "embedded": true,
+      "objectFit": "cover"
+    },
+    {
+      "alt": "CourtCast 실제 실행 화면",
+      "loaded": true,
+      "width": 1600,
+      "height": 1100,
+      "embedded": true,
+      "objectFit": "contain"
+    },
+    {
+      "alt": "Shop 실제 실행 화면",
+      "loaded": true,
+      "width": 1440,
+      "height": 1080,
+      "embedded": true,
+      "objectFit": "contain"
+    }
+  ],
+  "allInternalLinksValid": true,
+  "projectLinks": [
+    "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/LLM/order-balance",
+    "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/LLM/rag",
+    "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/projects/toonvoice",
+    "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/WebService",
+    "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/WebService/Court",
+    "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/Spring/Online-shoppingmall"
+  ],
+  "closingUrl": "https://github.com/KR-Nom/my-new-project-portfolio",
+  "closingVisibleUrl": "https://github.com/KR-Nom/my-new-project-portfolio",
+  "awardPending": true,
+  "editor": {
+    "editingDisabled": true,
+    "editingEnabled": true,
+    "savedContent": true,
+    "savedTenSlides": true,
+    "embeddedImages": true,
+    "printButtonInvokedPrint": true,
+    "imageResized": true,
+    "fileImageReplaced": true,
+    "clipboardImageReplaced": true
+  },
+  "print": {
+    "toolbarHidden": true,
+    "outlineHidden": true,
+    "sizes": [
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        1920,
+        1080
+      ]
+    ],
+    "pageBreaks": [
+      "page",
+      "page",
+      "page",
+      "page",
+      "page",
+      "page",
+      "page",
+      "page",
+      "page",
+      "auto"
+    ],
+    "transforms": [
+      "none",
+      "none",
+      "none",
+      "none",
+      "none",
+      "none",
+      "none",
+      "none",
+      "none",
+      "none"
+    ],
+    "pageRule": [
+      "@page { size: 508mm 285.75mm; margin: 0px; }"
+    ]
+  },
+  "printAudit": {
+    "title": "장현진 포트폴리오",
+    "slideCount": 10,
+    "slideOrder": [
+      "cover",
+      "about",
+      "contents",
+      "order-balance",
+      "doclens",
+      "toonvoice",
+      "howtodo",
+      "courtcast",
+      "shop",
+      "github"
+    ],
+    "outOfBounds": [],
+    "textOverlaps": [],
+    "fonts": [
+      "-apple-system, \"system-ui\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", sans-serif",
+      "Arial, -apple-system, \"system-ui\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", sans-serif"
+    ],
+    "images": [
+      {
+        "alt": "Order Balance 실제 실행 화면",
+        "loaded": true,
+        "width": 1520,
+        "height": 1050,
+        "embedded": true,
+        "objectFit": "contain"
+      },
+      {
+        "alt": "DocLens 실제 실행 화면",
+        "loaded": true,
+        "width": 1440,
+        "height": 1000,
+        "embedded": true,
+        "objectFit": "contain"
+      },
+      {
+        "alt": "ToonVoice 실제 실행 화면",
+        "loaded": true,
+        "width": 1500,
+        "height": 1100,
+        "embedded": true,
+        "objectFit": "contain"
+      },
+      {
+        "alt": "HowToDo 실제 실행 화면",
+        "loaded": true,
+        "width": 1440,
+        "height": 1080,
+        "embedded": true,
+        "objectFit": "cover"
+      },
+      {
+        "alt": "CourtCast 실제 실행 화면",
+        "loaded": true,
+        "width": 1600,
+        "height": 1100,
+        "embedded": true,
+        "objectFit": "contain"
+      },
+      {
+        "alt": "Shop 실제 실행 화면",
+        "loaded": true,
+        "width": 1440,
+        "height": 1080,
+        "embedded": true,
+        "objectFit": "contain"
+      }
+    ],
+    "allInternalLinksValid": true,
+    "projectLinks": [
+      "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/LLM/order-balance",
+      "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/LLM/rag",
+      "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/projects/toonvoice",
+      "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/WebService",
+      "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/WebService/Court",
+      "https://github.com/KR-Nom/my-new-project-portfolio/tree/main/Spring/Online-shoppingmall"
+    ],
+    "closingUrl": "https://github.com/KR-Nom/my-new-project-portfolio",
+    "closingVisibleUrl": "https://github.com/KR-Nom/my-new-project-portfolio",
+    "awardPending": true
+  },
+  "consoleErrors": [],
+  "pdfGenerated": false,
+  "visualReview": {
+    "slidesReviewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "clippedTextObserved": false,
+    "distortedImagesObserved": false,
+    "howtodoCrop": "Proportionate top crop; lower app content intentionally outside the frame",
+    "representativePreviews": [
+      "slide-01.png",
+      "slide-02.png",
+      "slide-04.png",
+      "slide-06.png"
+    ]
+  },
+  "actualDownload": {
+    "bytes": 1820624,
+    "slides": 10,
+    "embeddedImages": 6,
+    "testMarkerAbsent": true,
+    "doctype": true
+  },
+  "sourceAssetVerification": {
+    "allSixOriginalScreenshotsEmbeddedExactly": true,
+    "allSixLinkedProjectDirectoriesExistInPublishClone": true,
+    "remoteGitHubAvailability": "Publishing is handled separately by the root agent"
+  },
+  "finalHtmlBytes": 1820469,
+  "fixesApplied": [
+    "Printed subtitles and HowToDo role/stack use slide-relative absolute positions instead of fixed viewport positions",
+    "HowToDo screenshot preserves aspect ratio and crops from the top",
+    "HowToDo role and technology lines retain separators when displayed on one line",
+    "Public build supports PORTFOLIO_SKIP_BACKUP=1"
+  ]
+}

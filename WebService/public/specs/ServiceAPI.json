@@ -1,0 +1,902 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "HowToDo Service API",
+    "version": "2.0.0",
+    "description": "실제 Node.js + SQLite 서비스. 앱에서 로그인 후 세션 쿠키로 실행합니다. 8개 도메인 테이블과 sessions에 저장합니다. x-user-id 헤더는 인증에 사용하지 않습니다. 기존 API.yml은 MSW 단계의 역사적 설계 기록입니다."
+  },
+  "servers": [
+    {
+      "url": "/api"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "서버와 DB 상태",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "로그인 및 HttpOnly 세션 발급",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "email": "hyeonjin@example.com",
+                "password": "1234"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "summary": "가입 및 빈 프로필 생성",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "name": "새 동료",
+                "email": "new@example.com",
+                "password": "sample-password"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "summary": "현재 세션 사용자",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "summary": "세션 폐기",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {}
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "완료, 응답 본문 없음"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/profiles/me": {
+      "get": {
+        "summary": "내 공통 프로필",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      },
+      "patch": {
+        "summary": "내 프로필 저장",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "tagline": "함께 답을 찾는 개발자",
+                "interests": [
+                  "AI"
+                ],
+                "visibility": "PUBLIC"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/interests": {
+      "get": {
+        "summary": "편집 선택지: interests",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/roles": {
+      "get": {
+        "summary": "편집 선택지: roles",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/style-options": {
+      "get": {
+        "summary": "편집 선택지: style-options",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/conversation-questions": {
+      "get": {
+        "summary": "편집 선택지: conversation-questions",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/public/profiles/{shareToken}": {
+      "get": {
+        "summary": "PUBLIC 프로필만 비로그인 조회",
+        "security": [],
+        "parameters": [
+          {
+            "name": "shareToken",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/teams": {
+      "get": {
+        "summary": "내가 참여한 팀",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      },
+      "post": {
+        "summary": "팀과 소유자 참여 생성",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "name": "새로운 팀",
+                "description": "함께 협업할 팀입니다."
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/teams/{teamId}": {
+      "get": {
+        "summary": "참여 중인 팀 조회",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      },
+      "patch": {
+        "summary": "소유자의 팀 정보 수정",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "name": "수정된 팀",
+                "description": "새 팀 소개"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      },
+      "delete": {
+        "summary": "소유자의 팀 삭제",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "완료, 응답 본문 없음"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/teams/{teamId}/members": {
+      "get": {
+        "summary": "같은 팀원 목록 및 공개범위에 맞는 프로필",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/teams/{teamId}/members/me": {
+      "get": {
+        "summary": "내 팀별 역할과 목표",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      },
+      "patch": {
+        "summary": "내 팀별 역할과 목표 저장",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "goal": "API와 DB를 연결해요.",
+                "roles": [
+                  "Backend",
+                  "AI"
+                ],
+                "projectLinks": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/teams/{teamId}/members/{memberId}": {
+      "get": {
+        "summary": "같은 팀원 상세",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "memberId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/team-invitations/{inviteCode}": {
+      "get": {
+        "summary": "로그인 후 초대 정보 확인",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "inviteCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    },
+    "/team-memberships": {
+      "post": {
+        "summary": "초대 코드로 참여, 중복 참여는 기존 팀 반환",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "inviteCode": "SKALA3"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "JSON 객체 또는 배열"
+          },
+          "400": {
+            "description": "입력 오류"
+          },
+          "401": {
+            "description": "세션 필요"
+          },
+          "403": {
+            "description": "권한 또는 Origin 오류"
+          },
+          "404": {
+            "description": "데이터 없음 또는 비공개"
+          },
+          "409": {
+            "description": "중복"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "sessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "howtodo_session"
+      }
+    }
+  }
+}

@@ -14,7 +14,7 @@ defineProps({
       <div class="avatar" aria-hidden="true">{{ member.profile?.avatar || member.user.name[0] }}</div>
       <div class="member-identity">
         <h3>{{ member.user.name }}</h3>
-        <p class="member-preview">{{ member.profile?.tagline || '나의 협업 방식을 작성하고 있어요.' }}</p>
+        <p class="member-preview">{{ member.profile?.restricted ? '공통 프로필을 비공개로 설정했어요.' : member.profile?.tagline || '나의 협업 방식을 작성하고 있어요.' }}</p>
       </div>
       <router-link class="card-arrow" :to="`/teams/${teamId}/members/${member.id}`" :aria-label="`${member.user.name}의 사용설명서 보기`"><AppIcon name="arrow-right" /></router-link>
     </div>

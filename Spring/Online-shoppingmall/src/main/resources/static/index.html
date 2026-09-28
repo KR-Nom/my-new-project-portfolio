@@ -16,7 +16,7 @@
             <a href="#order">MY ORDER</a>
             <a href="#benefits">DISCOVER</a>
         </nav>
-        <a class="docs-link" href="/swagger-ui.html" target="_blank">SWAGGER API ↗</a>
+        <a class="docs-link" href="#account" onclick="document.querySelector('#account').open = true">로그인 · 회원가입 ↗</a>
     </header>
 
     <section class="hero">
@@ -50,6 +50,8 @@
         </div>
     </section>
 
+    <details id="account" class="account-panel">
+    <summary>나의 계정 <span>로그인 · 회원가입</span></summary>
     <section class="auth-grid">
         <article class="card">
             <span class="step">01</span>
@@ -69,7 +71,7 @@
         <article class="card">
             <span class="step">02</span>
             <h2>로그인</h2>
-            <p>로그인 성공 시 JWT가 HttpOnly Cookie에 저장됩니다.</p>
+            <p>내 포인트와 주문 내역을 이어서 확인하세요.</p>
             <form id="loginForm">
                 <label for="loginId">고객 ID</label>
                 <input id="loginId" name="customerId" autocomplete="username"
@@ -81,6 +83,7 @@
             </form>
         </article>
     </section>
+    </details>
 
     <section id="order" class="order-section card">
         <div class="section-heading">
@@ -117,7 +120,8 @@
         <article class="card insight-card"><div class="section-heading"><div><p class="eyebrow">LOW STOCK</p><h2>품절 임박</h2></div><button id="refreshLowStock" class="text-button" type="button">조회</button></div><div id="lowStockList" class="compact-list"><p class="empty-state">재고를 확인하는 중입니다.</p></div></article>
     </section>
 
-    <section id="resultPanel" class="result-panel" aria-live="polite">
+    <details id="resultPanel" class="result-panel">
+        <summary>요청 결과 자세히 보기</summary>
         <div class="result-heading">
             <div>
                 <p class="eyebrow">API RESPONSE</p>
@@ -126,11 +130,11 @@
             <span id="resultCode" class="result-code">READY</span>
         </div>
         <pre id="resultBody">회원가입 또는 로그인을 실행하면 응답이 여기에 표시됩니다.</pre>
-    </section>
+    </details>
 
     <footer class="site-footer">
         <a class="brand footer-brand" href="/">SKALA<span>SHOP</span></a>
-        <p>Spring Boot API와 연결된 가장 생생한 테크 쇼핑 경험.</p>
+        <p>일과 취향을 채우는 테크 아이템. 내 포인트로 가볍게 시작하세요.</p>
         <a href="/swagger-ui.html" target="_blank">DEVELOPER API ↗</a>
     </footer>
 </main>

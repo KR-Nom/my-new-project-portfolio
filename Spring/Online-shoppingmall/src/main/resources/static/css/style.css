@@ -14,8 +14,31 @@
     --shadow: 0 14px 45px rgba(24, 29, 50, .09);
 }
 
+/* Service extension: browse products first; account and API details remain accessible. */
+.page { display: flex; flex-direction: column; }
+.site-header { order: 0; }
+.hero { order: 1; }
+.category-rail { order: 2; }
+.status-card { order: 3; }
+#products { order: 4; }
+#account { order: 5; }
+#order { order: 6; }
+#benefits { order: 7; }
+#resultPanel { order: 8; }
+.site-footer { order: 9; }
+.account-panel { margin-top: 28px; border: 1px solid var(--line); border-radius: 16px; background: white; padding: 22px; }
+.account-panel > summary, .result-panel > summary { cursor: pointer; font-weight: 800; }
+.account-panel > summary span { margin-left: 18px; color: var(--muted); font-size: 13px; font-weight: 500; }
+.account-panel .auth-grid { margin-bottom: 0; }
+.product-meta { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding-top: 12px; }
+.product-meta strong { font-size: 17px; }
+.product-meta span { color: var(--muted); font-size: 12px; }
+.result-panel[open] > summary { margin-bottom: 20px; }
+.result-panel > summary { color: white; }
+
 html { scroll-behavior: smooth; }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 body {
     margin: 0;

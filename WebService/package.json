@@ -3,8 +3,12 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "engines": { "node": ">=26" },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 127.0.0.1 --port 5179 --strictPort",
+    "server": "node server/server.mjs",
+    "start": "node server/server.mjs",
+    "test:api": "node --test server/server.test.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="서울의 공공 테니스장, 날씨와 현장 제보를 한곳에서 확인하는 CourtCast">
+  <title>CourtCast · 서울의 다음 코트</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='20' fill='%2314554e'/%3E%3Ctext x='10' y='29' font-size='28' fill='%23dfeebb'%3EC%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script defer src="/assets/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="CourtCast 홈"><span class="brand-mark">C<span>•</span></span>CourtCast<span class="city">SEOUL</span></a>
+    <nav aria-label="주 메뉴"><button id="exploreNav" class="nav-button active">코트 찾기</button><button id="favoriteNav" class="nav-button">즐겨찾기 <span id="favoriteCount">0</span></button></nav>
+    <span class="source-status"><i></i> 서울시 공공데이터 연결</span>
+  </header>
+  <main>
+    <div class="heading-row"><div><p class="eyebrow">YOUR NEXT COURT, A CLEARER CHOICE.</p><h1>오늘, 어느 코트에서 만날까요?</h1><p class="intro">가까운 코트를 찾고, 예보와 현장 소식을 따로 확인하세요.</p></div><div class="today"><span>시설 데이터 기준</span><strong>2026.09.28</strong></div></div>
+    <section class="search-row" aria-label="코트 검색"><div class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" placeholder="코트명 또는 자치구를 검색하세요" aria-label="코트명 또는 자치구 검색" maxlength="80"><button id="searchClear" aria-label="검색 지우기" hidden>×</button></div><label class="district-label"><select id="districtSelect" aria-label="자치구 선택"><option value="">서울 전체</option></select></label><button id="onlyFavorites" class="filter-button" aria-pressed="false">♡ 즐겨찾는 코트</button><span id="resultCount" class="result-count">불러오는 중</span></section>
+    <div class="workspace">
+      <aside class="court-sidebar"><div class="section-heading"><h2>서울 공공 테니스장</h2><span id="listCount"></span></div><div id="courtList" class="court-list" aria-live="polite"><p class="empty">코트를 불러오고 있습니다.</p></div><p class="list-foot">예약상품을 장소와 좌표 기준으로 묶었습니다.<br>실제 예약은 서울시 공식 페이지에서 진행됩니다.</p></aside>
+      <section class="center-column"><div class="map-panel"><div class="map-title"><div><span class="eyebrow">SEOUL COURT MAP</span><h2>우리 동네의 다음 코트</h2></div><span class="map-legend"><i></i> 공공 테니스장</span></div><svg id="courtMap" viewBox="0 0 670 485" role="img" aria-label="서울 테니스장 좌표 위치도"></svg><div class="map-caption"><span>시설 좌표 기반 위치도 · 도로·행정경계 미표시</span><span>37° N / 127° E</span></div></div><div class="selected-overview" id="selectedOverview"><p class="empty">목록에서 코트를 선택하세요.</p></div></section>
+      <aside class="detail-column"><section class="weather-card"><div class="section-heading"><h2>코트의 날씨</h2><span id="weatherMode" class="tiny-label">확인 중</span></div><div id="weatherContent" aria-live="polite"><p class="empty">예보를 불러오고 있습니다.</p></div><a class="weather-credit" href="https://open-meteo.com/" target="_blank" rel="noreferrer">Weather data by Open-Meteo.com ↗</a></section><section class="report-card"><div class="section-heading"><h2>현장에서 전하는 소식</h2><span class="tiny-label">사용자 제보</span></div><div id="reportsContent"></div><button id="openReport" class="primary-button">+ 지금 코트 상태 남기기</button><p class="subtle">날씨 예보와 실제 코트 상태는 다를 수 있어요.</p></section></aside>
+    </div>
+    <footer><span>시설 데이터 <a href="https://data.seoul.go.kr/dataList/OA-2266/S/1/datasetView.do" target="_blank" rel="noreferrer">서울특별시 열린데이터광장 ↗</a> · 공공누리 제1유형 · 장소 묶음·필드 정규화</span><span>CourtCast · 개인 학습용 서비스</span></footer>
+  </main>
+  <dialog id="reportDialog"><form id="reportForm"><div class="dialog-heading"><div><p class="eyebrow">COURT REPORT</p><h2>지금 코트는 어떤가요?</h2></div><button type="button" id="closeReport" aria-label="제보 창 닫기">×</button></div><p id="reportCourtName" class="report-court-name"></p><fieldset><legend>직접 확인한 표면 상태를 선택하세요.</legend><div class="condition-options"><label><input type="radio" name="condition" value="dry" required><span>☀<b>마른 상태</b></span></label><label><input type="radio" name="condition" value="wet"><span>☂<b>젖어 있어요</b></span></label><label><input type="radio" name="condition" value="puddles"><span>≋<b>물웅덩이</b></span></label><label><input type="radio" name="condition" value="closed"><span>⊘<b>이용 제한</b></span></label></div></fieldset><label class="note-label" for="reportNote">추가로 알려 주세요 <span>선택 · 200자 이내</span></label><textarea id="reportNote" maxlength="200" rows="3" placeholder="예: 코트 가장자리 바닥이 아직 젖어 있어요."></textarea><label class="demo-checkbox"><input id="isDemo" type="checkbox"> 기능 확인을 위한 데모 제보입니다.</label><p class="subtle">작성한 제보는 이 브라우저에서 삭제할 수 있습니다.</p><p id="reportError" role="alert"></p><button id="submitReport" class="primary-button" type="submit">현장 제보 저장하기</button></form></dialog>
+  <dialog id="servicesDialog"><div class="dialog-heading"><div><p class="eyebrow">OFFICIAL RESERVATION</p><h2>예약상품을 확인하세요</h2></div><button type="button" id="closeServices" aria-label="예약상품 창 닫기">×</button></div><p class="report-court-name">2026.09.28 수집 · 최신 빈 시간은 공식 사이트에서 확인하세요.</p><div id="servicesContent"></div></dialog>
+  <div id="toast" class="toast" role="status"></div>
+</body>
+</html>

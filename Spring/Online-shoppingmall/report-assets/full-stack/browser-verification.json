@@ -1,0 +1,111 @@
+{
+  "afterCancel": {
+    "buttonRestored": true,
+    "order": "무선마우스 x 1\n15,000원",
+    "points": "985,000 P",
+    "ranking": "1 무선마우스\n1개 판매",
+    "selected": "15,000원 · 재고 9개"
+  },
+  "afterOrder": {
+    "buttonRestored": true,
+    "order": "무선마우스 x 2\n30,000원",
+    "points": "970,000 P",
+    "selected": "15,000원 · 재고 8개"
+  },
+  "baseUrl": "http://127.0.0.1:8097",
+  "brokenImages": 0,
+  "desktop": {
+    "scrollWidth": 1440,
+    "width": 1440
+  },
+  "errors": [],
+  "executedAt": "2026-09-28T01:49:19.268Z",
+  "kind": "Actual browser signup/login and order/cancel buttons against Spring + file H2",
+  "mobile": {
+    "scrollWidth": 390,
+    "width": 390
+  },
+  "productCount": 13,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/customers",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/customers/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/customers/portfolio-demo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/customers/recent-products",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/products/1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/customers/order",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/products/low-stock?threshold=5",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/customers/recent-products",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/products?offset=0&count=50",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/products/rankings?limit=5",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/customers/portfolio-demo",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/customers/cancel",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/products/low-stock?threshold=5",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/products/rankings?limit=5",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/products?offset=0&count=50",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/customers/portfolio-demo",
+      "status": 200
+    }
+  ]
+}

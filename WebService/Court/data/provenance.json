@@ -1,0 +1,78 @@
+{
+  "prepared_at": "2026-09-28T01:26:54.530924+00:00",
+  "date_of_retrieval": "2026-09-28",
+  "provider": "서울특별시 / 서울 열린데이터광장",
+  "dataset_name": "서울시 체육시설 공공서비스예약 정보",
+  "dataset_id": "OA-2266",
+  "dataset_url": "https://data.seoul.go.kr/dataList/OA-2266/S/1/datasetView.do",
+  "download_url": "https://datafile.seoul.go.kr/bigfile/iot/sheet/json/download.do",
+  "download_method": "POST",
+  "download_form": {
+    "srvType": "S",
+    "infId": "OA-2266",
+    "serviceKind": "0",
+    "pageNo": "1",
+    "ssUserId": "SAMPLE_VIEW",
+    "strWhere": "",
+    "strOrderby": "",
+    "filterCol": "MINCLASSNM",
+    "txtFilter": "테니스장"
+  },
+  "authentication": "none; official public download form uses the literal SAMPLE_VIEW",
+  "license": "공공누리 제1유형 — 출처표시 (상업적 이용 및 변경 가능)",
+  "attribution": "서울특별시 서울 열린데이터광장, 서울시 체육시설 공공서비스예약 정보 (OA-2266), 2026-09-28 조회; CourtCast에서 테니스장 필터·중복 장소 묶음·필드 정규화",
+  "download_sha256": "a24a2d2caff6fcd4b927dfa1db0bca73dc984e6c110981c296eb83100695dd9e",
+  "downloaded_service_count": 341,
+  "selected_place_count": 36,
+  "selected_raw_row_count": 36,
+  "transformations": [
+    "MINCLASSNM=테니스장 filter sent to official download form",
+    "exclude missing coordinates, non-Seoul districts, and source place names containing 테스트",
+    "group by exact place name + longitude + latitude; do not infer building/court counts",
+    "prefer a 접수중 representative booking product, preserve all source service IDs in each group",
+    "normalize keys and trim names; original selected rows remain in seoul-source-selected.json"
+  ],
+  "excluded_services": [
+    {
+      "service_id": "S250114090501006336",
+      "place_name": "난지물재생센터>난지물재생센터 테니스장",
+      "reason": "outside_Seoul_districts"
+    },
+    {
+      "service_id": "S250210155727408893",
+      "place_name": "난지물재생센터>난지물재생센터 테니스장",
+      "reason": "outside_Seoul_districts"
+    },
+    {
+      "service_id": "S251203104822013240",
+      "place_name": "서울숲>서울숲 테니스장 테스트",
+      "reason": "source_place_name_contains_test"
+    },
+    {
+      "service_id": "S251203110553292777",
+      "place_name": "서울숲>서울숲 테니스장 테스트",
+      "reason": "source_place_name_contains_test"
+    },
+    {
+      "service_id": "XML-son12",
+      "place_name": "손기정문화체육센터 테니스장",
+      "reason": "missing_coordinates"
+    }
+  ],
+  "weather": {
+    "provider": "Open-Meteo",
+    "request_url": "https://api.open-meteo.com/v1/forecast?latitude=37.556947&longitude=127.02182&current=temperature_2m,precipitation,weather_code,wind_speed_10m&hourly=precipitation_probability,precipitation&forecast_days=1&timezone=Asia%2FSeoul",
+    "request_coordinates": {
+      "latitude": 37.556947,
+      "longitude": 127.02182
+    },
+    "source_current_time": "2026-09-28T10:15",
+    "timezone": "Asia/Seoul",
+    "license": "CC BY 4.0",
+    "license_url": "https://open-meteo.com/en/licence",
+    "terms_url": "https://open-meteo.com/en/terms",
+    "free_api_scope": "non-commercial; under 10000 calls/day, 5000/hour, 600/minute",
+    "attribution": "Weather data by Open-Meteo.com — https://open-meteo.com/",
+    "note": "Captured real response for reproducible research; not a forever-current forecast or proof of court surface condition."
+  }
+}

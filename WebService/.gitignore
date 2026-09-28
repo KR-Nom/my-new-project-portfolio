@@ -1,3 +1,8 @@
-node_modules/
-dist/
+# Also ignores a local symlink to the original frontend dependency directory.
+/node_modules
+/dist/
+/data/
+.env
+.env.*
+!.env.example
 .DS_Store

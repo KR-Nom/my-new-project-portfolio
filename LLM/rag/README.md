@@ -1,5 +1,7 @@
 # PDF 문서 기반 RAG
 
+**[DocLens 웹 서비스 실행하기](./web/README.md)** — PDF 업로드·검색·페이지 인용·질의 이력 저장을 제공하는 실제 FastAPI·SQLite 서비스입니다. [로컬 Qwen·E5 실행 검증](./web/evidence/verification.json)을 함께 공개합니다. 아래는 확장의 기반이 된 기존 실습 설명입니다.
+
 PDF에서 필요한 내용을 검색해 LLM의 답변 문맥에 전달하는 교육 실습입니다. 원본 구현은 [practice_0.ipynb](./practice_0.ipynb)에서 확인할 수 있습니다.
 
 ## 문제와 구성

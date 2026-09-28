@@ -85,6 +85,8 @@ watch(() => [route.params.teamId, route.params.memberId], loadMember, { immediat
       </div>
     </section>
 
+    <p v-if="profile.restricted" class="card muted">이 동료의 공통 프로필은 비공개입니다. 팀별 역할과 목표만 볼 수 있어요.</p>
+    <template v-else>
     <div class="section-title">
       <div>
         <p class="eyebrow">COLLABORATION MANUAL</p>
@@ -112,5 +114,6 @@ watch(() => [route.params.teamId, route.params.memberId], loadMember, { immediat
       <h2>더 알아보기</h2>
       <SocialLinks :links="profile.links" />
     </section>
+    </template>
   </div>
 </template>

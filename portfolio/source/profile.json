@@ -1,0 +1,13 @@
+{
+  "name": "장현진",
+  "experience": [
+    {"title": "AI 서비스 설계와 개발", "description": "문서 RAG · 개발 질문 진단 · 편의점 발주 에이전트\n검색 근거, 출력 형식, 계산과 설명의 분리를 고려한 설계"},
+    {"title": "웹 서비스와 백엔드 구현", "description": "HowToDo · CourtCast · Shop\n사용자 화면과 API, 데이터 저장 흐름 연결"},
+    {"title": "모델 학습과 튜닝 학습", "description": "TensorFlow CNN · 데이터 재수집과 증강\nHugging Face · 지도 파인튜닝 · LoRA·Adapter 학습"}
+  ],
+  "education": [
+    {"title": "SKALA 프로젝트·실습", "description": "Python · Java · Spring Boot · 데이터베이스\n생성형 AI · 웹 서비스 · 클라우드 운영 구조"}
+  ],
+  "awards": [],
+  "pending": "학력·교육 기간·수상명은 사용자 확인 대기. 확인되지 않은 이력은 작성하지 않음."
+}
